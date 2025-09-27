@@ -158,7 +158,7 @@ export const integ: IntegrationUserConfig = {
   waline: {
     enable: true,
     // Server service link
-    server: 'https://waline-comment-repo-gamma.vercel.app',
+    server: 'https://waline.nkns.cc',
     // Refer https://waline.js.org/en/guide/features/emoji.html
     emoji: ['bmoji', 'weibo', 'bilibili', 'alus', 'qq', 'tieba'],
     // Refer https://waline.js.org/en/reference/client/props.html
