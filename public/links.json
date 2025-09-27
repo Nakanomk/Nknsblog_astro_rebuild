@@ -5,16 +5,10 @@
       "desc": "Common links included in circle friends",
       "link_list": [
         {
-          "name": "Arthals' ink",
-          "intro": "所见高山远木，阔云流风；所幸岁月盈余，了无拘束",
-          "link": "https://arthals.ink/",
-          "avatar": "https://cdn.arthals.ink/Arthals.png"
-        },
-        {
-          "name": "CWorld Site",
-          "intro": "求知若愚，虚怀若谷",
-          "link": "https://cworld0.com/",
-          "avatar": "https://cravatar.cn/avatar/1ffe42aa45a6b1444a786b1f32dfa8aa?s=200"
+          "name": "Soda_Official",
+          "intro": "让一颗心免于悲伤",
+          "link": "https://nicostore-mathematica.github.io/",
+          "avatar": "https://github.com/Nakanomk/picx-images-hosting/raw/master/b001e76b37e3d9e29f4000ac1943145d.1ovjauf01x.webp"
         }
       ]
     },
@@ -28,16 +22,10 @@
       "desc": "Other special links",
       "link_list": [
         {
-          "name": "虫洞",
-          "intro": "随机前往十年之约的成员博客",
-          "link": "https://www.foreverblog.cn/go.html",
-          "avatar": "/images/wormhole.png"
-        },
-        {
-          "name": "开往",
-          "intro": "随机前往开往的成员博客",
-          "link": "https://www.travellings.cn/go.html",
-          "avatar": "https://www.travellings.cn/assets/travelling.png"
+          "name": "CWorld Site",
+          "intro": "博客主题作者",
+          "link": "https://cworld0.com/",
+          "avatar": "https://cravatar.cn/avatar/1ffe42aa45a6b1444a786b1f32dfa8aa?s=200"
         }
       ]
     }

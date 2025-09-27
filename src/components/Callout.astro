@@ -1,0 +1,40 @@
+---
+// --- Astro 组件的 "代码栅栏" ---
+// 在这里定义组件接收的参数 (Props)
+
+interface Props {
+  title: string;
+  type?: 'info' | 'warning' | 'danger'; // type 是可选的，有三种预设值
+}
+
+// 获取传入的 props，并为 type 设置一个默认值 'info'
+const { title, type = 'info' } = Astro.props;
+
+// 根据不同的 type，定义不同的颜色主题
+const theme = {
+  info: {
+    bg: 'bg-blue-100',
+    border: 'border-blue-500',
+    text: 'text-blue-800',
+  },
+  warning: {
+    bg: 'bg-yellow-100',
+    border: 'border-yellow-500',
+    text: 'text-yellow-800',
+  },
+  danger: {
+    bg: 'bg-red-100',
+    border: 'border-red-500',
+    text: 'text-red-800',
+  },
+};
+
+const currentTheme = theme[type];
+---
+
+<div class={`border-l-4 p-4 my-4 ${currentTheme.bg} ${currentTheme.border}`}>
+  <p class={`font-bold ${currentTheme.text}`}>{title}</p>
+  <div class={`prose ${currentTheme.text}`}>
+    <slot />
+  </div>
+</div>

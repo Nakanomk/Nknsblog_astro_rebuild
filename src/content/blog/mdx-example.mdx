@@ -1,0 +1,33 @@
+---
+title: 'mdx-example'
+description: 'Learning how to use MDX in Astro'
+publishDate: '2025-06-01T00:00:01Z'
+---
+
+import Callout from '../../components/Callout.astro';
+
+## 欢迎来到 MDX 的世界
+
+MDX 允许我们在 Markdown 文件中无缝地使用组件，这非常酷。
+
+下面，我们来使用刚才创建的 `Callout` 组件。这是一个“信息”类型的提示框，因为我们没有指定 `type`，所以它会使用默认的 'info' 样式。
+
+<Callout title="小提示">
+  这是写在组件标签**内部**的 Markdown 内容。
+  
+  - 你可以在这里写列表
+  - **加粗文本**
+  - 甚至是 `代码片段`
+  
+  所有这些内容都会被正确渲染到组件的 `<slot />` 位置！
+</Callout>
+
+文章的其他部分可以继续。组件和 Markdown 内容可以完美地混合在一起。
+
+我们还可以通过传递 `type` 参数来改变提示框的样式，比如创建一个“警告”框：
+
+<Callout title="请注意" type="warning">
+  这是一个警告类型的提示框。我们通过 `type="warning"` 这个 prop 改变了它的颜色主题。
+</Callout>
+
+是不是非常方便？
