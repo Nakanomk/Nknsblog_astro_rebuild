@@ -46,7 +46,7 @@ heroImage: { src: '../../../public/covers/Wanlingce.jpg', color: '#edb9a2' }
 
 **抽象数据类型** ADT，约等于java里面的class
 
-```ADT
+```
 ADT List {
 	数据对象：D
 	数据关系：S
@@ -80,7 +80,7 @@ ADT List {
 
 轮换计算单个项
 
-```C
+```c
 int fib1(int n) {
     int f1 = 1, f2 = 1, f = 1;
     while(n-- >= 3) {
@@ -98,7 +98,7 @@ int fib1(int n) {
 
  计算之后用数组 $ f $ 保存前面 $ n $ 项
 
-```C
+```c
 int fib2(int n) {
     int f[n] = {0};
     f[0] = 1;
@@ -116,7 +116,7 @@ int fib2(int n) {
 
 使用递归
 
-```C
+```c
 int fib3(int n) {
     if(n <= 2) {
         return 1;
@@ -133,7 +133,7 @@ int fib3(int n) {
 
 最基本的***冒泡排序***，通过一步步冒泡让目前剩余项里面的最大值“冒”出来
 
-```C
+```c
 void bubble1(int a[], int n) {
     int temp;
     for(int i = 1; i < n; i++) // 冒第 i 项
@@ -161,7 +161,7 @@ void bubble1(int a[], int n) {
 
 以下是书上的代码
 
-~~~C
+~~~c
 void bubble2(int a[], int n) {
     int i = n - 1;
     int temp, change;
@@ -180,7 +180,7 @@ void bubble2(int a[], int n) {
 
 以下是我仿照基础的代码改的，也许可以更好地两相对比
 
-```C
+```c
 void bubble2(int a[], int n) {
     int temp, change = 1;
     for(int i = 1; i < n; i++) {
@@ -200,7 +200,7 @@ void bubble2(int a[], int n) {
 
 问题：现在有 $$ A\space B $$ 两个正序数组，分别有 $$ m, n$$ 个元素，现在希望找出其中第 $$ k $$ 小的数
 
-~~~C
+~~~c
 int getKthElement(int a[], int b[], int m, int n, int k) {
     int index1 = 0, index2 = 0;	//已经对比了的元素个数
     int c_A, c_B;	//最后一个被对比的元素下标
@@ -240,7 +240,7 @@ xxxxxxxxxx STACK SEGMENT USE16 STACK    DB 200 DUP(0)STACK ENDSDATA SEGMENT USE
 
 对于集合 $$ A, B$$ ，求集合 $$ A\cup B$$ 中的元素
 
-~~~C
+~~~c
 void union(List &La, List &b) {
     La_len = ListLength(La); Lb_len = ListLength(Lb);
     for(int i = i; i < Lb_len; i++) {
@@ -355,7 +355,7 @@ typedef struct node {
 
 先进先出链表：
 
-~~~C
+~~~c
 Status addNode(linklist &List) {
     node a; // 创建节点
    	tail->next = &a;// 如果从头添加的话就会无法从尾部删除，tail不知道倒数第二个
@@ -373,7 +373,7 @@ Status delNode(linklist &List, int x) {
 
 先进后出链表：
 
-~~~C
+~~~c
 Status addNode(linklist &List) {
     node a;
     a.next = head; //如果要做LIFO表，插入和删除必须是同一个方向，所以假如是尾插的话那么也要从尾部删除，不甚合理
