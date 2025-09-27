@@ -1,8 +1,8 @@
 ---
 import type { HTMLTag, Polymorphic } from 'astro/types'
-
-import { cn } from 'node_modules/astro-pure/utils'
 import type { StringifiedUtil } from 'unocss'
+
+import { cn } from 'astro-pure/utils'
 
 type Props<Tag extends HTMLTag> = Polymorphic<{ as: Tag }> & {
   heading?: string
@@ -13,7 +13,16 @@ type Props<Tag extends HTMLTag> = Polymorphic<{ as: Tag }> & {
   imgAlt?: string // Description of the image
 }
 
-const { as: Tag = 'div', class: className, href, heading, subheading, date, imgSrc, imgAlt = '' } = Astro.props
+const {
+  as: Tag = 'div',
+  class: className,
+  href,
+  heading,
+  subheading,
+  date,
+  imgSrc,
+  imgAlt = ''
+} = Astro.props
 ---
 
 <Tag
@@ -39,8 +48,8 @@ const { as: Tag = 'div', class: className, href, heading, subheading, date, imgS
       <img
         src={imgSrc}
         alt={imgAlt}
-        class="absolute end-0 top-0 z-0 h-full w-1/2 object-cover opacity-30"
-        />
-      )
+        class='absolute end-0 top-0 z-0 h-full w-1/2 object-cover opacity-30'
+      />
+    )
   }
 </Tag>
