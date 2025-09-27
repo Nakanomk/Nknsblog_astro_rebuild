@@ -4,6 +4,19 @@ import AstroPureIntegration from 'astro-pure'
 import { defineConfig } from 'astro/config'
 import rehypeKatex from 'rehype-katex'
 import remarkMath from 'remark-math'
+// import { HeaderMenuSchema as MyCustomHeaderSchema } from './src/schemas/header'; 
+
+// import { fileURLToPath } from 'node:url';
+// import path from 'node:path';
+
+// const customHeaderSchemaPath = path.resolve(
+//   // 获取当前 astro.config.mjs 文件所在的目录
+//   path.dirname(fileURLToPath(import.meta.url)),
+//   // 然后拼接上相对路径
+//   './src/schemas/header.ts'
+// );
+// // 接着，使用这个绝对路径进行动态导入
+// const { HeaderMenuSchema: MyCustomHeaderSchema } = await import(customHeaderSchemaPath);
 
 // Others
 // import { visualizer } from 'rollup-plugin-visualizer'
