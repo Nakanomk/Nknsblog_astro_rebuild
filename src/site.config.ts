@@ -120,8 +120,8 @@ export const integ: IntegrationUserConfig = {
     applyTip: [
       { name: 'Name', val: theme.title },
       { name: 'Desc', val: theme.description || 'Null' },
-      { name: 'Link', val: 'https://astro-pure.js.org/' },
-      { name: 'Avatar', val: '../public/favicon/favicon.ico' }
+      { name: 'Link', val: 'https://nkns.cc' },
+      { name: 'Avatar', val: 'https://raw.githubusercontent.com/Nakanomk/Nknsblog_astro_rebuild/refs/heads/main/public/favicon/favicon.ico' }
     ]
   },
   // Enable page search function
