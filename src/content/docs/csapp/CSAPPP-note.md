@@ -8,9 +8,9 @@ tags:
 language: '中文'
 heroImage: { src: '../../../public/covers/Wanlingce.jpg', color: '#edb9a2' }
 ---
-第一节课 没什么内容很重要
-
 ## 计算机的发展历程
+
+此处省略一万字，一些绪论。
 
 ## 计算机系统的基本组成和功能
 

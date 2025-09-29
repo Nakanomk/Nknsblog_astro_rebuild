@@ -52,7 +52,7 @@ export const theme: ThemeUserConfig = {
       { title: 'Projects', link: '/projects' },
       { title: 'Links', link: '/links' },
       { title: 'About', link: '/about' },
-      { title: '🚇', link: 'https://www.travellings.cn/go.html' }
+      { title: '🚇', link: 'https://www.travellings.cn/train-star.html' }
     ]
   },
 

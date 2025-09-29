@@ -11,11 +11,12 @@ heroImage: { src: '../../../public/covers/Ceshiji.jpg', color: '#cdd5e1' }
 
 $$ \mathring{g} $$
 
-$$ \begin{pmatrix}
+$$
+\begin{pmatrix}
   a & b \\
   c & d
-\end{pmatrix} $$
-
+\end{pmatrix}
+$$
 **数学公式渲染一切正常~**
 
 ---
