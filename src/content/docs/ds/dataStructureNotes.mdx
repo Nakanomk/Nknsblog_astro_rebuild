@@ -9,9 +9,11 @@ language: '中文'
 heroImage: { src: '../../../public/covers/Wanlingce.jpg', color: '#edb9a2' }
 ---
 
+import Note from 'src/components/Note.astro';
+
 # 数据结构笔记
 
-{% note info %}
+<Note type="info">
 
 本笔记主要根据华中科技大学计算机学院数据结构教材记录
 
@@ -19,7 +21,7 @@ heroImage: { src: '../../../public/covers/Wanlingce.jpg', color: '#edb9a2' }
 
 中间可能会有些撕裂~
 
-{% endnote %}
+</Note>
 
 ## 绪论
 
@@ -233,8 +235,6 @@ int getKthElement(int a[], int b[], int m, int n, int k) {
 **记录** 线性表中的一个数据元素
 
 **文件** 含有大量记录的线性表
-
-xxxxxxxxxx STACK SEGMENT USE16 STACK    DB 200 DUP(0)STACK ENDSDATA SEGMENT USE16    SUM DW  ;W = word, 2 bytesCODE SEGMENT USE16    ASSUME CS:CODE, SS:STACKDS:DATA. ES:DATA​START:MOV AX,DATA    MOV DS,AX    MOV VS,50    MOV AX,0    MOV BX,1NEXT:ADD AX, BX    INC BX    INC BX    DEC CX    JNE NEXT    ;JNE: Jump if Not E, when CX != 0, jump to NEX    MOVE SUM,AX    MOV AH,4CH    INT 21HCODE ENDS    END STARTasm
 
 ### 算法摘要
 
@@ -829,13 +829,13 @@ int bracket_match(char brackets[]) {
 
 | S1\S2 |  +   |  -   |  *   |  /   |  (   |  )   |  #   |
 | :---: | :--: | :--: | :--: | :--: | :--: | :--: | :--: |
-|   +   |  >   |  >   |  <   |  <   |  <   |  >   |  >   |
-|   -   |  >   |  >   |  <   |  <   |  <   |  >   |  >   |
-|   *   |  >   |  >   |  >   |  >   |  <   |  >   |  >   |
-|   /   |  >   |  >   |  >   |  >   |  <   |  >   |  >   |
-|   (   |  <   |  <   |  <   |  <   |  <   |  =   |      |
-|   )   |  >   |  >   |  >   |  >   |      |  >   |  >   |
-|   #   |  <   |  <   |  <   |  <   |  <   |      |  =   |
+|   +   |  &gt;   |  &gt;   |  &lt;   |  &lt;   |  &lt;   |  &gt;   |  &gt;   |
+|   -   |  &gt;   |  &gt;   |  &lt;   |  &lt;   |  &lt;   |  &gt;   |  &gt;   |
+|   *   |  &gt;   |  &gt;   |  &gt;   |  &gt;   |  &lt;   |  &gt;   |  &gt;   |
+|   /   |  &gt;   |  &gt;   |  &gt;   |  &gt;   |  &lt;   |  &gt;   |  &gt;   |
+|   (   |  &lt;   |  &lt;   |  &lt;   |  &lt;   |  &lt;   |  =   |      |
+|   )   |  &gt;   |  &gt;   |  &gt;   |  &gt;   |      |  &gt;   |  &gt;   |
+|   #   |  &lt;   |  &lt;   |  &lt;   |  &lt;   |  &lt;   |      |  =   |
 
 上表中，左侧代表第一个符号，上方代表第二个符号。由以上的关系可以得到下方的表达式求值方法
 
