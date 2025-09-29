@@ -1,5 +1,5 @@
 ---
-title: 'CSAPP Notes&labs'
+title: 'Week 1'
 publishDate: 2025-09-03 14:25:10
 description: 'Notes and experiences while learning CSAPP'
 tags:
@@ -8,9 +8,6 @@ tags:
 language: '中文'
 heroImage: { src: '../../../public/covers/Wanlingce.jpg', color: '#edb9a2' }
 ---
-
-# $\mathcal{Chap\ I} \ 绪论$
-
 第一节课 没什么内容很重要
 
 ## 计算机的发展历程
@@ -104,7 +101,7 @@ EAX EBX ECX EDX ESI EDI ESP EDP EIP EFLAGS CS SS DS ES FS GS
 - 对操作数进行运算
 - 保存运算结果。若为内存操作数，保存结果到内存中
 
-~~~asm
+```asm
 STACK SEGMENT USE16 STACK
 	DB 200 DUP(0)
 STACK ENDS
@@ -129,4 +126,4 @@ NEXT:ADD AX, BX
 	INT 21H
 CODE ENDS
 	END START
-~~~
+```
