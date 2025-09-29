@@ -52,7 +52,7 @@ export const theme: ThemeUserConfig = {
       { title: 'Projects', link: '/projects' },
       { title: 'Links', link: '/links' },
       { title: 'About', link: '/about' },
-      { title: '🚇', link: 'https://www.travellings.cn/train-star.html' }
+      { title: '🚇', link: 'https://www.travellings.cn/train.html' }
     ]
   },
 
@@ -70,7 +70,7 @@ export const theme: ThemeUserConfig = {
       },
       {
         title: 'Travelling',
-        link: 'https://www.travellings.cn/go.html',
+        link: 'https://www.travellings.cn/train.html',
         style: 'text-sm'
       },
       // Privacy Policy link
