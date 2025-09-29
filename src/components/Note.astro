@@ -1,0 +1,210 @@
+---
+// src/components/Note.astro
+
+type Props = {
+  // type 属性现在不仅控制颜色，还控制显示哪个图标
+  type?: 'info' | 'warning' | 'danger' | 'tip'
+}
+
+const { type = 'info' } = Astro.props
+---
+
+<!-- ---
+// src/components/Note.astro
+
+// 定义组件可以接受的 Props (属性)
+type Props = {
+  // 'type' 属性用于决定提示块的类型和颜色，默认为 'info'
+  type?: 'info' | 'warning' | 'danger' | 'tip'
+  // 'title' 属性可以让你设置一个自定义标题
+  title?: string
+}
+
+const { type = 'info', title } = Astro.props
+
+// 根据 type 预设不同的默认标题
+const defaultTitles = {
+  info: '信息',
+  warning: '注意',
+  danger: '危险',
+  tip: '提示'
+}
+---
+
+<div class:list={['note-block modern', type]}>
+  <p class='font-bold'>{title ?? defaultTitles[type]}</p>
+  <div>
+    <slot />
+  </div>
+</div>
+
+<style>
+  /* 基础样式，对应 .note-block.modern */
+  .note-block.modern {
+    margin: 1.5rem 0;
+    padding: 1rem 1.25rem;
+    border-radius: 8px; /* 现代风格的圆角 */
+    border-left: 5px solid; /* 左侧的彩色竖线 */
+    background-color: var(--note-color-bg);
+    color: var(--note-color-text);
+    overflow: hidden; /* 防止子元素的 margin 溢出 */
+  }
+
+  /* 优化组件内部内容的样式 */
+  .note-block.modern :global(p:last-of-type) {
+    margin-bottom: 0;
+  }
+  .note-block.modern :global(p:first-of-type) {
+    margin-top: 0;
+  }
+
+  /* --- 不同类型的颜色定义 --- */
+  /* 使用 CSS 变量，方便维护和修改 */
+
+  /* INFO 类型 (蓝色) - 对应 .info 类 */
+  .note-block.info {
+    --note-color-bg: hsl(210, 80%, 97%);
+    --note-color-border: hsl(210, 80%, 60%);
+    --note-color-text: hsl(210, 30%, 40%);
+  }
+  .note-block.info .font-bold {
+    color: hsl(210, 80%, 50%);
+  }
+
+  /* WARNING 类型 (黄色) */
+  .note-block.warning {
+    --note-color-bg: hsl(45, 100%, 96%);
+    --note-color-border: hsl(45, 100%, 60%);
+    --note-color-text: hsl(45, 50%, 40%);
+  }
+  .note-block.warning .font-bold {
+    color: hsl(45, 100%, 50%);
+  }
+
+  /* DANGER 类型 (红色) */
+  .note-block.danger {
+    --note-color-bg: hsl(0, 100%, 97%);
+    --note-color-border: hsl(0, 80%, 65%);
+    --note-color-text: hsl(0, 50%, 40%);
+  }
+  .note-block.danger .font-bold {
+    color: hsl(0, 80%, 55%);
+  }
+
+  /* TIP 类型 (绿色) */
+  .note-block.tip {
+    --note-color-bg: hsl(140, 80%, 97%);
+    --note-color-border: hsl(140, 60%, 50%);
+    --note-color-text: hsl(140, 50%, 35%);
+  }
+  .note-block.tip .font-bold {
+    color: hsl(140, 60%, 40%);
+  }
+</style> -->
+<div class:list={['note-block modern', type]} role='alert'>
+  <div class='icon-container'>
+    {
+      type === 'info' && (
+        <svg xmlns='http://www.w3.org/2000/svg' width='1em' height='1em' viewBox='0 0 24 24'>
+          <path
+            fill='currentColor'
+            d='M11 7h2v2h-2zm0 4h2v6h-2zm1-9C6.48 2 2 6.48 2 12s4.48 10 10 10s10-4.48 10-10S17.52 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8s8 3.59 8 8s-3.59 8-8 8'
+          />
+        </svg>
+      )
+    }
+    {
+      type === 'tip' && (
+        <svg xmlns='http://www.w3.org/2000/svg' width='1em' height='1em' viewBox='0 0 24 24'>
+          <path
+            fill='currentColor'
+            d='m12 2l-5.65 5.65l1.41 1.41L11 6.83V13H8v2h3v5h2v-5h3v-2h-3V6.83l3.24 2.23l1.41-1.41L12 2z'
+          />
+        </svg>
+      )
+    }
+    {
+      type === 'warning' && (
+        <svg xmlns='http://www.w3.org/2000/svg' width='1em' height='1em' viewBox='0 0 24 24'>
+          <path fill='currentColor' d='M1 21h22L12 2L1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z' />
+        </svg>
+      )
+    }
+    {
+      type === 'danger' && (
+        <svg xmlns='http://www.w3.org/2000/svg' width='1em' height='1em' viewBox='0 0 24 24'>
+          <path
+            fill='currentColor'
+            d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10s10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z'
+          />
+        </svg>
+      )
+    }
+  </div>
+  <div class='content-container'>
+    <slot />
+  </div>
+</div>
+
+<style>
+  /* 基础样式更新 */
+  .note-block.modern {
+    display: flex; /* 改为 Flex 布局 */
+    align-items: center; /* 图标和文字顶部对齐 */
+    gap: 0.75rem; /* 图标和内容之间的间距 (12px) */
+    margin: 1.5rem 0;
+    padding: 1rem; /* 统一内边距 (16px) */
+    border-radius: 8px;
+    background-color: var(--note-color-bg);
+    color: var(--note-color-text);
+    /* 移除了左侧粗边框 */
+  }
+
+  /* 图标容器样式 */
+  .icon-container {
+    flex-shrink: 0; /* 防止图标被压缩 */
+    font-size: 1.25rem; /* 控制图标大小 (20px) */
+    line-height: 1.5; /* 调整行高让图标和第一行文字大致对齐 */
+    color: var(--note-color-icon);
+  }
+
+  /* 内容容器样式 */
+  .content-container {
+    flex-grow: 1; /* 内容区域占据剩余空间 */
+    line-height: 1.7;
+  }
+
+  /* 优化内容中 p 标签的边距 */
+  .content-container :global(p:first-child) {
+    margin-top: 0;
+  }
+  .content-container :global(p:last-child) {
+    margin-bottom: 0;
+  }
+
+  /* --- 不同类型的颜色定义更新 --- */
+
+  .note-block.info {
+    --note-color-bg: hsl(210, 80%, 97%);
+    --note-color-text: hsl(210, 30%, 40%);
+    --note-color-icon: hsl(210, 80%, 60%); /* 定义图标颜色 */
+  }
+
+  .note-block.tip {
+    --note-color-bg: hsl(140, 80%, 97%);
+    --note-color-text: hsl(140, 50%, 35%);
+    --note-color-icon: hsl(140, 60%, 50%);
+  }
+
+  .note-block.warning {
+    --note-color-bg: hsl(45, 100%, 96%);
+    --note-color-text: hsl(45, 50%, 40%);
+    --note-color-icon: hsl(45, 100%, 60%);
+  }
+
+  .note-block.danger {
+    --note-color-bg: hsl(0, 100%, 97%);
+    --note-color-text: hsl(0, 50%, 40%);
+    --note-color-icon: hsl(0, 80%, 65%);
+  }
+</style>
