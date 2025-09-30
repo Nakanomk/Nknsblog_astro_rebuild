@@ -7,11 +7,11 @@ import { cn } from 'astro-pure/utils'
 export const prerender = true
 export const partial = true
 
-const docsCollection = (await getBlogCollection('docs')) as CollectionEntry<'docs'>[]
-// Group docs by id first part (setup, integrations, advanced, etc.)
-const docsByCate = docsCollection.reduce((acc: { [key: string]: typeof docsCollection }, doc) => {
+const notesCollection = (await getBlogCollection('notes')) as CollectionEntry<'notes'>[]
+// Group notes by id first part (setup, integrations, advanced, etc.)
+const notesByCate = notesCollection.reduce((acc: { [key: string]: typeof notesCollection }, doc) => {
   const id = doc.id.split('/')[0]
-  if (!acc[id]) acc[id] = [] as typeof docsCollection
+  if (!acc[id]) acc[id] = [] as typeof notesCollection
   acc[id].push(doc)
   return acc
 }, {})
@@ -37,7 +37,7 @@ type Props = {
 const { title = true, class: className, ...props } = Astro.props
 ---
 
-<docs-toc class={cn('not-prose', className)} {...props}>
+<notes-toc class={cn('not-prose', className)} {...props}>
   {title && <h2 class='text-foreground font-semibold'>NOTES</h2>}
   <ul class='mt-4 flex flex-col gap-y-5'>
     {
@@ -45,11 +45,11 @@ const { title = true, class: className, ...props } = Astro.props
         <li>
           <h3 class='text-muted-foreground text-xs tracking-widest uppercase'>{title}</h3>
           <ul class='mt-2 flex flex-col'>
-            {docsByCate[id]
+            {notesByCate[id]
               .sort((a, b) => a.data.order - b.data.order)
               .map((doc) => (
-                <li class='docs-item flex relative ms-2 px-3 py-1 text-foreground/75 transition-all rounded-2xl'>
-                  <a class='flex-1 hover:text-foreground' href={`/docs/${doc.id}`}>
+                <li class='notes-item flex relative ms-2 px-3 py-1 text-foreground/75 transition-all rounded-2xl'>
+                  <a class='flex-1 hover:text-foreground' href={`/notes/${doc.id}`}>
                     {doc.data.title}
                   </a>
                 </li>
@@ -59,10 +59,10 @@ const { title = true, class: className, ...props } = Astro.props
       ))
     }
   </ul>
-</docs-toc>
+</notes-toc>
 
 <style>
-  docs-toc .docs-item::before {
+  notes-toc .notes-item::before {
     content: '';
     display: block;
     position: absolute;
@@ -73,7 +73,7 @@ const { title = true, class: className, ...props } = Astro.props
     background-color: hsl(var(--input) / var(--un-bg-opacity));
   }
 
-  docs-toc :global(.docs-item.docs-hl) {
+  notes-toc :global(.notes-item.notes-hl) {
     background-color: hsl(var(--muted) / var(--un-bg-opacity));
     font-weight: 500;
     & a {
@@ -87,7 +87,7 @@ const { title = true, class: className, ...props } = Astro.props
 </style>
 
 <script>
-  class DocsTOC extends HTMLElement {
+  class NotesTOC extends HTMLElement {
     link: string = ''
 
     constructor() {
@@ -100,11 +100,11 @@ const { title = true, class: className, ...props } = Astro.props
       const links = this.querySelectorAll('a')
       links.forEach((link) => {
         if (link.getAttribute('href') === this.link) {
-          link.parentElement?.classList.add('docs-hl')
+          link.parentElement?.classList.add('notes-hl')
         }
       })
     }
   }
 
-  customElements.define('docs-toc', DocsTOC)
+  customElements.define('notes-toc', NotesTOC)
 </script>

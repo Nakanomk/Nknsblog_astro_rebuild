@@ -40,9 +40,9 @@ const blog = defineCollection({
     })
 })
 
-// Define docs collection
-const docs = defineCollection({
-  loader: glob({ base: './src/content/docs', pattern: '**/*.{md,mdx}' }),
+// Define notes collection
+const notes = defineCollection({
+  loader: glob({ base: './src/content/notes', pattern: '**/*.{md,mdx}' }),
   schema: () =>
     z.object({
       title: z.string().max(60),
@@ -56,4 +56,4 @@ const docs = defineCollection({
     })
 })
 
-export const collections = { blog, docs }
+export const collections = { blog, notes }

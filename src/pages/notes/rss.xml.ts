@@ -14,10 +14,10 @@ import { getBlogCollection, sortMDByDate } from 'astro-pure/server'
 
 // Get dynamic import of images as a map collection
 const imagesGlob = import.meta.glob<{ default: ImageMetadata }>(
-  '/src/content/docs/**/*.{jpeg,jpg,png,gif,avif.webp}' // add more image formats if needed
+  '/src/content/notes/**/*.{jpeg,jpg,png,gif,avif.webp}' // add more image formats if needed
 )
 
-const renderContent = async (post: CollectionEntry<'docs'>, site: URL) => {
+const renderContent = async (post: CollectionEntry<'notes'>, site: URL) => {
   // Replace image links with the correct path
   function remarkReplaceImageLink() {
     /**
@@ -29,7 +29,7 @@ const renderContent = async (post: CollectionEntry<'docs'>, site: URL) => {
         if (node.url.startsWith('/images')) {
           node.url = `${site}${node.url.replace('/', '')}`
         } else {
-          const imagePathPrefix = `/src/content/docs/${post.id}/${node.url.replace('./', '')}`
+          const imagePathPrefix = `/src/content/notes/${post.id}/${node.url.replace('./', '')}`
           const promise = imagesGlob[imagePathPrefix]?.().then(async (res) => {
             const imagePath = res?.default
             if (imagePath) {
@@ -54,7 +54,7 @@ const renderContent = async (post: CollectionEntry<'docs'>, site: URL) => {
 }
 
 const GET = async (context: AstroGlobal) => {
-  const allPostsByDate = sortMDByDate(await getBlogCollection('docs')) as CollectionEntry<'docs'>[]
+  const allPostsByDate = sortMDByDate(await getBlogCollection('notes')) as CollectionEntry<'notes'>[]
   const siteUrl = context.site ?? new URL(import.meta.env.SITE)
 
   return rss({
@@ -69,7 +69,7 @@ const GET = async (context: AstroGlobal) => {
     site: import.meta.env.SITE,
     items: await Promise.all(
       allPostsByDate.map(async (post) => ({
-        link: `/docs/${post.id}`,
+        link: `/notes/${post.id}`,
         content: await renderContent(post, siteUrl),
         ...post.data
       }))

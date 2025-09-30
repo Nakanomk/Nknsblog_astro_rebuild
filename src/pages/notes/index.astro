@@ -4,7 +4,7 @@ import { cn } from 'astro-pure/utils'
 import PageLayout from '@/layouts/BaseLayout.astro'
 import { integ } from '@/site-config'
 
-import DocsContents from './DocsContents.astro'
+import NotesContents from './NotesContents.astro'
 
 const meta = {
   title: 'Notes',
@@ -21,7 +21,7 @@ const meta = {
 
     <div id='content' class={cn('animate mt-8 max-w-none md:min-w-[45ch]', integ.typography.class)}>
       <h2 class='text-xl font-medium'>Notes Collection</h2>
-      <DocsContents title={false} />
+      <NotesContents title={false} />
 
       <h2 class='text-xl font-medium'>Feedback</h2>
       <p>
@@ -32,7 +32,7 @@ const meta = {
       </p>
       <h2 class='text-xl font-medium'>News Describe (Alpha)</h2>
       <p>
-        <a href='/docs/rss.xml' target='_blank'><Icon name='rss' /> </a>
+        <a href='/notes/rss.xml' target='_blank'><Icon name='rss' /> </a>
       </p>
     </div>
   </main>
