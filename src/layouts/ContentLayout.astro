@@ -5,6 +5,7 @@ import { Button, Icon } from 'astro-pure/user'
 import { cn } from 'astro-pure/utils'
 import PageLayout from '@/layouts/BaseLayout.astro'
 import { integ } from '@/site-config'
+import Comment from '@/components/waline/Comment.astro'
 
 import 'katex/dist/katex.min.css'
 
@@ -58,6 +59,7 @@ const { meta, highlightColor, back = '/', ...props } = Astro.props
     {/* Bottom */}
     <div class='flex-1 text-muted-foreground md:min-w-[50ch]'>
       <slot name='bottom' />
+      <Comment class="mt-6" />
     </div>
     <div class='min-w-48 basis-60'>
       <slot name='bottom-sidebar' />
