@@ -1,3 +1,4 @@
+import unocss from '@unocss/astro';
 import { rehypeHeadingIds } from '@astrojs/markdown-remark'
 import vercel from '@astrojs/vercel'
 import AstroPureIntegration from 'astro-pure'
@@ -73,7 +74,7 @@ export default defineConfig({
   // }),
   // Temporary fix vercel adapter
   // static build method is not needed
-  AstroPureIntegration(config), mdx()],
+  AstroPureIntegration(config), unocss(), mdx()],
   // root: './my-project-directory',
 
   // Prefetch Options
