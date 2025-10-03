@@ -205,8 +205,10 @@ const rules: Rule<object>[] = [
 export default defineConfig({
   content: {
     filesystem: [
-      'src/**/*.{astro,ts,md,mdx}',
-      'preset/**/*.{astro,mdx}',
+      'src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}',
+      'preset/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}',
+      'public/**/*.json',
+      'node_modules/astro-pure/**/*.{astro,ts,js,mdx,vue,svelte,html}'
     ]
   },
   presets: [
@@ -219,11 +221,27 @@ export default defineConfig({
   },
   // https://unocss.dev/guide/extracting#limitations
   safelist: [
-    // TOC
+    // User's original safelist
     'rounded-t-2xl',
     'rounded-b-2xl',
-    // Typography
     'text-base',
-    'prose'
+    'prose',
+
+    // For pseudo-elements like ::before and ::after
+    'before:.*',
+    'after:.*',
+
+    // For dynamic classes in /src/components/Callout.astro
+    'bg-blue-100', 'border-blue-500', 'text-blue-800',
+    'bg-yellow-100', 'border-yellow-500', 'text-yellow-800',
+    'bg-red-100', 'border-red-500', 'text-red-800',
+
+    // For dynamic type class in /src/components/Note.astro
+    'info', 'warning', 'danger', 'tip',
+
+    // For arbitrary variants in /preset/components/signature/Signature.astro
+    '[&_path]:stroke-black',
+    'dark:[&_path]:stroke-gray-2',
+    '[&_path]:opacity-0',
   ]
 })
