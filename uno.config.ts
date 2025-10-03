@@ -213,6 +213,8 @@ export default defineConfig({
   },
   // https://unocss.dev/guide/extracting#limitations
   safelist: [
+    'before:.*',
+    'after:.*',
     // TOC
     'rounded-t-2xl',
     'rounded-b-2xl',
