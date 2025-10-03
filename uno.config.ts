@@ -221,6 +221,9 @@ export default defineConfig({
   },
   // https://unocss.dev/guide/extracting#limitations
   safelist: [
+    // WILDCARD FOR DEBUGGING - This will safelist everything.
+    '*',
+    
     // User's original safelist
     'rounded-t-2xl',
     'rounded-b-2xl',
