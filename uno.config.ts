@@ -203,6 +203,12 @@ const rules: Rule<object>[] = [
 ]
 
 export default defineConfig({
+  content: {
+    filesystem: [
+      'src/**/*.{astro,ts,md,mdx}',
+      'preset/**/*.{astro,mdx}',
+    ]
+  },
   presets: [
     presetMini(), // required
     presetTypography(typographyConfig)
@@ -213,8 +219,6 @@ export default defineConfig({
   },
   // https://unocss.dev/guide/extracting#limitations
   safelist: [
-    'before:.*',
-    'after:.*',
     // TOC
     'rounded-t-2xl',
     'rounded-b-2xl',
