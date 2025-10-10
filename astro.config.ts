@@ -35,8 +35,6 @@ import {
 } from './src/plugins/shiki-transformers.ts'
 import config from './src/site.config.ts'
 
-import mdx from '@astrojs/mdx';
-
 // https://astro.build/config
 export default defineConfig({
   // Top-Level Options
@@ -64,16 +62,19 @@ export default defineConfig({
     }
   },
 
-  integrations: [// astro-pure will automatically add sitemap, mdx & unocss
+  integrations: [
+    // astro-pure will automatically add sitemap, mdx & unocss
     // sitemap(),
     // mdx(),
+    AstroPureIntegration(config)
     // (await import('@playform/compress')).default({
     //   SVG: false,
     //   Exclude: ['index.*.js']
     // }),
+
     // Temporary fix vercel adapter
     // static build method is not needed
-    AstroPureIntegration(config), mdx()],
+  ],
   // root: './my-project-directory',
 
   // Prefetch Options

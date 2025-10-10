@@ -385,7 +385,7 @@ a, b 为正整数，那么 ab = gcd(a,b) * lcm(a,b)
 
 ### 算法过程
 
-~~~
+~~~txt
 procedure gcd(a,b: positive integers)
 x:=a y:=b
 while y != 0
