@@ -1,5 +1,5 @@
 {
-  "name": "nknsblog",
+  "name": "",
   "type": "module",
   "version": "4.0.8",
   "scripts": {
@@ -19,7 +19,6 @@
   },
   "dependencies": {
     "@astrojs/check": "^0.9.4",
-    "@astrojs/mdx": "^4.3.6",
     "@astrojs/rss": "^4.0.12",
     "@astrojs/vercel": "^8.2.2",
     "@playform/compress": "^0.2.0",
