@@ -1,0 +1,122 @@
+---
+// src/pages/notes/NotesCards.astro
+import { type CollectionEntry } from 'astro:content'
+
+import { getBlogCollection } from 'astro-pure/server'
+import { cn } from 'astro-pure/utils'
+
+const notesCollection = (await getBlogCollection('notes')) as CollectionEntry<'notes'>[]
+const notesByCate = notesCollection.reduce(
+  (acc: { [key: string]: typeof notesCollection }, doc) => {
+    const id = doc.id.split('/')[0]
+    if (!acc[id]) acc[id] = [] as typeof notesCollection
+    acc[id].push(doc)
+    return acc
+  },
+  {}
+)
+// const docCategories = {
+//   setup: 'Setup',
+//   integrations: 'Integrations',
+//   advanced: 'Advanced'
+// }
+const docCategories = {
+  dm: '离散数学',
+  ds: '数据结构',
+  csapp: 'CSAPP',
+  blog: '建站笔记',
+  ml: '机器学习'
+}
+
+type Props = {
+  title?: boolean
+  class?: string
+}
+
+const { title = true, class: className, ...props } = Astro.props
+---
+
+<notes-toc class={cn('not-prose', className)} {...props}>
+  {title && <h2 class='text-foreground font-semibold'>NOTES</h2>}
+  <div class='mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
+    {
+      Object.entries(docCategories).map(([id, title]: [string, string]) => (
+        <div class='p-4 rounded-lg shadow-md transition-all duration-300 hover:shadow-lg'>
+          <h3 class='text-lg font-semibold mb-2'>{title}</h3>
+          {/* 1. 给 <ul> 添加 'relative' 和 'notes-list-group' class */}
+          <ul class='relative flex flex-col notes-list-group'>
+            {notesByCate[id]
+              .sort((a, b) => a.data.order - b.data.order)
+              .map((doc) => (
+                // 2. 移除 <li> 上的 'relative'，并调整左边距/填充
+                <li class='notes-item flex ms-2 ps-6 pe-3 py-1 text-foreground/75 transition-all rounded-2xl'>
+                  <a class='flex-1 hover:text-foreground' href={`/notes/${doc.id}`}>
+                    {doc.data.title}
+                  </a>
+                </li>
+              ))}
+          </ul>
+        </div>
+      ))
+    }
+  </div>
+</notes-toc>
+
+<style>
+  /* 1. 为 ul 创建一根完整的、连续的竖线 */
+  .notes-list-group::before {
+    content: '';
+    position: absolute;
+    top: 0.5rem; /* 顶部留出一点空间 */
+    bottom: 0.5rem; /* 底部留出一点空间 */
+    left: 1.25rem; /* 定位到合适的位置 */
+    width: 2px;
+    background-color: hsl(var(--input) / var(--un-bg-opacity));
+    border-radius: 99px; /* 让线条两端是圆角 */
+  }
+
+  /* 2. 高亮样式：背景色和文字颜色 */
+  notes-toc :global(.notes-item.notes-hl) {
+    background-color: hsl(var(--muted) / var(--un-bg-opacity));
+    font-weight: 500;
+  }
+  notes-toc :global(.notes-item.notes-hl a) {
+    color: hsl(var(--primary) / var(--un-text-opacity));
+  }
+
+  /* 3. 为高亮项添加一个“小圆点”指示器，覆盖在连续线上方 */
+  notes-toc :global(.notes-item.notes-hl)::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 1.25rem; /* 与竖线的位置完全对齐 */
+    transform: translate(-50%, -50%); /* 居中对齐 */
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: hsl(var(--primary) / var(--un-bg-opacity));
+  }
+</style>
+
+<script>
+  class NotesTOC extends HTMLElement {
+    link: string = ''
+
+    constructor() {
+      super()
+
+      this.link = window.location.pathname
+    }
+
+    connectedCallback() {
+      const links = this.querySelectorAll('a')
+      links.forEach((link) => {
+        if (link.getAttribute('href') === this.link) {
+          link.parentElement?.classList.add('notes-hl')
+        }
+      })
+    }
+  }
+
+  customElements.define('notes-toc', NotesTOC)
+</script>

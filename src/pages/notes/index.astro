@@ -1,14 +1,17 @@
 ---
+// src/pages/notes/index.astro (修改后)
+
 import { Button, Icon } from 'astro-pure/user'
 import { cn } from 'astro-pure/utils'
 import PageLayout from '@/layouts/BaseLayout.astro'
 import { integ } from '@/site-config'
 
-import NotesContents from './NotesContents.astro'
+// 1. 导入新的 NotesCards 组件
+import NotesCards from './NotesCards.astro'
 
 const meta = {
   title: 'Notes',
-  description: 'Notes content documentation'
+  description: 'A collection of notes on various topics.'
 }
 ---
 
@@ -16,23 +19,41 @@ const meta = {
   <Button title='Back' href='/' variant='back' />
   <main class='mt-6 lg:mt-10'>
     <div id='content-header' class='animate'>
-      <h1 class='mb-6 text-3xl font-medium'>Notes by Nkns</h1>
+      <h1 class='mb-6 text-4xl font-bold'>Notes Collection</h1>
     </div>
 
-    <div id='content' class={cn('animate mt-8 max-w-none md:min-w-[45ch]', integ.typography.class)}>
-      <h2 class='text-xl font-medium'>Notes Collection</h2>
-      <NotesContents title={false} />
+    <div id='content' class={cn('animate mt-8 max-w-none', integ.typography.class)}>
+      {/* 2. 使用我们新的 NotesCards 组件 */}
+      <NotesCards />
 
-      <h2 class='text-xl font-medium'>Feedback</h2>
-      <p>
-        If you have any questions about the contents, you can upload an issue on <a
+      {/* 下面的 Feedback 和 RSS 链接保持不变 */}
+      <h2 class='text-2xl font-semibold mt-12'>Feedback</h2>
+      <p class='text-lg'>
+        If you have any questions or feedback, please open an issue on <a
           href='https://github.com/Nakanomk/Nknsblog_astro_rebuild/issues'
-          target='_blank'>the issue page</a
-        > to tell me your thinkings.
+          target='_blank'
+          class='class='
+          text-[#659EB9]
+          no-underline
+          transition-opacity
+          hover:opacity-80''
+        >
+        GitHub
+        </a>
       </p>
-      <h2 class='text-xl font-medium'>News Describe (Alpha)</h2>
-      <p>
-        <a href='/notes/rss.xml' target='_blank'><Icon name='rss' /> </a>
+      <h2 class='text-2xl font-semibold mt-8'>Subscribe to Updates</h2>
+      <p class='text-lg'>
+        <a
+          href='/notes/rss.xml'
+          target='_blank'
+          class='flex items-center class='
+          text-[#659EB9]
+          no-underline
+          transition-opacity
+          hover:opacity-80''
+        >
+          <Icon name='rss' class='mr-2' />
+        </a>
       </p>
     </div>
   </main>
