@@ -5,7 +5,7 @@ description: 'It was my first post in Hexo'
 tags:
   - 闲谈
 language: '中文'
-heroImage: { src: '../../../public/covers/Sixianglu.jpg', color: '#edb9a2' }
+order: 1
 ---
 你好！这里是*Nakano_mk*。
 
