@@ -90,17 +90,129 @@ int main() {
     11e9:	74 17                	je     1202 <main+0x65>	# 无符号数只要不是 0 就大于 0
 ```
 
+### C 语言中的浮点数
+
+- 类型：`double` `float` 
+- `long double` 随编译器和处理器不同而变化，IA-32 中是 80 位
+- `int` 的有效位数是 32 位，而 `float` 的有效位数是 23 位，转换的时候会有精度丢失，转换为 `double` 则不会丢失
+- 浮点数转化为整数的时候可能会溢出或舍入，小数部分会从 0 方向被截断。
+
+**例子**
+
+```c
+#include <stdio.h>
+int main() {
+    float heads;
+    while(1) {
+        printf("Please enter a number: ");
+        scanf("%d", &heads);
+        printf("%f\r\n", heads);
+    }
+}
+```
+
+结果：
+
+![image-20251017204720051](https://img.nkns.cc/PicGo/image-20251017204720051.png)
+
+原因：`float` 类型的最小精度使得它只能表示到这里的 `0.000004`
+
+### 数据的宽度和存储
+
+#### C语言中数值数据类型的宽度
+
+- 不同机器同一类型宽度可能会不同。
+
+![image-20251017204926454](https://img.nkns.cc/PicGo/image-20251017204926454.png)
+
+注：Compaq Alpha 是 64 位机
+
+#### C语言中类型转换顺序（比较重要）
+
+顺序从大到小：
+
+`unsigned long long` <- `long long` <- `unsigned` <- `int` <- `(unsigned)char, short` 
+
+**例子**
+
+```c
+#include <stdio.h>
+int main()
+{
+    unsigned int a = 1;
+    unsigned short b = 1;
+    char c = -1;
+    int d;
+    d = (a > c) ? 1 : 0;
+    // c 的码点为 neg(0000 0001) = 1111 1111, 符号扩展后升级为 int
+    // 但是 a 是 unsigned int，于是整个比较按照无符号数比较，就变成了 1 > 4294967295
+    printf("%d\n", d);
+    d = (b > c) ? 1 : 0;
+    // 所有小于 int 的整数类型(包括 char)都会被提升为 int 型，b 和 c被转换为了 int 型下的 1 和 -1
+    printf("%d\n", d);
+}
+// Result: 0 1
+```
+
 ### C 语言中的运算
+
+#### 按位逻辑运算和逻辑运算
+
+- 按位逻辑运算：`&` `|` `~` `^` 对位串实现 **掩码** 操作或其他处理
+- 逻辑运算：`&&` `||` `!` 
+
+#### 移位运算
+
+`>>` `<<` 用于提取部分信息、扩大或缩小数值的 2/4/8 倍
+
+**例子**
+
+```c
+y >> 8;	//提取 y 的高位数据
+```
+
+#### 位扩展运算和位截断运算
+
+无。类型转换时自动进行。
+
+**例子 1**
+
+```c
+short si = -32768;				// si = -32768; 0x8000
+unsigned short usi = si;		// usi = 32768; 0x8000
+int i = si;						// i = -32768; 0xffff8000
+unsigned ui = usi;				// i = 32768; 0x00008000
+```
+
+**例子 2**
+
+```c
+int i = 32768;			// i = 0x00008000
+short si = (short)i;	// si = 0x8000
+int j = si;				// j = 0xffff8000
+// Result: j != si
+```
 
 #### 整数算术运算
 
+1. C 语言整数实现与汇编语言的差异，此处略。
+
 2. 无符号数加法溢出判断
 
-![image-20251015140818835](https://img.nkns.cc/PicGo/image-20251015140818835.png)
+![image-20251017220754923](https://img.nkns.cc/PicGo/image-20251017220754923.png)
 
 ​	发生溢出时，一定满足：**result < x && result < y**
 
+```c
+int uadd_ok(unsigned x, unsigned y) {
+    unsigned sum = x + y;
+    return su >= x;
+}
+```
+
 3. 有符号数加法溢出判断
+
+![image-20251015140818835](https://img.nkns.cc/PicGo/image-20251015140818835.png)
 
 ```c
 int tadd_ok(int x, int y) {
@@ -458,7 +570,7 @@ int main()
 	call	printf@PLT	#
 ```
 
-
+以上switch语句运行时借助了 **跳表** 进行实现。
 
 ### 条件表达式的机器级表示
 
@@ -480,9 +592,23 @@ int main()
 对应的汇编代码：
 
 ```assembly
+# a.c:7: 	x = a > 0 ? a : a + 100;
+	movl	-16(%rbp), %eax	# a, a.1_1
+# a.c:7: 	x = a > 0 ? a : a + 100;
+	testl	%eax, %eax	# a.1_1
+	jg	.L2	#,
+# a.c:7: 	x = a > 0 ? a : a + 100;
+	movl	-16(%rbp), %eax	# a, a.2_2
+# a.c:7: 	x = a > 0 ? a : a + 100;
+	addl	$100, %eax	#, iftmp.0_3
+	jmp	.L3	#
+.L2:
+# a.c:7: 	x = a > 0 ? a : a + 100;
+	movl	-16(%rbp), %eax	# a, iftmp.0_3
+.L3:
+# a.c:7: 	x = a > 0 ? a : a + 100;
+	movl	%eax, -12(%rbp)	# iftmp.0_3, x
 ```
-
-
 
 ## 循环结构的机器级表示
 
@@ -505,6 +631,20 @@ int result = 0;
 }
 ```
 
+对应的汇编代码：
+
+```assembly
+.L2:
+# a.c:8: 		result += i;
+	movl	-8(%rbp), %eax	# i, tmp84
+	addl	%eax, -4(%rbp)	# tmp84, result
+# a.c:9: 		i++;
+	addl	$1, -8(%rbp)	#, i
+# a.c:11: 	while (i <= 10);
+	cmpl	$10, -8(%rbp)	#, i
+	jle	.L2	#,
+```
+
 ### while 循环
 
 ```c
@@ -524,7 +664,27 @@ int main()
 }
 ```
 
+对应的汇编代码：
+
+```assembly
+# a.c:7: 	while (i <= n)
+	jmp	.L2	#
+.L3:
+# a.c:9: 		result += i;
+	movl	-12(%rbp), %eax	# i, tmp84
+	addl	%eax, -8(%rbp)	# tmp84, result
+# a.c:10: 		i++;
+	addl	$1, -12(%rbp)	#, i
+.L2:
+# a.c:7: 	while (i <= n)
+	movl	-12(%rbp), %eax	# i, tmp85
+	cmpl	-4(%rbp), %eax	# n, tmp85
+	jle	.L3	#,
+```
+
 ### for 循环
+
+**例子 1**
 
 ```c
 #include <stdio.h>
@@ -538,6 +698,28 @@ int main()
 	return 0;
 }
 ```
+
+对应的汇编代码：
+
+```assembly
+# a.c:6: 	for (int i = 1; i <= n; i++) 
+	movl	$1, -8(%rbp)	#, i
+# a.c:6: 	for (int i = 1; i <= n; i++) 
+	jmp	.L2	#
+.L3:
+# a.c:7: 		result += i;
+	movl	-8(%rbp), %eax	# i, tmp84
+	addl	%eax, -12(%rbp)	# tmp84, result
+# a.c:6: 	for (int i = 1; i <= n; i++) 
+	addl	$1, -8(%rbp)	#, i
+.L2:
+# a.c:6: 	for (int i = 1; i <= n; i++) 
+	movl	-8(%rbp), %eax	# i, tmp85
+	cmpl	-4(%rbp), %eax	# n, tmp85
+	jle	.L3	#,
+```
+
+**例子 2**
 
 ```c
 #include <stdio.h>
@@ -554,6 +736,32 @@ int main()
 }
 ```
 
+对应的汇编代码：
+
+```assembly
+# a.c:8:     for (i = 0; i < 20; i++)
+	movl	$0, -68(%rbp)	#, i
+# a.c:8:     for (i = 0; i < 20; i++)
+	jmp	.L2	#
+.L3:
+# a.c:9:         buf2[i] = buf1[i];
+	movl	-68(%rbp), %eax	# i, tmp88
+	cltq
+	movzbl	-64(%rbp,%rax), %edx	# buf1[i_2], _1
+# a.c:9:         buf2[i] = buf1[i];
+	movl	-68(%rbp), %eax	# i, tmp90
+	cltq
+	movb	%dl, -32(%rbp,%rax)	# _1, buf2[i_2]
+# a.c:8:     for (i = 0; i < 20; i++)
+	addl	$1, -68(%rbp)	#, i
+.L2:
+# a.c:8:     for (i = 0; i < 20; i++)
+	cmpl	$19, -68(%rbp)	#, i
+	jle	.L3	#,
+```
+
+---
+
 事实上，汇编语言是比较好实现 `do-while` 结构的
 
 ![image-20251016204728366](https://img.nkns.cc/PicGo/image-20251016204728366.png)
@@ -566,13 +774,13 @@ int main()
 
 ![image-20251016204819339](https://img.nkns.cc/PicGo/image-20251016204819339.png)
 
-
-
 ## 编译优化
 
-
+在 gcc 编译程序的时候，可以选择 `-O0` `-O1` `-O2` `-O3` 四个等级，对应等级是优化水平。O0 即完全不优化。
 
 ## 循环结构与递归的比较
+
+**递归求和：**
 
 ```c
 #include <stdio.h>
@@ -593,6 +801,38 @@ int main()
 }
 ```
 
+对应的汇编程序：
+
+```assembly
+iter_sum:
+# a.c:5: 	if  (n <= 0)  
+	cmpl	$0, -20(%rbp)	#, n
+	jg	.L2	#,
+# a.c:6: 	    result = 0;   
+	movl	$0, -4(%rbp)	#, result
+	jmp	.L3	#
+.L2:
+# a.c:8: 	    result = n + iter_sum(n - 1); 
+	movl	-20(%rbp), %eax	# n, tmp86
+	subl	$1, %eax	#, _1
+	movl	%eax, %edi	# _1,
+	call	iter_sum	#
+# a.c:8: 	    result = n + iter_sum(n - 1); 
+	movl	-20(%rbp), %edx	# n, tmp90
+	addl	%edx, %eax	# tmp90, tmp89
+	movl	%eax, -4(%rbp)	# tmp89, result
+.L3:
+# a.c:9: 	return  result;
+	movl	-4(%rbp), %eax	# result, _10
+main:
+# a.c:13:     int sum = iter_sum(10);
+	movl	$10, %edi	#,
+	call	iter_sum	#
+	movl	%eax, -4(%rbp)	# tmp84, sum
+```
+
+**非递归求和：**
+
 ```c
 #include <stdio.h>
 int main()
@@ -607,3 +847,338 @@ int main()
 }
 ```
 
+对应的汇编代码：
+
+```assembly
+# a.c:7:     for (i=1; i <= n; i++)  
+	movl	$1, -12(%rbp)	#, i
+# a.c:7:     for (i=1; i <= n; i++)  
+	jmp	.L2	#
+.L3:
+# a.c:8: 	    result += i; 
+	movl	-12(%rbp), %eax	# i, tmp84
+	addl	%eax, -8(%rbp)	# tmp84, result
+# a.c:7:     for (i=1; i <= n; i++)  
+	addl	$1, -12(%rbp)	#, i
+.L2:
+# a.c:7:     for (i=1; i <= n; i++)  
+	movl	-12(%rbp), %eax	# i, tmp85
+	cmpl	-4(%rbp), %eax	# n, tmp85
+	jle	.L3	#,
+```
+
+可见非递归程序没有用到 `call` 命令，减少了调用、返回、保护现场三个步骤，并且没有使用栈帧。因此，为了提高程序的性能，应该尽量用非递归方式实现功能。
+
+## 过程调用的机器级表示
+
+1. 过程调用的运行机理：
+
+**例子**
+
+```c
+#include <stdio.h>
+int fadd(int x, int y)
+{
+	int u,v,w;
+	u = x + 10;
+	v = y + 25;
+	w = u + v;
+	return w;
+}
+int main()
+{
+   int  a = 100;    // 0x 64
+   int  b = 200;    // 0x C8
+   int  sum = 0;
+   sum = fadd(a, b);
+   printf("%d\n", sum);
+   return 0;
+}
+```
+
+对应的一些汇编代码：
+
+```assembly
+Dump of assembler code for function fadd:
+3       {
+   0x5655619d <+0>:     push   %ebp				# 保护现场，这里只用保护ebp
+   0x5655619e <+1>:     mov    %esp,%ebp		# 使用ebp，保存进入子程序时，保护现场后堆栈段的基址。EBP = 0xffffd160
+   0x565561a0 <+3>:     sub    $0x10,%esp		# 为局部变量分配空间。三个局部变量，总长度为12个字节。为了对齐，分配了16个字节的空间。
+   0x565561a3 <+6>:     call   0x56556236 <__x86.get_pc_thunk.ax>
+   0x565561a8 <+11>:    add    $0x2e30,%eax
+
+4               int u,v,w;
+5               u = x + 10;
+   0x565561ad <+16>:    mov    0x8(%ebp),%eax	# 源操作数使用了参数x
+   0x565561b0 <+19>:    add    $0xa,%eax
+   0x565561b3 <+22>:    mov    %eax,-0xc(%ebp)	# 目的操作数使用了局部变量x
+
+6               v = y + 25;
+   0x565561b6 <+25>:    mov    0xc(%ebp),%eax
+   0x565561b9 <+28>:    add    $0x19,%eax
+   0x565561bc <+31>:    mov    %eax,-0x8(%ebp)
+
+7               w = u + v;
+   0x565561bf <+34>:    mov    -0xc(%ebp),%edx
+   0x565561c2 <+37>:    mov    -0x8(%ebp),%eax
+   0x565561c5 <+40>:    add    %edx,%eax
+   0x565561c7 <+42>:    mov    %eax,-0x4(%ebp)
+
+8               return w;
+   0x565561ca <+45>:    mov    -0x4(%ebp),%eax	# 将返回值送入EAX。通过EAX返回子程序的返回值。
+
+9       }
+   0x565561cd <+48>:    leave					# leave指令，等价于
+                                                # mov  %ebp, %esp
+                                                # pop  %ebp
+                                                # 即还原ESP、EBP
+
+   0x565561ce <+49>:    ret  					# ret，出栈到EIP
+Dump of assembler code for function main:
+11      {
+   0x565561cf <+0>:     lea    0x4(%esp),%ecx
+   0x565561d3 <+4>:     and    $0xfffffff0,%esp
+   0x565561d6 <+7>:     push   -0x4(%ecx)
+   0x565561d9 <+10>:    push   %ebp
+   0x565561da <+11>:    mov    %esp,%ebp
+   0x565561dc <+13>:    push   %ebx
+   0x565561dd <+14>:    push   %ecx
+   0x565561de <+15>:    sub    $0x10,%esp
+   0x565561e1 <+18>:    call   0x565560a0 <__x86.get_pc_thunk.bx>
+   0x565561e6 <+23>:    add    $0x2df2,%ebx
+
+12         int  a = 100;    // 0x 64
+   0x565561ec <+29>:    movl   $0x64,-0x14(%ebp)
+
+13         int  b = 200;    // 0x C8
+   0x565561f3 <+36>:    movl   $0xc8,-0x10(%ebp)
+
+14         int  sum = 0;
+   0x565561fa <+43>:    movl   $0x0,-0xc(%ebp)
+
+15         sum = fadd(a, b);
+   0x56556201 <+50>:    push   -0x10(%ebp)
+   0x56556204 <+53>:    push   -0x14(%ebp)
+   0x56556207 <+56>:    call   0x5655619d <fadd>
+   0x5655620c <+61>:    add    $0x8,%esp		# 出栈参数x、y
+   0x5655620f <+64>:    mov    %eax,-0xc(%ebp)
+```
+
+在 main 第一行处执行：
+
+```
+(gdb) p/x $esp
+$2 = 0xffffce20
+```
+
+然后执行
+
+```
+(gdb) x/16 0xffffce20 - 48
+0xffffcdf0:     0x00000000      0x00000000      0x01000000      0x0000000b
+0xffffce00:     0xf7fc4560      0x00000000      0xf7d9b4be      0xf7fa9054
+0xffffce10:     0xf7fbe4a0      0xf7fd6f20      0xf7d9b4be      0x565561e6 <- main入口
+0xffffce20:     0xffffce60      0xf7fbe66c      0xf7fbeb20      0x00000001
+```
+
+接着执行到 fadd：
+
+```
+fadd (x=100, y=200) at a.c:3
+3       {
+(gdb) p/x $eip
+$2 = 0x5655619d
+```
+
+这时：
+
+```
+(gdb) p/x $esp
+$3 = 0xffffce14
+(gdb) x/16 0xffffce20 - 48
+0xffffcdf0:     0x00000000      0x00000000      0x01000000      0x0000000b
+0xffffce00:     0xf7fc4560      0x00000000      0xf7d9b4be      0xf7fa9054
+0xffffce10:     0xf7fbe4a0      0x5655620c      0x00000064      0x000000c8
+                                 ^ main函数返回点   ^ a             ^ b
+0xffffce20:     0xffffce60      0x00000064      0x000000c8      0x00000000
+```
+
+由此可见，栈帧和局部变量在栈内被很好地保护了。
+
+调用时栈和栈帧的变化如下图：
+
+![image-20251018005346141](https://img.nkns.cc/PicGo/image-20251018005346141.png)
+
+### 局部变量
+
+- 子程序开始执行时，在堆栈中分配局部变量空间。
+- 局部变量在子程序栈帧中
+- 子程序退出前，会释放局部变量的空间。因此，局部变量的作用于和生存空间只在子程序中。
+
+详情可以参考上面这一例汇编内的注释。
+
+### 按值传递参数和按地址传递参数
+
+- 基本的形参和实参概念
+- 按值传递：传递变量值；按地址传递：传递变量地址（指针）。
+
+- **按地址传递的时候记得间接寻址，直接修改地址参数是啥用都没有的。**
+
+**例子 按值传递参数**
+
+```c
+#include <stdio.h>
+void swap(int x, int y)
+{
+    int t = x;
+    x = y;
+    y = t;    
+}
+int main()
+{
+    int a = 15;
+    int b = 22;
+    printf("a=%d b=%d\n", a, b);
+    swap(a, b);
+    printf("a=%d b=%d\n", a, b);
+    return 0;
+}
+```
+
+汇编片段：
+
+```assembly
+main:
+# a.c:13:     swap(a, b);
+	movl	-4(%rbp), %edx	# b, tmp87
+	movl	-8(%rbp), %eax	# a, tmp88
+	movl	%edx, %esi	# tmp87,
+	movl	%eax, %edi	# tmp88,
+	call	swap	#
+swap:
+	movl	%edi, -20(%rbp)	# x, x
+	movl	%esi, -24(%rbp)	# y, y
+# a.c:4:     int t = x;
+	movl	-20(%rbp), %eax	# x, tmp82
+	movl	%eax, -4(%rbp)	# tmp82, t
+# a.c:5:     x = y;
+	movl	-24(%rbp), %eax	# y, tmp83
+	movl	%eax, -20(%rbp)	# tmp83, x
+# a.c:6:     y = t;    
+	movl	-4(%rbp), %eax	# t, tmp84
+	movl	%eax, -24(%rbp)	# tmp84, y
+```
+
+
+
+**例子 按地址传递参数**
+
+```c
+#include <stdio.h>
+void swap(int* x, int* y)
+{
+    int t = *x;
+    *x = *y;
+    *y = t;    
+}
+int main()
+{
+    int a = 15;
+    int b = 22;
+    printf("a=%d b=%d\n", a, b);
+    swap(&a, &b);
+    printf("a=%d b=%d\n", a, b);
+    return 0;
+}
+```
+
+汇编片段：
+
+```assembly
+main:
+# a.c:13:     swap(&a, &b);
+	leaq	-12(%rbp), %rdx	#, tmp89
+	leaq	-16(%rbp), %rax	#, tmp90
+	movq	%rdx, %rsi	# tmp89,
+	movq	%rax, %rdi	# tmp90,
+	call	swap	#
+swap:
+	movq	%rdi, -24(%rbp)	# x, x
+	movq	%rsi, -32(%rbp)	# y, y
+# a.c:4:     int t = *x;
+	movq	-24(%rbp), %rax	# x, tmp83
+	movl	(%rax), %eax	# *x_3(D), tmp84
+	movl	%eax, -4(%rbp)	# tmp84, t
+# a.c:5:     *x = *y;
+	movq	-32(%rbp), %rax	# y, tmp85
+	movl	(%rax), %edx	# *y_5(D), _1
+# a.c:5:     *x = *y;
+	movq	-24(%rbp), %rax	# x, tmp86
+	movl	%edx, (%rax)	# _1, *x_3(D)
+# a.c:6:     *y = t;    
+	movq	-32(%rbp), %rax	# y, tmp87
+	movl	-4(%rbp), %edx	# t, tmp88
+	movl	%edx, (%rax)	# tmp88, *y_5(D)
+```
+
+上述片段先将地址取出，再利用寄存器间接寻址最终修改了内存中的原数据。
+
+### 递归过程调用
+
+前文已经有一个例子了，这里再举一个。
+
+```c
+#include <stdio.h>  
+int f(int x) 
+{
+    if (x==1)  
+        return 1;     
+    return  x*f(x-1); 
+}  
+int main() 
+{
+    printf("%d\n",f(5));
+    return 0;
+}
+```
+
+对应的汇编代码：
+
+```assembly
+f:
+	movl	%edi, -4(%rbp)	# x, x
+# a.c:4:     if (x==1)  
+	cmpl	$1, -4(%rbp)	#, x
+	jne	.L2	#,
+# a.c:5:         return 1;     
+	movl	$1, %eax	#, _3
+	jmp	.L3	#
+.L2:
+# a.c:6:     return  x*f(x-1); 
+	movl	-4(%rbp), %eax	# x, tmp86
+	subl	$1, %eax	#, _1
+	movl	%eax, %edi	# _1,
+	call	f	#
+# a.c:6:     return  x*f(x-1); 
+	imull	-4(%rbp), %eax	# x, _3
+.L3:
+# a.c:7: }  
+	leave	
+	.cfi_def_cfa 7, 8
+	ret	
+main:
+# a.c:10:     printf("%d\n",f(5));
+	movl	$5, %edi	#,
+	call	f	#
+	movl	%eax, %esi	# _1,
+	leaq	.LC0(%rip), %rax	#, tmp85
+	movq	%rax, %rdi	# tmp85,
+	movl	$0, %eax	#,
+	call	printf@PLT	#
+```
+
+递归调用示意图：
+
+![image-20251018011551561](https://img.nkns.cc/PicGo/image-20251018011551561.png)
+
+其实相关原理 C 语言已经都学过了，这里看懂汇编即可。
