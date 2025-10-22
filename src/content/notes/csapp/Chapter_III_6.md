@@ -14,7 +14,7 @@ order: 5
 
 1. char s[10];
 2. s[10] = -1; // 越界
-3. chap *p = s;
+3. char *p = s;
 4. *(p + 13) = 40; // 越界
 
 ​	第 2 行、第 4 行的数组访问，都超出了数组的边界，产生了缓冲区溢出。
@@ -47,11 +47,11 @@ int main(int argc, char *argv[])
 }
 ```
 
-> 编译时，关闭堆栈保护和 PIE (Position Independed Executable), 编译命令为
+> 编译时，关闭堆栈保护和 PIE (Position Independent Executable), 编译命令为
 >
 > `gcc -g -m32 -fno-stack-protector -no-pie -fno-pic -o test test.c`
 
-由于如法从控制台直接输入 ascii 码，因此编写一个程序调用 execve() 系统函数，启动 test 可执行程序，并注入攻击字符串。
+由于无法从控制台直接输入 ascii 码，因此编写一个程序调用 execve() 系统函数，启动 test 可执行程序，并注入攻击字符串。
 
 ```c
 // exec.c
@@ -75,4 +75,4 @@ int main(void)
 
 ![image-20251022144318401](https://img.nkns.cc/PicGo/image-20251022144318401.png)
 
-因为 `"\xc5\x91\x04\x08"` 这里是对应的程序返回口，这里将它覆盖成了 `0x080491c5` ，成功执行 hacker 函数。
+因为 `"\xc5\x91\x04\x08"` 这里是对应的程序返回地址，这里将它覆盖成了 `0x080491c5` ，成功执行 hacker 函数。

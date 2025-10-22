@@ -59,8 +59,8 @@ void main()
 ```assembly
     11b9:	66 c7 45 f4 ff ff    	movw   $0xffff,-0xc(%ebp)	# x = -1
     11bf:	66 c7 45 f6 ff ff    	movw   $0xffff,-0xa(%ebp)	# y = -1
-    11c5:	0f b7 4d f6          	movzwl -0xa(%ebp),%ecx	# printf 的 %d 解读 x
-    11c9:	0f bf 55 f4          	movswl -0xc(%ebp),%edx	# printf 的 %d 解读 y
+    11c5:	0f b7 4d f6          	movzwl -0xa(%ebp),%ecx	# printf 的 %d 解读 y
+    11c9:	0f bf 55 f4          	movswl -0xc(%ebp),%edx	# printf 的 %d 解读 x
 ```
 
 **例题 4** 判断以下函数结果
@@ -256,13 +256,13 @@ int copy_array(int *array, int count)
 5. 整数的除法运算
 
 ```c
-// Code segemention I
+// Code segement I
 int a = 0x80000000;
 int b = a / -1; 
 printf("%d\n", b);
 // Result: -2147483648
 
-// Code segemention II
+// Code segement II
 int a = 0x80000000;
 int b = -1;
 int c = a / b; 
@@ -1013,7 +1013,7 @@ $3 = 0xffffce14
 
 - 子程序开始执行时，在堆栈中分配局部变量空间。
 - 局部变量在子程序栈帧中
-- 子程序退出前，会释放局部变量的空间。因此，局部变量的作用于和生存空间只在子程序中。
+- 子程序退出前，会释放局部变量的空间。因此，局部变量的作用域和生存空间只在子程序中。
 
 详情可以参考上面这一例汇编内的注释。
 
