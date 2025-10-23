@@ -1,7 +1,7 @@
 ---
 title: 'Chapter III-3'
 description: 'CSAPP NOTE CHAP III-3'
-order: 2
+order: 5
 ---
 
 # Chap 3.3 IA-32 常用指令类型及其操作
