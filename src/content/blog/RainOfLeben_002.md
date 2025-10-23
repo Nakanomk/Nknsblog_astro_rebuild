@@ -1,6 +1,7 @@
 ---
-title: 'RainOfLeben_002'
-publishDate: 2025-04-19 23:21:09
+title: 'Rain of Leben'
+publishDate: 2025-01-29 21:08:11
+updatedDate: 2025-04-19 23:21:09
 description: 'You hear that? That is the rain of leben.'
 tags:
   - 闲谈
@@ -8,7 +9,15 @@ language: 'English'
 heroImage: { src: '../../../public/covers/Sixianglu.jpg', color: '#c8a598' }
 ---
 
-# Holy, you, God of Leben.
+# $$ \mathcal{Fragment\ 001} $$
+
+*May you, the god of leben, saves my life?*
+
+---
+
+# $$ \mathcal{Fragment\ 002} $$
+
+## Holy, you, God of Leben.
 
 已经许久没有更新博客了，自己当时为什么要建立这个博客呢？后来又是怎么堕落下去的呢？已经无从得知了。但是不指望着这是最后一次堕落，因为如果承认了就是对命运的屈服，是一种“前面发生的事情已经没办法了，后面重新来过好了”的摆烂的心理而非一种豁达的心态。
 
