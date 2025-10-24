@@ -115,7 +115,8 @@ export const integ: IntegrationUserConfig = {
     //   { date: '2025-03-16', content: "Let's add that to the words of wisdom." }
     // ],
     logbook: [
-      { date: '2025-09-27', content: '[Soda-Official] immigrated from hexo site.' }
+      { date: '2025-09-27', content: '[Soda-Official] added, since hexo site.' },
+      { date: '2025-10-24', content: '[Nkns\'s Bangumi Page] added' },
     ],
     // Yourself link info
     applyTip: [
