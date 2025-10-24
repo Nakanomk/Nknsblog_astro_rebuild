@@ -3,6 +3,8 @@ title: 'Weekly_002'
 publishDate: 2025-06-23 23:48:05
 description: 'Weekly Record'
 tags:
+  - Weekly
+  - Life
   - 闲谈
 language: 'MysterLang'
 heroImage: { src: '../../../public/covers/Sixianglu.jpg', color: '#c8a598' }

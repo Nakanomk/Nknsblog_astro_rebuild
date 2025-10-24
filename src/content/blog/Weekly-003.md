@@ -3,6 +3,8 @@ title: 'Weekly_003'
 publishDate: 2025-08-11 20:39:26
 description: 'Weekly Record'
 tags:
+  - Weekly
+  - Life
   - 闲谈
 language: '中文'
 heroImage: { src: '../../../public/covers/Sixianglu.jpg', color: '#c8a598' }
