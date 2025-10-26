@@ -1,19 +1,19 @@
 ---
 import { Image } from 'astro:assets'
 
-import Quote from '@/components/Quote.astro'
 import { PostPreview } from 'astro-pure/components/pages'
 import { getBlogCollection, sortMDByDate } from 'astro-pure/server'
 import { Button, Icon, Label } from 'astro-pure/user'
-import Card from '@/components/Card.astro'
 import PageLayout from '@/layouts/BaseLayout.astro'
+import Card from '@/components/Card.astro'
 import ProjectCard from '@/components/home/ProjectCard.astro'
 import Section from '@/components/home/Section.astro'
 import SkillLayout from '@/components/home/SkillLayout.astro'
+import Quote from '@/components/Quote.astro'
 import avatar from '@/assets/avatar.png'
 import config from '@/site-config'
 
-const languages = ['JavaScript','Shell']
+const languages = ['JavaScript', 'Shell']
 const frontend = ['N/A']
 const backend = ['C', 'C++', 'ASM']
 
@@ -87,6 +87,18 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
           </Section>
         )
       }
+
+      <Section title='Notes'>
+        <Card
+          as='a'
+          heading='CSAPP Notes'
+          subheading='计算机系统基础'
+          date='2025'
+          href='https://nkns.cc/notes/csapp/chapter_i'
+          imgSrc='https://csapp.cs.cmu.edu/3e/images/csapp3e-cover.jpg'
+        />
+        <Button title='More notes' class='w-fit self-end' href='/notes' variant='ahead' />
+      </Section>
 
       {
         /* <Section title='Experience'>
