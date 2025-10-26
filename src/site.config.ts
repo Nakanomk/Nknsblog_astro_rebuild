@@ -117,6 +117,7 @@ export const integ: IntegrationUserConfig = {
     logbook: [
       { date: '2025-09-27', content: '[Soda-Official] added, since hexo site.' },
       { date: '2025-10-24', content: '[Nkns\'s Bangumi Page] added' },
+      { date: '2025-10-26', content: '[Tsailooy的小屋] added' },
     ],
     // Yourself link info
     applyTip: [
