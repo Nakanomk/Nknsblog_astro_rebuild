@@ -44,6 +44,12 @@
           "intro": "博客主题作者",
           "link": "https://arthals.ink/",
           "avatar": "https://cdn.arthals.ink/Arthals.png"
+        },
+        {
+          "name": "开往",
+          "intro": "随机前往开往的成员博客",
+          "link": "https://www.travellings.cn/train.html",
+          "avatar": "https://www.travellings.cn/assets/travelling.png"
         }
       ]
     }
