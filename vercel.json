@@ -1,7 +1,0 @@
-{
-	"functions": {
-		"dist/server/entry.mjs": {
-			"excludeFiles": "node_modules/{eslint,@eslint,typescript-eslint,estree-walker}/**"
-		}
-	}
-}
