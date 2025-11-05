@@ -66,15 +66,6 @@ export default defineConfig({
     // astro-pure will automatically add sitemap, mdx & unocss
     // sitemap(),
     // mdx(),
-    vercel({
-      // 使用这个正确的属性名
-      excludeFiles: [
-        'node_modules/eslint/**',
-        'node_modules/@eslint/**',
-        'node_modules/typescript-eslint/**',
-        'node_modules/estree-walker/**',
-      ],
-    }),
     AstroPureIntegration(config)
     // (await import('@playform/compress')).default({
     //   SVG: false,
