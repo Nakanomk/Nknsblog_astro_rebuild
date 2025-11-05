@@ -118,6 +118,7 @@ export const integ: IntegrationUserConfig = {
       { date: '2025-09-27', content: '[Soda-Official] added, since hexo site.' },
       { date: '2025-10-24', content: '[Nkns\'s Bangumi Page] added' },
       { date: '2025-10-26', content: '[Tsailooy的小屋] added' },
+      { date: '2025-11-05', content: '[吐槽大王部落格] added' },
     ],
     // Yourself link info
     applyTip: [
