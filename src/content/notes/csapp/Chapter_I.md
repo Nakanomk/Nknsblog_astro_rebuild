@@ -5,7 +5,7 @@ tags:
   - Code
   - Learn
 language: '中文'
-order: 1
+order: 2
 ---
 
 # Chap 1 计算机系统概述
