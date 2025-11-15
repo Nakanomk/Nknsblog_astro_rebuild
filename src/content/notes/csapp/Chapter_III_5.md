@@ -56,7 +56,7 @@ int main()
 
 汇编代码选摘：
 
-```assembly
+```asm
 # 初始化 a
 	11e3:	c7 45 ca 00 00 00 00 	movl   $0x0,-0x36(%ebp)
     11ea:	c7 45 ce 00 00 00 00 	movl   $0x0,-0x32(%ebp)
@@ -134,7 +134,7 @@ int main()
 
 对应汇编片段：
 
-```assembly
+```asm
     11bc:	8d 44 24 14          	lea    0x14(%esp),%eax	; 取出 a[0] 地址给 ptr1
     11c0:	89 44 24 08          	mov    %eax,0x8(%esp)
     11c4:	8d 44 24 14          	lea    0x14(%esp),%eax	; 取出 a[0] 地址
@@ -167,7 +167,7 @@ int main() {
 
 对应汇编代码：
 
-```assembly
+```asm
 // 这一段用来将五个字符串地址存入指针数组
 	11d5:	8d 83 34 e0 ff ff    	lea    -0x1fcc(%ebx),%eax
     11db:	89 45 e0             	mov    %eax,-0x20(%ebp)
@@ -219,7 +219,7 @@ int main()
 
 对应的汇编代码：
 
-```assembly
+```asm
     11bc:	8d 44 24 1d          	lea    0x1d(%esp),%eax	; eax = a
     11c0:	89 04 24             	mov    %eax,(%esp)
     11c3:	8d 44 24 1d          	lea    0x1d(%esp),%eax
@@ -297,7 +297,7 @@ int main()
 
 对应汇编代码片段：
 
-```assembly
+```asm
 000011ad <reg_stu_v>:
     11ad:	55                   	push   %ebp
     11ae:	89 e5                	mov    %esp,%ebp
@@ -376,7 +376,7 @@ int main() {
 
 对应的汇编代码：
 
-```assembly
+```asm
 # a.c:7:     stu_info stu = {75, "Peter"};
 	movl	$75, -48(%rbp)	#, stu.id
 	movabsq	$491328398672, %rax	#, tmp88
@@ -437,7 +437,7 @@ int main()
 
 对应汇编：
 
-```assembly
+```asm
     11bc:	8d 44 24 08          	lea    0x8(%esp),%eax
     11c0:	89 44 24 0c          	mov    %eax,0xc(%esp)
     11c4:	8d 44 24 08          	lea    0x8(%esp),%eax

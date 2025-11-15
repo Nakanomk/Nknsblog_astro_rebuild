@@ -56,7 +56,7 @@ void main()
 
 查看相关的汇编代码可知：
 
-```assembly
+```asm
     11b9:	66 c7 45 f4 ff ff    	movw   $0xffff,-0xc(%ebp)	# x = -1
     11bf:	66 c7 45 f6 ff ff    	movw   $0xffff,-0xa(%ebp)	# y = -1
     11c5:	0f b7 4d f6          	movzwl -0xa(%ebp),%ecx	# printf 的 %d 解读 y
@@ -80,7 +80,7 @@ int main() {
 
 查看相关的汇编代码可知：
 
-```assembly
+```asm
     11ba:	66 c7 45 f4 ff ff    	movw   $0xffff,-0xc(%ebp)
     11c0:	66 c7 45 f6 ff ff    	movw   $0xffff,-0xa(%ebp)
     11c6:	66 83 7d f4 00       	cmpw   $0x0,-0xc(%ebp)
@@ -343,7 +343,7 @@ int main()
 
 对应的汇编代码：
 
-```assembly
+```asm
 # a.c:5:     int x = 3;
 	movl	$3, -8(%rbp)	#, x
 # a.c:6:     int y = -1;
@@ -404,7 +404,7 @@ int main()
 
 对应的汇编代码：
 
-```assembly
+```asm
 # a.c:4: 	int  x = 3;
 	movl	$3, -12(%rbp)	#, x
 # a.c:5: 	int  y = -1;
@@ -496,7 +496,7 @@ int main()
 
 以下是对应的汇编代码：
 
-```assembly
+```asm
 # a.c:4:     int result = 0;
 	movl	$0, -16(%rbp)	#, result
 # a.c:5:     int a = 12;
@@ -591,7 +591,7 @@ int main()
 
 对应的汇编代码：
 
-```assembly
+```asm
 # a.c:7: 	x = a > 0 ? a : a + 100;
 	movl	-16(%rbp), %eax	# a, a.1_1
 # a.c:7: 	x = a > 0 ? a : a + 100;
@@ -633,7 +633,7 @@ int result = 0;
 
 对应的汇编代码：
 
-```assembly
+```asm
 .L2:
 # a.c:8: 		result += i;
 	movl	-8(%rbp), %eax	# i, tmp84
@@ -666,7 +666,7 @@ int main()
 
 对应的汇编代码：
 
-```assembly
+```asm
 # a.c:7: 	while (i <= n)
 	jmp	.L2	#
 .L3:
@@ -701,7 +701,7 @@ int main()
 
 对应的汇编代码：
 
-```assembly
+```asm
 # a.c:6: 	for (int i = 1; i <= n; i++) 
 	movl	$1, -8(%rbp)	#, i
 # a.c:6: 	for (int i = 1; i <= n; i++) 
@@ -738,7 +738,7 @@ int main()
 
 对应的汇编代码：
 
-```assembly
+```asm
 # a.c:8:     for (i = 0; i < 20; i++)
 	movl	$0, -68(%rbp)	#, i
 # a.c:8:     for (i = 0; i < 20; i++)
@@ -803,7 +803,7 @@ int main()
 
 对应的汇编程序：
 
-```assembly
+```asm
 iter_sum:
 # a.c:5: 	if  (n <= 0)  
 	cmpl	$0, -20(%rbp)	#, n
@@ -849,7 +849,7 @@ int main()
 
 对应的汇编代码：
 
-```assembly
+```asm
 # a.c:7:     for (i=1; i <= n; i++)  
 	movl	$1, -12(%rbp)	#, i
 # a.c:7:     for (i=1; i <= n; i++)  
@@ -898,7 +898,7 @@ int main()
 
 对应的一些汇编代码：
 
-```assembly
+```asm
 Dump of assembler code for function fadd:
 3       {
    0x5655619d <+0>:     push   %ebp				# 保护现场，这里只用保护ebp
@@ -1047,7 +1047,7 @@ int main()
 
 汇编片段：
 
-```assembly
+```asm
 main:
 # a.c:13:     swap(a, b);
 	movl	-4(%rbp), %edx	# b, tmp87
@@ -1094,7 +1094,7 @@ int main()
 
 汇编片段：
 
-```assembly
+```asm
 main:
 # a.c:13:     swap(&a, &b);
 	leaq	-12(%rbp), %rdx	#, tmp89
@@ -1144,7 +1144,7 @@ int main()
 
 对应的汇编代码：
 
-```assembly
+```asm
 f:
 	movl	%edi, -4(%rbp)	# x, x
 # a.c:4:     if (x==1)  
