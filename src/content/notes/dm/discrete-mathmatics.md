@@ -1,5 +1,5 @@
 ---
-title: 'Overtune of Discrete Mathmatics'
+title: 'Overture of Discrete Mathmatics'
 description: 'Ode to the base'
 tags:
   - Code  - Learn
