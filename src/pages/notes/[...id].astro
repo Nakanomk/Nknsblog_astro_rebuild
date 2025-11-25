@@ -32,8 +32,107 @@ const editPath = `https://github.com/Nakanomk/Nknsblog_astro_rebuild/edit/main/$
 
 <PageLayout meta={{ description, title }} back='/notes'>
   <Fragment slot='sidebar'>
-    {!!headings.length && <TOC {headings} />}
-    <NotesContents class='notes-toc block mt-3' />
+    <div class='sidebar-header'>
+      <h2 id='sidebar-title' class='text-foreground font-semibold'>TOC</h2>
+      <button id='sidebar-toggle-btn' class='text-sm text-muted-foreground hover:text-foreground transition-colors'>NOTES</button>
+    </div>
+
+    <div id='toc-container' class='mt-4'>
+      {!!headings.length && <TOC {headings} />}
+    </div>
+
+    <div id='notes-container' class='sidebar-view-hidden mt-3'>
+      <NotesContents class='notes-toc block' />
+    </div>
+
+    <script is:inline>
+      function setupSidebarToggle() {
+        const titleEl = document.getElementById('sidebar-title')
+        const toggleBtn = document.getElementById('sidebar-toggle-btn')
+        const tocContainer = document.getElementById('toc-container')
+        const notesContainer = document.getElementById('notes-container')
+
+        if (!titleEl || !toggleBtn || !tocContainer || !notesContainer) {
+          return
+        }
+
+        let isTocVisible = true
+
+        if (tocContainer.innerHTML.trim() === '') {
+          isTocVisible = false
+        }
+
+        function updateView() {
+          if (isTocVisible) {
+            titleEl.textContent = 'TOC'
+            toggleBtn.textContent = 'NOTES'
+            tocContainer.style.display = 'block'
+            tocContainer.classList.add('animate-fade-in-up')
+            notesContainer.classList.add('sidebar-view-hidden')
+            toggleBtn.style.display = 'block'
+          } else {
+            titleEl.textContent = 'NOTES'
+            toggleBtn.textContent = 'TOC'
+            tocContainer.style.display = 'none'
+            notesContainer.classList.remove('sidebar-view-hidden')
+            notesContainer.classList.add('animate-fade-in-up')
+          }
+
+          if (tocContainer.innerHTML.trim() === '') {
+            toggleBtn.style.display = 'none'
+          }
+        }
+
+        toggleBtn.addEventListener('click', () => {
+          isTocVisible = !isTocVisible
+          updateView()
+        })
+
+        updateView()
+      }
+
+      // Astro's view transitions will re-run this script.
+      // We can just call the setup function directly.
+      // If not using view transitions, we'd use DOMContentLoaded.
+      setupSidebarToggle()
+      document.addEventListener('astro:after-swap', setupSidebarToggle)
+    </script>
+
+    <style>
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(8px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .animate-fade-in-up {
+        animation: fadeInUp 0.3s ease-out;
+      }
+
+      .sidebar-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      #sidebar-toggle-btn {
+        background: none;
+        border: 1px solid hsl(var(--border));
+        padding: 0.25rem 0.5rem;
+        border-radius: var(--radius);
+        min-width: 60px; /* Keep button size constant */
+        text-align: center;
+        cursor: pointer;
+        margin-right: 0.5rem; /* Move button slightly from the edge */
+      }
+      .sidebar-view-hidden {
+        display: none;
+      }
+    </style>
   </Fragment>
 
   <Fragment slot='header'>
@@ -75,23 +174,3 @@ const editPath = `https://github.com/Nakanomk/Nknsblog_astro_rebuild/edit/main/$
   </div>
 </PageLayout>
 <MediumZoom />
-
-<style>
-  @media (min-width: 1300px) {
-    :global(
-      main, .bottom { transform: translateX(7.9rem); }
-      #sidebar { overflow: inherit; }
-      toc-heading { height: 100%; display: flex; flex-direction: column; }
-      toc-heading > ul { overflow-y: scroll; }
-    )
-    .notes-toc {
-      position: fixed;
-      top: 0;
-      left: -64rem;
-      margin-top: 0;
-      max-height: calc(100vh - 7rem);
-      overflow-y: scroll;
-      padding-right: 1rem !important;
-    }
-  }
-</style>
