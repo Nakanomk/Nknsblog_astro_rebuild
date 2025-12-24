@@ -24,6 +24,10 @@ const {
   <head>
     <BaseHead {articleDate} {description} {ogImage} {title} />
     <ThemeProvider />
+    <script
+      defer
+      src='https://umami-dezi16jut-nakanosans-projects.vercel.app/script.js'
+      data-website-id='821f3d78-4ef3-444e-9050-faa8011717a7'></script>
   </head>
 
   <body class='flex justify-center bg-background text-foreground' {...props}>
@@ -36,7 +40,9 @@ const {
         />
       )
     }
-    <div class='w-full max-w-[70rem] px-4 sm:px-7 lg:px-10 min-h-[100dvh] flex flex-col justify-between'>
+    <div
+      class='w-full max-w-[70rem] px-4 sm:px-7 lg:px-10 min-h-[100dvh] flex flex-col justify-between'
+    >
       <Header />
       <div class='flex-1 w-full'>
         <slot />

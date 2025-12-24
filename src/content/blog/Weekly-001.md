@@ -10,7 +10,7 @@ language: 'MysterLang'
 heroImage: { src: '../../../public/covers/Sixianglu.jpg', color: '#c8a598' }
 ---
 
-# 入团考试
+## 入团考试
 
 上一周周末上了两天团课，这一周又进行了入团考试
 
@@ -20,7 +20,7 @@ heroImage: { src: '../../../public/covers/Sixianglu.jpg', color: '#c8a598' }
 
 基本也就这样了，参加完了明年就不用考试了
 
-# VJF作业补齐
+## VJF作业补齐
 
 这个礼拜把 vjf 的作业都补齐了，可喜可贺可喜可贺
 
@@ -28,7 +28,7 @@ heroImage: { src: '../../../public/covers/Sixianglu.jpg', color: '#c8a598' }
 
 剩下的只需要把题刷了就可以了
 
-# 技术文档填坑
+## 技术文档填坑
 
 本周没有时间啊，，，马上就期末考试了
 

@@ -9,15 +9,13 @@ language: 'English'
 heroImage: { src: '../../../public/covers/Sixianglu.jpg', color: '#c8a598' }
 ---
 
-# $$ \mathcal{Fragment\ 001} $$
+## $$ \mathcal{Fragment\ 001} $$
 
 *May you, the god of leben, saves my life?*
 
----
+##  $$ \mathcal{Fragment\ 002} $$
 
-# $$ \mathcal{Fragment\ 002} $$
-
-## Holy, you, God of Leben.
+### Holy, you, God of Leben.
 
 已经许久没有更新博客了，自己当时为什么要建立这个博客呢？后来又是怎么堕落下去的呢？已经无从得知了。但是不指望着这是最后一次堕落，因为如果承认了就是对命运的屈服，是一种“前面发生的事情已经没办法了，后面重新来过好了”的摆烂的心理而非一种豁达的心态。
 
