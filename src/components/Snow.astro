@@ -1,0 +1,94 @@
+<canvas id='christmas-snow' class='snow-canvas'></canvas>
+
+<style>
+  .snow-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    /* 关键属性：让鼠标事件穿透 Canvas，直接点到下面的网页内容 */
+    pointer-events: none;
+    z-index: 9999; /* 确保它浮在最上面，营造沉浸感 */
+  }
+</style>
+
+<script>
+  const canvas = document.getElementById('christmas-snow') as HTMLCanvasElement
+
+  if (canvas) {
+    const ctx = canvas.getContext('2d')
+
+    let width = window.innerWidth
+    let height = window.innerHeight
+    canvas.width = width
+    canvas.height = height
+
+    const flakes: Flake[] = []
+    const flakeCount = 100 // 想要雪下大点就把这个数字改大（比如 200）
+
+    class Flake {
+      x: number
+      y: number
+      speed: number
+      radius: number
+      opacity: number
+      step: number
+
+      constructor() {
+        this.x = Math.random() * width
+        this.y = Math.random() * height
+        this.speed = Math.random() * 1 + 0.5 // 下落速度
+        this.radius = Math.random() * 2 + 1 // 雪花大小
+        this.opacity = Math.random()
+        this.step = 0
+      }
+
+      update() {
+        this.y += this.speed
+        this.step += 0.01
+        // 模拟风吹的左右摆动效果
+        this.x += Math.cos(this.step) * 0.5
+
+        // 如果雪花掉出屏幕底部，重置到顶部
+        if (this.y > height) {
+          this.y = 0
+          this.x = Math.random() * width
+        }
+      }
+
+      draw() {
+        if (!ctx) return
+        ctx.beginPath()
+        ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2)
+        ctx.fill()
+      }
+    }
+
+    // 初始化雪花
+    for (let i = 0; i < flakeCount; i++) {
+      flakes.push(new Flake())
+    }
+
+    function loop() {
+      if (!ctx) return
+      ctx.clearRect(0, 0, width, height)
+      flakes.forEach((flake) => {
+        flake.update()
+        flake.draw()
+      })
+      requestAnimationFrame(loop)
+    }
+
+    loop()
+
+    // 监听窗口大小变化
+    window.addEventListener('resize', () => {
+      width = window.innerWidth
+      height = window.innerHeight
+      canvas.width = width
+      canvas.height = height
+    })
+  }
+</script>

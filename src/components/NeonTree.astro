@@ -1,0 +1,174 @@
+<div id='tree-wrapper' class='tree-wrapper'>
+  <svg id='christmas-tree' viewBox='0 0 400 500' xmlns='http://www.w3.org/2000/svg'>
+    <rect x='180' y='400' width='40' height='60' fill='#5D4037' rx='5'></rect>
+
+    <path d='M50 420 L200 250 L350 420 Q200 460 50 420 Z' fill='#2E7D32' class='leaf'></path>
+    <circle cx='100' cy='400' r='10' fill='#FF5252' class='ornament'></circle>
+    <circle cx='300' cy='380' r='10' fill='#FFD740' class='ornament'></circle>
+    <circle cx='200' cy='380' r='12' fill='#E040FB' class='ornament'></circle>
+
+    <path d='M80 300 L200 150 L320 300 Q200 340 80 300 Z' fill='#43A047' class='leaf'></path>
+    <circle cx='120' cy='280' r='10' fill='#40C4FF' class='ornament'></circle>
+    <circle cx='280' cy='260' r='10' fill='#FF5252' class='ornament'></circle>
+
+    <path d='M110 180 L200 60 L290 180 Q200 220 110 180 Z' fill='#66BB6A' class='leaf'></path>
+    <circle cx='180' cy='160' r='8' fill='#FFD740' class='ornament'></circle>
+    <circle cx='230' cy='140' r='8' fill='#E040FB' class='ornament'></circle>
+
+    <path
+      d='M200 20 L215 55 L255 55 L225 80 L235 115 L200 95 L165 115 L175 80 L145 55 L185 55 Z'
+      fill='#FFD700'
+      class='star'></path>
+  </svg>
+</div>
+
+<style>
+  .tree-wrapper {
+    position: relative;
+    width: 450px;
+    height: 600px;
+    margin: 0 auto;
+    cursor: pointer;
+    user-select: none;
+    transition: transform 0.1s;
+  }
+
+  /* 点击时的按压效果 */
+  .tree-wrapper:active {
+    transform: scale(0.95);
+  }
+
+  /* 星星旋转动画 */
+  .star {
+    transform-origin: 200px 70px;
+    animation: spin 12s linear infinite;
+    filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.8));
+  }
+
+  /* 装饰球闪烁 */
+  .ornament {
+    animation: twinkle 2s infinite alternate;
+  }
+  .ornament:nth-child(2n) {
+    animation-delay: 1s;
+  }
+
+  /* 树叶的轻微浮动 */
+  .leaf {
+    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.2));
+  }
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+  @keyframes twinkle {
+    0% {
+      filter: brightness(1);
+    }
+    100% {
+      filter: brightness(1.5) drop-shadow(0 0 5px white);
+    }
+  }
+</style>
+
+<script>
+  // 这里的逻辑只在客户端运行
+  const wrapper = document.getElementById('tree-wrapper')
+
+  // 圣诞豪华 Emoji 套餐
+  const emojis = [
+    '🎄',
+    '🎅',
+    '🎁',
+    '🦌',
+    '❄️',
+    '🔔',
+    '🍪',
+    '🕯️',
+    '⛄',
+    '🍬',
+    'Nkns',
+    '圣诞快乐',
+    'Merry',
+    'Christmas'
+  ]
+
+  if (wrapper) {
+    wrapper.addEventListener('click', (e) => {
+      // 获取点击坐标，或者直接从树中心喷射
+      const rect = wrapper.getBoundingClientRect()
+      const centerX = e.clientX - rect.left
+      const centerY = e.clientY - rect.top
+
+      // 一次爆 20 个
+      for (let i = 0; i < 10; i++) {
+        createParticle(centerX, centerY)
+      }
+    })
+  }
+
+  function createParticle(x: number, y: number) {
+    const particle = document.createElement('div')
+    const wrapper = document.getElementById('tree-wrapper')
+    if (!wrapper) return
+
+    // 随机选一个 Emoji
+    particle.innerText = emojis[Math.floor(Math.random() * emojis.length)]
+
+    // 初始样式
+    Object.assign(particle.style, {
+      position: 'absolute',
+      left: `${x}px`,
+      top: `${y}px`,
+      fontSize: `${1.5 + 1}rem`, // 大小随机
+      pointerEvents: 'none', // 不阻挡点击
+      userSelect: 'none',
+      zIndex: '100'
+    })
+
+    wrapper.appendChild(particle)
+
+    // 物理参数
+    // 角度：随机向四面八方，偏向上方一点 (-90度左右)
+    const angle = Math.random() * Math.PI * 2
+    // 速度
+    const velocity = Math.random() * 2 + 1
+    let vx = Math.cos(angle) * velocity
+    let vy = Math.sin(angle) * velocity - 2 // 初始向上冲力
+    let gravity = 0.3 // 重力
+    let opacity = 1
+
+    // 动画循环
+    function animate() {
+      // 应用物理
+      vy += gravity
+      const currentLeft = parseFloat(particle.style.left)
+      const currentTop = parseFloat(particle.style.top)
+
+      particle.style.left = `${currentLeft + vx}px`
+      particle.style.top = `${currentTop + vy}px`
+
+      // 慢慢消失
+      opacity -= 0.004
+      particle.style.opacity = opacity.toString()
+
+      // 稍微转一下
+      particle.style.transform = `rotate(${vy * 5}deg)`
+
+      if (opacity > 0 && currentTop < 600) {
+        // 没完全消失且没掉出界
+        requestAnimationFrame(animate)
+      } else {
+        particle.remove() // 垃圾回收
+      }
+    }
+
+    requestAnimationFrame(animate)
+  }
+</script>

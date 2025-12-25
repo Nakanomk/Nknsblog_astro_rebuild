@@ -1,0 +1,117 @@
+---
+// src/pages/christmas.astro
+import NeonTree from '../components/NeonTree.astro'
+import Snow from '../components/Snow.astro'
+---
+
+<!doctype html>
+<html lang='zh-CN'>
+  <head>
+    <meta charset='UTF-8' />
+    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+    <title>Merry Christmas | Nakanosan</title>
+    <style>
+      /* 强制重置页面样式，确保黑底 */
+      body,
+      html {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #050505; /* 极致深黑背景 */
+        color: #ffffff;
+        font-family: 'Courier New', Courier, monospace; /* 极客字体 */
+        overflow-x: hidden;
+      }
+
+      .container {
+        position: relative;
+        z-index: 10; /* 确保在雪花上面 */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        text-align: center;
+      }
+
+      h1 {
+        font-size: 3rem;
+        margin-bottom: 2rem;
+        text-shadow:
+          0 0 10px #00ffea,
+          0 0 20px #00ffd5; /* 红色霓虹光晕 */
+        animation: text-flicker 3s infinite alternate;
+      }
+
+      .code-block {
+        margin-top: 3rem;
+        text-align: left;
+        background: rgba(255, 255, 255, 0.05);
+        padding: 20px;
+        border-radius: 10px;
+        border: 1px solid #333;
+        box-shadow: 0 0 20px rgba(0, 255, 0, 0.1);
+      }
+
+      p {
+        margin: 5px 0;
+        color: #aaa;
+      }
+      .keyword {
+        color: #ff79c6;
+      }
+      .func {
+        color: #8be9fd;
+      }
+      .string {
+        color: #f1fa8c;
+      }
+      .comment {
+        color: #6272a4;
+      }
+
+      @keyframes text-flicker {
+        0%,
+        19%,
+        21%,
+        23%,
+        25%,
+        54%,
+        56%,
+        100% {
+          opacity: 1;
+          text-shadow:
+            0 0 10px #00fff2,
+            0 0 20px #00eeff;
+        }
+        20%,
+        24%,
+        55% {
+          opacity: 0.5;
+          text-shadow: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <Snow />
+
+    <div class='container'>
+      <h1>Merry Christmas! 🎄</h1>
+
+      <NeonTree />
+
+      <div class='code-block'>
+        <p class='comment'>// @author: Nakanosan</p>
+        <p class='comment'>// TODO: Buy gifts for myself</p>
+        <br />
+        <p><span class='keyword'>while</span> (isChristmas) &#123;</p>
+        <p>&nbsp;&nbsp;<span class='func'>eat</span>(<span class='string'>"goodFood"</span>);</p>
+        <p>&nbsp;&nbsp;<span class='func'>code</span>(<span class='string'>"coolStuff"</span>);</p>
+        <p>&nbsp;&nbsp;<span class='func'>sleep</span>(<span class='keyword'>null</span>);</p>
+        <p>&#125;</p>
+      </div>
+    </div>
+  </body>
+</html>
