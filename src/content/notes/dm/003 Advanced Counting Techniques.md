@@ -1,6 +1,7 @@
 ---
 title: 'Advanced Counting Techniques'
 description: 'Records About Recurrence Relations, Generating Functions, and Inclusion-Exclusion Principle'
+publishDate: 2025-10-02 14:23:53
 tags:
   - Code
   - Learn

@@ -1,6 +1,7 @@
 ---
 title: 'Chapter VIII'
 description: 'CSAPP NOTE CHAP VIII'
+publishDate: 2025-11-07 16:59:19
 order: 14
 ---
 

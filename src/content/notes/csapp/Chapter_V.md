@@ -1,6 +1,8 @@
 ---
 title: 'Chapter V'
 description: 'CSAPP NOTE CHAP V'
+publishDate: 2025-11-04 16:59:19
+
 order: 11
 ---
 

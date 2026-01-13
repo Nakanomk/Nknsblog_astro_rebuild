@@ -1,6 +1,7 @@
 ---
 title: 'Logic Inference & Proof Techniques'
 description: 'Records About Propositional & Predicate Logic Inference, Rules, and Proof Methods'
+publishDate: 2025-10-02 14:23:53
 tags:
   - Code
   - Learn

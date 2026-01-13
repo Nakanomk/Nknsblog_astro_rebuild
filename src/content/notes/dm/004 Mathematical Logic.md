@@ -1,6 +1,7 @@
 ---
 title: 'Mathematical Logic'
 description: 'Records About Mathematical Logic, Propositional Logic, Normal Forms'
+publishDate: 2025-10-02 14:23:53
 tags:
   - Code
   - Learn

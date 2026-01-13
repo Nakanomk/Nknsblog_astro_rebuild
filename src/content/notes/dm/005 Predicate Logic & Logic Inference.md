@@ -1,6 +1,7 @@
 ---
 title: 'Predicate Logic & Logic Inference'
 description: 'Records About Predicate Logic and Inference Rules'
+publishDate: 2025-10-02 14:23:53
 tags:
   - Code
   - Learn

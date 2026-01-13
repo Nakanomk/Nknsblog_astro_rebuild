@@ -1,6 +1,7 @@
 ---
 title: 'Overture of Discrete Mathmatics'
 description: 'Ode to the base'
+publishDate: 2025-10-02 14:23:51
 tags:
   - Code  - Learn
 language: '中文'

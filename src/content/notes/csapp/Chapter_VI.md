@@ -1,6 +1,7 @@
 ---
 title: 'Chapter VI'
 description: 'CSAPP NOTE CHAP VI'
+publishDate: 2025-11-05 16:59:19
 order: 12
 ---
 

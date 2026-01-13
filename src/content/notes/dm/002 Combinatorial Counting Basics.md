@@ -1,6 +1,7 @@
 ---
 title: 'Combinatorial Counting Basics'
 description: 'Records About Counting Rules, Pigeonhole Principle, Permutations, and Combinations'
+publishDate: 2025-10-02 14:23:53
 tags:
   - Code
   - Learn

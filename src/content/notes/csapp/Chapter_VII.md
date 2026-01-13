@@ -1,6 +1,7 @@
 ---
 title: 'Chapter VII'
 description: 'CSAPP NOTE CHAP VII'
+publishDate: 2025-11-06 16:59:19
 order: 13
 ---
 

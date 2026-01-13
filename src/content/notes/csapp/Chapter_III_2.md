@@ -1,6 +1,7 @@
 ---
 title: 'Chapter III-2'
 description: 'CSAPP NOTE CHAP III-2'
+publishDate: 2025-10-03 16:59:19
 order: 5
 ---
 
