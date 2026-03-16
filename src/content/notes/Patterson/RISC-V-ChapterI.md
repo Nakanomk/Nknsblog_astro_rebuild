@@ -1,3 +1,13 @@
+---
+title: 'Lesson 1'
+publishDate: 2026-03-16
+description: 'I want to build a kernel'
+tags:
+  - OS
+  - Learn
+language: '中文'
+heroImage: { src: '../../../public/covers/Wanlingce.jpg', color: '#edb9a2' }
+---
 # 计算机概要与技术
 
 决定速度的因素：**算法、编程语言、编译器、体系结构、处理器和存储系统、IO**
@@ -19,4 +29,3 @@
 存储器层次
 
 通过冗余提高可靠性
-
