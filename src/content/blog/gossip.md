@@ -17,14 +17,23 @@ heroImage: { src: '../../../public/covers/Sixianglu.jpg', color: '#c8a598' }
 ## 追悔莫及
 
 > I shall be telling this with a sigh
+>
 > 在多年以后，在某个地方，
+>
 > Somewhere ages and ages hence:
+>
 > 我将轻声叹息将往事回顾：
+>
 > Two roads diverged in a wood, and I—
+>
 > 林子里有两条路，我——
+>
 > I took the one less traveled by,
+>
 > 我选择了行人稀少的那条，
+>
 > And that has made all the difference.
+>
 > 它改变了我的一生。
 
 考完大物有一种怅然若失的感觉,也是那时才意识到这是我本科最后一门除了政治课之外和计算机无关的课。
