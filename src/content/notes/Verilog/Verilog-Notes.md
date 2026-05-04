@@ -1,6 +1,6 @@
 ---
 title: 'Verilog Notes'
-description: 'WTF I didn't learn anything!'
+description: WTF I didn't learn anything!
 publishDate: 2026-04-27 20:04:10
 tags:
   - Code
