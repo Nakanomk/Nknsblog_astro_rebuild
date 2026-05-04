@@ -1,32 +1,11 @@
 ---
 // src/pages/notes/NotesCards.astro
-import { type CollectionEntry } from 'astro:content'
-
 import { getBlogCollection } from 'astro-pure/server'
 import { cn } from 'astro-pure/utils'
+import { groupNotesByCategory, type NotesEntry } from './shared'
 
-const notesCollection = (await getBlogCollection('notes')) as CollectionEntry<'notes'>[]
-const notesByCate = notesCollection.reduce(
-  (acc: { [key: string]: typeof notesCollection }, doc) => {
-    const id = doc.id.split('/')[0]
-    if (!acc[id]) acc[id] = [] as typeof notesCollection
-    acc[id].push(doc)
-    return acc
-  },
-  {}
-)
-// const docCategories = {
-//   setup: 'Setup',
-//   integrations: 'Integrations',
-//   advanced: 'Advanced'
-// }
-const docCategories = {
-  dm: '离散数学',
-  ds: '数据结构',
-  csapp: 'CSAPP',
-  blog: '建站笔记',
-  ml: '机器学习'
-}
+const notesCollection = (await getBlogCollection('notes')) as NotesEntry[]
+const noteSections = groupNotesByCategory(notesCollection)
 
 type Props = {
   title?: boolean
@@ -40,21 +19,17 @@ const { title = true, class: className, ...props } = Astro.props
   {title && <h2 class='text-foreground font-semibold'>NOTES</h2>}
   <div class='mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
     {
-      Object.entries(docCategories).map(([id, title]: [string, string]) => (
+      noteSections.map(({ title, docs }) => (
         <div class='p-4 rounded-lg shadow-md transition-all duration-300 hover:shadow-lg'>
           <h3 class='text-lg font-semibold mb-2'>{title}</h3>
-          {/* 1. 给 <ul> 添加 'relative' 和 'notes-list-group' class */}
           <ul class='relative flex flex-col notes-list-group'>
-            {notesByCate[id]
-              .sort((a, b) => a.data.order - b.data.order)
-              .map((doc) => (
-                // 2. 移除 <li> 上的 'relative'，并调整左边距/填充
-                <li class='notes-item flex ms-2 ps-6 pe-3 py-1 text-foreground/75 transition-all rounded-2xl'>
-                  <a class='flex-1 hover:text-foreground' href={`/notes/${doc.id}`}>
-                    {doc.data.title}
-                  </a>
-                </li>
-              ))}
+            {docs.map((doc) => (
+              <li class='notes-item flex ms-2 ps-6 pe-3 py-1 text-foreground/75 transition-all rounded-2xl'>
+                <a class='flex-1 hover:text-foreground' href={`/notes/${doc.id}`}>
+                  {doc.data.title}
+                </a>
+              </li>
+            ))}
           </ul>
         </div>
       ))
