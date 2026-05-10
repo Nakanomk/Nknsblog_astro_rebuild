@@ -2,6 +2,7 @@
 // src/pages/notes/NotesCards.astro
 import { getBlogCollection } from 'astro-pure/server'
 import { cn } from 'astro-pure/utils'
+
 import { groupNotesByCategory, type NotesEntry } from './shared'
 
 const notesCollection = (await getBlogCollection('notes')) as NotesEntry[]
