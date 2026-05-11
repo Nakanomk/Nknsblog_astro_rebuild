@@ -27,7 +27,6 @@ Verilog HDL具有以下描述能力：设计的行为特性、设计的数据流
 - 开关级基本结构模型，例如 **pmos** **nmos** 等
 - 通过三种方式建模：行为描述、数据流描述、结构化描述
 - 有两种基本数据类型：线网类型 `wire` 和寄存器类型 `reg` 。线网类型表示物理连线，寄存器类型表示抽象数据存储原件
-- 剩下的没啥有用的话（）
 
 ## Chapter II HDL 指南
 
@@ -1170,4 +1169,252 @@ Clock = ~Clock;
 如果时延表达式的值为 x 或 z，那么它和 0 时延等效。如果时延表达式计算结果为负值，那么其二进制的补码值会被作为时延。
 
 #### 事件控制
+
+在事件控制中，always 的过程语句基于事件执行。有两种类型的事件控制方式：
+
+1. 边沿触发事件控制
+
+   边沿触发事件控制如下：
+
+   ```verilog
+   @event procedural_statement
+   ```
+
+   如下例所示：
+
+   ```verilog
+   @(posedge Clock) Curr_state = Next_state;
+   ```
+
+   带有事件控制的进程或者过程语句的执行，必须等到指定事件发生。上例中，如果 Clock 信号从低电平变为高电平，那么就执行赋值语句；否则进程被挂起，直到 Clock 信号产生下一个正跳边沿。
+
+   下面是进一步的实例：
+
+   ```verilog
+   @(negedge Reset) Count = 0;
+   @Cla Zoo = Foo;
+   ```
+
+   在第一条语句中，赋值语句只在 Reset 上的负沿执行。第二条语句中，当 Cla 上有时间发生时，Foo 的值被赋给 Zoo，即等待 Cla 上发生事件时，Foo 的值被赋给 Zoo。
+
+   也可以采用以下的形式：
+
+   ```verilog
+   @event;
+   ```
+
+   这个语句促发一个等待，直到指定的事件发生。下面是确定始终在周期的 initial 语句中使用的另一个例子。
+
+   ```verilog
+   time RiseEdge, OnDelay;
+   initial
+       begin
+           // 等待时钟发生正边沿
+           @(posedge ClockA);
+           RiseEdge = $time;
+           // 等待时钟发生负边沿
+           @(negedge ClockA);
+           OnDelay = $time - RiseEdge;
+           $display("The on-period of clock is %t." Delay);
+       end
+   ```
+
+   事件之间也能够相或以表明“如果有任何事件发生”。
+
+   ```verilog
+   @(posedge Clear or negedge Reset) Q = 0;
+   @(Ctrl_A or Ctrl_B) Dbus = 'bz;
+   ```
+
+   注意关键字 `or` 并不意味着在 1 个表达式中的逻辑或。
+
+   在 Verilog HDL 中 `posedge` 和 `negedge` 是表示正沿和负沿的关键字。信号的负沿是下属转换的一种：
+
+   ```
+   1 -> x
+   1 -> z
+   1 -> 0
+   x -> 0
+   z -> 0
+   ```
+
+   正沿是下述转换的一种：
+
+   ```verilog
+   0 -> x
+   0 -> z
+   0 -> 1
+   x -> 1
+   z -> 1
+   ```
+
+   *综合来说就是信号优先级从低到高是 0 x/z 1，从低到高变化是正沿，从高到低是负沿。*
+
+2. 电平敏感事件控制
+
+   在电平敏感时间控制中，进程语句或进程中的过程语句一直延迟到条件变为真后才执行。电平敏感时间控制形式如下：
+
+   ```verilog
+   wait (Condition) procedural_statement
+   ```
+
+   过程语句只有在条件为真时才执行，否则过程语句一直等待到条件为真。这里的过程语句是*可选的*。
+
+   ```verilog
+   wait (Sum > 22) Sum = 0;
+   wait (DataReady) Data = Bus;
+   wait (Preset);
+   ```
+
+   在第一条语句中，只有当 Sum 的值大于 22 时，才对 Sum 清 0。在第二条语句中，只有当 DataReady 为真，才将 Bus 赋给 Data。最后一条语句表示延迟至 Preset 变为真（1）时，后面的语句才可以继续执行。
+
+### 语句块
+
+语句块将两条或更多条语句组合成语法结构上相当于一条语句的机制。在 Verilog HDL 中有两类语句块。即：
+
+1. 顺序语句块 begin-end：语句块中的语句按给定次序**顺序**执行。
+2. 并行语句块 fork-join：语句块中的语句**并行**执行。
+
+语句块中的标识符是*可选*的。如果有标识符，寄存器变量可以在语句块内部声明。带标识符的语句块可以被引用。语句块可使用禁止语句来禁止执行。此外，语句块标识提供唯一表示寄存器的一种方式。但是，要注意所有的寄存器都是静态的，即他们的值在整个模拟运行中不变。
+
+#### 顺序语句块
+
+顺序语句块中的语句按顺序方式执行。每条语句的时延都和前面语句执行的模拟时间相关。一旦顺序语句块执行结束，下一条语句就执行。语法如下：
+
+```verilog
+begin
+    {:block_id{declarations}}
+    procedural_statement(s)
+end
+// eg.
+begin
+    #2 Stream = 1;
+    #5 Stream = 0;
+    #3 Stream = 1;
+    #4 Stream = 0;
+    #2 Stream = 1;
+    #5 Stream = 0;
+end
+```
+
+假定顺序语句块在第 10 个时间单位开始执行。两个时间单位后第 1 调语句执行，即第 12 个时间单位。此执行完成后，下 1 条语句在第 17 个时间单位执行（延迟 5 个时间单位）。然后下一条语句在第 20 个时间单位执行。以此类推。该顺序语句块执行过程中产生的波形如下图所示。
+
+![image-20260511001808623](https://img.nkns.cc/2026/05/6c6b1b6ca89bdfce0bb634a71800bdc0.png)
+
+下面是顺序过程的另一个实例。
+
+```verilog
+begin
+    Pat = Mask | Mat;
+    @(negedge Clk);
+    FF = &Pat
+end
+```
+
+在这个例子中，第一条语句首先执行，然后执行第二条。根据前面说的，这个语句在 Clk 上出现负沿才执行，之后继续执行。
+
+```verilog
+begin: SEQ_BLK
+    reg[0:3] Sat;
+    
+    Sat = Mask & Data;
+    F = ^Sat;
+end
+```
+
+在这个实例中，顺序语句块带有标记 `SEQ_BLK` 并且有一个局部寄存器说明。在执行时，首先执行第一条语句，然后顺序执行。
+
+#### 并行语句块
+
+带有定界符 fork-join，各个语句并行执行。每一条语句指定的时延值都与语句开始执行的时间相关。当并行语句块中最后的动作执行完成时，顺序语句块的语句继续执行。
+
+**简单来说**，*并行语句块内的所有语句都不许在控制转出语句块之前完成执行。*
+
+```verilog
+fork
+    {:block_id{declarations}}
+    procedural_statement(s);
+join
+// eg.
+fork
+    #2 Stream = 1;
+    #7 Stream = 0;
+    #10 Stream = 1;
+    #14 Stream = 0;
+    #16 Stream = 1;
+    #21 Stream = 0;
+join
+```
+
+如果并行语句块在第 10 个时间单位开始执行，所有的语句并行执行并且所有的时延都是相对于时刻 10 的。如下图：
+
+![image-20260511010053802](https://img.nkns.cc/2026/05/a6a86dc4cc8820d54802d471d68396a9.png)
+
+下面的例子混合使用了顺序语句和并行语句块。
+
+```verilog
+always
+    begin: SEQ_A
+        #4 Dry = 5;
+        
+        fork: PAR_A
+            #6 Cun = 7;
+            begin: SEQ_B
+                EXE = Box;
+                #5 Jap = Exe;
+            end
+            
+            #2 Dop = 3;
+            #4 Gos = 2;
+            #8 Pas = 4;
+        join
+        #8 Bax = 1;
+        #2 Zoom = 52;
+        #6 $stop;
+    end
+```
+
+always 语句中包含顺序语句块 SEQ_A，并且顺序语句块内的所有语句顺序执行。后面的 fork-join 执行全部结束后再接回顺序块执行。这里面 SEQ_B 的地位相当于 fork-join 的一个语句。
+
+![image-20260511144124170](https://img.nkns.cc/2026/05/a084ecb55691ca2afb51e5adccc99c5b.png)
+
+### 过程性赋值
+
+过程性赋值实在 intiial 语句或者 always 语句内的赋值。它只能对**寄存器类型**的变量赋值。表达式的右端可以是任何表达式。
+
+```verilog
+reg[1:4] Enable, A, B;
+...
+#5 Enable = ~A ^ ~B;
+```
+
+Enable 是寄存器。根据时延控制，赋值语句被延迟 5 个时间单位执行。右端表达式被计算，并且赋值给 Enable
+
+过程性赋值与其周围的语句顺序执行。always 语句实例如下：
+
+```verilog
+always
+    @(A or B or C or D)
+    begin: AOI
+        reg Temp1, Temp2;
+        Temp1 = A & B;
+        Temp2 = C & D;
+        Temp1 = Temp1 | Temp2;
+        Z = ~Temp1;
+    end
+// 上面的语句可以被一条语句代替：
+// Z = ~((A & B) | (C & D));
+// 但是这里是为了说明顺序特性，特意写成这样
+```
+
+always 语句内的顺序过程在信号 A / B / C / D 发生变化时开始执行。 Temp1 的赋值首先执行，然后执行第二个赋值。在以前赋值中计算的 Temp1 和 Temp2 的值在第三条赋值语句中使用。最后一个语句使用的是第三条语句里面的 Temp1 的值。
+
+过程性赋值分两类：
+
+1. 阻塞性过程赋值
+2. 非阻塞性过程赋值
+
+在讨论之前先聊聊语句内部时延。
+
+#### 语句内部时延
 
