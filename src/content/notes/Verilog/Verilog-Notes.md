@@ -1890,3 +1890,179 @@ for(initial_assignment; condition; step_assignment)
 
 一个 for 循环语句按照指定的次数重复执行过程赋值语句若干次。初始赋值 initial_assignment 给出循环变量的初始值。condition 条件表达式指定循环在什么情况下必须结束。只要条件为真，循环中的语句就执行。step_assignment里面一般是 `i += 1` 之类的这种控制循环变量的语句。
 
+```verilog
+integer K;
+
+for(K = 0; K < MAX_RANGE; K = K + 1)
+    begin
+        if (Abus[K] == 0)
+            Abus[K] = 1;
+        else if (Abus[K] == 1)
+            Abus[K] = 0;
+        else $display("Abus[K] is an x or a z");
+    end
+```
+
+### 过程性连续赋值
+
+是过程性赋值的一类，即它不能在 always 或 initial 语句中出现。这种赋值语句能够替换其他所有对线网或寄存器的赋值。它允许赋值中的表达式被连续驱动到寄存器或线网当中。
+
+**这不是一个连续赋值。**
+
+过程性连续赋值有两种类型：
+
+1. 赋值和重新赋值过程语句：它们对寄存器进行赋值。
+2. 强制和释放过程性赋值语句：虽然他们也可以对 `reg` 进行赋值，但是主要用于对线网赋值。
+
+赋值和强制语句在如下意义上是“连续”的：当赋值或强制发生效用时，右端表达式中操作数的任何变化都会引起赋值语句重新执行。
+
+**过程性连续赋值的目标不能是寄存器部分选择或位选择。**
+
+#### 赋值—取消赋值
+
+一个赋值过程语句包含所有对寄存器的过程性赋值，取消赋值过程语句中止对寄存器的连续赋值。寄存器中的值被保留到其被取消赋值为止。
+
+```verilog
+module DEF(D, Clr, Clk, Q);
+    input D, Clr, Clk;
+    output Q;
+    reg Q;
+    
+    always
+        @(Clr) begin
+            if(!Clr)
+                assign Q = 0;	// D 对 Q 无效
+            else
+                deassign Q;
+        end
+    always
+        @(negedge Clk) Q = D;
+endmodule
+```
+
+> 如果 Clr 为 0，assign 赋值语句使 Q 清 0，而不管时钟边沿的变化情形，即 Clk 和 D 对 Q 无效。如果 Clr 变为 1，取消赋值语句被执行；这就使得强制复制方式被取消，以后 Clk 能够对 Q 产生影响。
+
+简单地说，就是过程性连续赋值语句生效之后不管怎么样值都不变了，直到对应的 deassign 生效。这段翻译得太烂了，我放到上面引用块了。
+
+如果赋值应用于一个已经被赋值的寄存器，assign 赋值在进行新的过程性连续赋值前取消了原来的赋值。
+
+```verilog
+reg[3:0] Pest;
+...
+Pest = 0;
+...
+assign Pest = Hty ^ Mtu;
+...
+assign Pest = 2;	// 将对 Pest 重新赋值
+...
+deassign Pest;	// Pest 持续保持为 2
+...
+assign Pest[2] = 1;	// ERROR: 过程性连续赋值不能对寄存器进行位选择
+```
+
+赋值语句在如下意义上是连续的：在第一个赋值执行后，第二个赋值开始执行前，Hty 或 Mtu 上的任何1变化将促使第一个赋值语句被重新计算。
+
+#### force 与 release
+
+force 和 release 过程语句和 assign 和 deassign 非常相似，不同的是 force 和 release 过程语句不仅能够应用于寄存器，也能够应用于线网的赋值。
+
+当 force 语句应用于寄存器时，寄存器的当前值被 force 语句的值覆盖。当 release 语句应用于寄存器时，寄存器中的当前值保持不变，除非过程性连续赋值已经生效。这种情况下，连续赋值为寄存器建立新值。
+
+当用 force 过程对线网进行赋值时，该赋值方式为线网替换所有驱动源，直到在那个线网上执行 release 语句为止。
+
+```verilog
+wire Prt;
+...
+or #1 (Prt, Std, Dzx);
+initial
+    begin
+        force Prt = Dzx & Std;
+        #5;
+        release Prt;
+    end
+```
+
+执行 force 语句使 Prt 的值覆盖来源于或门原语的值，直到 release 语句被执行，然后或门原语的 Prt 驱动重新生效。尽管 force 赋值有效，Dzx 和 Std 上的任何变化都促使赋值重新执行。
+
+```verilog
+reg[2:0] Colt;
+...
+Colt = 2;
+force Colt = 1;
+...
+release Colt;	// Colt 保持为 1
+...
+assign Colt = 5;
+...
+force Colt = 3;
+...
+release Colt;	// 上面的 assign 生效，Colt 变为 5
+...
+force Colt[1:0] = 3;
+```
+
+Colt 的第一次释放促使 Colt 的值被保持为 1。这是因为在 force 语句被应用时没有过程性连续赋值对寄存器赋值。在后面的 release 语句中，Colt 因为过程性连续赋值在 Colt 上重新生效而重新获得值 5。
+
+### 握手协议实例
+
+always 语句可用于描述交互进程的行为，如有限状态机的交互。这些模块内的语句用对所有 always 语句可见的寄存器来相互通信。在 always 语句间使用在一个 always 语句内声明的寄存器变量传递信息并不可取（可以使用层次路径名实现）。
+
+考虑下面两个交互进程的实例：RX 接收器和 MP 微处理器，RX 进程读取串行的输入数据，并发送 Ready 信号表明数据可被读入 MP 进程。MP 进程在将数据分配给输出后，回送一个接受信号 Ack 到 RX 进程以读取新的输入数据。两个进程的语句块流程如下图所示：
+
+![image-20260512145840194](https://img.nkns.cc/2026/05/8f31692f3f49a3b4c614ebbaf049a399.png)
+
+这两个交互进程的行为可以用下述行为模型加以描述：
+
+```verilog
+`timescale 1ns / 100ps
+module Interacting (Serial_In, Clk, Parallel_Out)
+    input Serial_In, Clk;
+    output reg [0:7] Parallel_Out;
+    
+    reg Ready, Ack;
+    wire [0:7] Data;
+    
+    `include "Read_Word.v"	// Read_Word 任务在这里被定义
+    always
+        begin: RX
+            /* 任务 Read_Word 
+            在每个失踪周期读取串行数据，将其转换为并行数据并存于 Data 中
+            Read_Word 完成上述任务需要 10 ns*/
+            Read_Word(Serial_In, Clk, Data);
+            Ready = 1;
+            wait(Ack);
+            Ready = 0;
+            #40;
+        end
+    always
+        begin: MP
+            Parallel_Out = Data;
+            Ack = 1;
+            #25 Ack = 0;
+            wait(Ready);
+        end
+endmodule
+```
+
+下面是这个程序的波形：
+
+![image-20260512152259631](https://img.nkns.cc/2026/05/4d2410f8a0acf63b6000d2347807a0b4.png)
+
+**上面这张图是完全错误的！请你自行推导吧。**
+
+## Chapter IX 结构建模
+
+### 模块
+
+Verilog HDL 中，基本单元定义成模块形式
+
+```verilog
+module module_name(port_list);
+    Declarations_and_Statements
+endmodule
+```
+
+端口队列 port_list 列出了该模块通过哪些端口和外部模块通信。
+
+### 端口
+
