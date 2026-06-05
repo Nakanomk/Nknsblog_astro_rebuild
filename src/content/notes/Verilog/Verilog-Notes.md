@@ -2066,3 +2066,376 @@ endmodule
 
 ### 端口
 
+模块的端口可以是输入端口、输出端口或双向端口。缺省的端口类型为线网类型（即 wire 类型）。但是，端口可以被显式地指定为线网。输入和输出端口可以被声明为 reg 型寄存器。无论是什么说明，线网或寄存器必须与端口说明中指定的长度相同。
+
+> 这个教材是 1995 年以前的 Verilog 标准，现在你可以用类似 `output reg [0:7] DBus` 这样的声明，而不需要说明 output 然后再说明它是 reg 。
+>
+> 但是这个教材主要是想讲这个老标准，我会在符合教学意图的地方使用老格式，你可以注意到在前面的其他地方我已经在改写成新格式了。
+>
+> ——nkns1114
+
+```verilog
+module Micro(PC, Instr, NextAddr);
+    input [3:1] PC;
+    output [16:1] Instr;
+    inout [16:1] NextAddr;
+    
+    wire [16:1] NextAddr;	// 这个说明是可选的，因为默认是 wire，但是如果你说明了就必须保证位数相同
+    reg [1:8] Instr;	// 现在它能在 always 或 initial 里面赋值
+    ...
+endmodule
+```
+
+### 模块实例语句
+
+一个模块能够在另外一个模块中引用，这样就建立了描述的**层次**。模块实例的形式如下：
+
+```verilog
+module_name instance_name(port_associations);
+```
+
+信号端口可以通过位置或名称关联，但是关联方式不能够混合使用。端口关联形式如下：
+
+```verilog
+port_expr				// By Position
+.PortName(port_expr)	// By Name
+```
+
+port_expr 可以是以下的任何类型：
+
+1. 标识符 reg 或 net
+2. 位选择
+3. 部分选择
+4. 上述类型的合并
+5. 表达式（只适用于输入端口）
+
+在位置关联中，端口表达式按指定的顺序与模块中的端口关联。
+
+在通过名称实现的关联中，模块端口和端口表达式的关联被显式地指定，因此端口的关联顺序并不重要。
+
+下面是使用两个半加器模块构造的全加器
+
+```verilog
+module HA(A, B, S, C);
+    input A, B;
+    output S, C;
+    parameter AND_DELAY = 1, XOR_DELAY = 2;
+    
+    assign #XOR_DELAY S = A ^ B;
+    assign #AND_DELAY C = A & B;
+endmodule
+
+module FA(P, Q, Cin, Sum, Cout);
+    input P, Q, Cin;
+    output Sum, Cout;
+    parameter OR_DELAY = 1;
+    wire S1, C1, C2;
+    
+    HA h1(P, Q, S1, C1);	// 通过位置关联
+    HA h2(.A(Cin), .S(Sum), .B(S1), .C(C2));	// 通过端口与信号的名字关联
+    
+    or #OR_DELAY O1(Cout, C1, C2);
+endmodule
+```
+
+![image-20260512171559156](https://img.nkns.cc/2026/05/2a32959dd639828fd4512da9a00927dd.png)
+
+在第一个模块实例语句中，HA 是模块的名字，h1 是实例名称，并且端口按位置关联，即信号 P 与模块 HA 的端口 A 连接，信号 Q 与端口 B 连接，S1 与 S 连接，C1 与模块端口 C 连接。在第二个实例中，端口按名称关联，即模块 HA 和端口表达式之间的连接是显式定义的。
+
+下例是使用不同端口表达式形式的模块实例语句。
+
+```verilog
+Micro M1 (UdIn[3:0], {WrN, RdN}, Status[0], Status[1], & UdOut[0:7], TxData);
+```
+
+这个实例语句表示端口表达式可以使标识符（ TxData ）、位选择（Status[0]）、部分位选择（UdIn[3:0]）、合并（{WrN, RdN}）或者一个表达式（ &UdOut[0:7]）
+
+**表达式只能连接到输入端口。**
+
+#### 悬空端口
+
+在实例语句中，悬空端口可以通过讲端口表达式表示为空白来指定悬空端口
+
+```verilog
+DFF d1(.Q(QS), .Qbar(), .Data(D), .Preset(), .Clock(CK));
+DFF d2(QS, , D, , CK);
+```
+
+在这两个实例语句中，端口 Qbar 和 Preset 悬空。
+
+模块的输入端悬空，**值为高阻态 z**。模块的输出端口悬空，表示该输出端口废弃不用。
+
+#### 不同的端口长度
+
+当端口和局部端口表达式的长度不同时，端口通过无符号数的右对齐或截断方式进行匹配。
+
+```verilog
+module Child(Pba, Ppy);
+    input [5:0] Pba;
+    output [2:0] Ppy;
+    ...
+endmodule
+
+module Top;
+    wire [1:2] Bdl;
+    wire [2:6] Mpr;
+    
+    Child C1 (Bdl, Mpr);
+endmodule
+```
+
+在对 Child 模块的实例中，Bdl[2] 连接到 Pba[0]，Bdl[1] 连接到 Pba[1]，余下的输入端口 Pba[5] 到 Pba[3] 全部悬空，因此为高阻态 z。相似地，Mpr[6] -> Ppy[0]，Mpr[5] -> Ppy[1]......
+
+![image-20260512190506296](https://img.nkns.cc/2026/05/2169f4e887d53138537ab6016549462a.png)
+
+#### 模块参数值
+
+当某个模块在另一个模块内被饮用时，高层模块能够改变低层模块的参数值。模块参数值的改变可以采用下述两种方式：
+
+1. 参数定义语句
+
+   参数定义语句形式如下：
+
+   ```verilog
+   defparam hier_path_name1 = value1,
+   hier_path_name2 = value2, ...;
+   ```
+
+   较低层模块中的层次路径名参数可以使用如下语句显式定义：（FA 半加器和 HA 全加器 已经在前面描述过）
+
+   ```verilog
+   module TOP (NewA, NewB, NewS, NewC);
+       input NewA, NewB;
+       output NewS, NewC;
+       defparam Ha1.XOR_DELAY = 5,
+       	Ha1.AND_DELAY = 2;
+       HA Ha1(NewA, NewB, NewS, NewC);
+   endmodule
+   
+   module TOP2 (NewP, NewQ, NewCin, NewSum, NewCout);
+       input NewP, NewQ, NewCin;
+       output NewSum, NewCount;
+       defparam Fa1.h1.XOR_DELAY = 2,
+       		 Fa1.h1.AND_DELAY = 3,
+       		 Fa1.OR_DELAY = 3;
+       FA Fa1 (NewP, NewQ, NewCin, NewSum, NewCout);
+   endmodule
+   ```
+
+2. 带参数值的模块引用
+
+   在这种方法中，模块实例语句本身包含新的参数值。下面的例子也出现过，本例中采用带参数的模块引用方式。
+
+   ```verilog
+   module TOP3(NewA, NewB, NewS, NewC);
+       input NewA, NewB;
+       output NewS, NewC;
+       
+       HA #(5, 2) Ha1(NewA, NewB, NewS, NewC);
+   endmodule
+   
+   module TOP4(NewP, NewQ, NewCin, NewCout);
+       input NewP, NewQ, NewCin;
+       output NewSum, NewCout;
+       defparam Fa1.h1.XOR_DELAY = 2,
+       		 Fa1.h1.AND_DELAY = 3;
+       FA #(3) Fa1(NewP, NewQ, NewCin, NewCout);
+   endmodule
+   ```
+
+   模块实例语句中参数值的顺序必须与较底层背阴用的模块中说明的参数匹配。在模块 Top3 中，AND_DELAY 已被设置为 5，XOR_DELAY 被设置为 2。
+
+   模块 TOP3 和 TOP4 说明了带参数的模块引用只能用于将参数值像下传递一个层次，但是参数定义语句能够用于替换层次中的任意一层参数值。
+
+   应该注意到：在带参数的模块引用中，参数的指定方式与门级实例语句中时延的定义方式相似，但由于对复杂模块的饮用时，其实例语句不能像对门实例语句那样指定时延，故此处不会导致混淆。
+
+   参数值还可以表示长度。下面是通用的 M * N 乘法器建模的实例。
+
+   ```verilog
+   module Multiplier(Opd_1, Opd_2, Result);
+       parameter EM = 4, EN = 2;
+       input [EM:1] Opd_1;
+       input [EN:1] Opd_2;
+       output [EM + EN: 1] Result;
+       
+       assign Result = Opd_1 * Opd_2;
+   endmodule
+   ```
+
+   这个带参数的乘法器可以在另一个设计中使用，下面是一个 8 * 6 乘法器模块的带参数引用方式：
+
+   ```verilog
+   wire [1:8] Pipe_Reg;
+   wire [1:6] Dbus;
+   wire [1:14] Addr_Counter;
+   ...
+   Multiplier #(8, 6) M1(Pipe_Reg, Dbus, Addr_Counter);
+   ```
+
+   第一个值 8 指定了参数 EM 的新值，第二个值 6 指定了参数 EN 的新值。
+
+### 外部端口
+
+在迄今为止捡到的模块定义中，端口表列举除了模块外部可见的端口。例如：
+
+```verilog
+module Scram_A(Arb, Ctrl, Mem_Blk, Byte);
+    input [0:3] Arb;
+    input Ctrl;
+    input [8:0] Mem_Blk;
+    output [0:3] Byte;
+    ...
+endmodule
+```
+
+Arb / Ctrl / Mem_Blk / Byte 为模块端口，这些端口同时也是外部端口。在实例中，当采用名称关联方式是，外部端口名称用于指定相互连接。下面是模块 Scram_A 的实例。
+
+```verilog
+.external_port_name(internal_port_name)
+```
+
+下面是同一个例子，只不过是显式地指定外部端口
+
+```verilog
+module Scram_B(.Data(Arb), .Control(Ctrl), .Mem_Word(Mem_blk), .Addr(Byte));
+    input [0:3] Arb;
+    input Ctrl;
+    input [8:0] Mem_Blk;
+    output [0:3] Byte;
+    ...
+endmodule
+```
+
+模块 Scram_B 在此实例中指定的外部端口是 Data / Control / Mem_Word / Addr。端口表显式地表明了外部端口和内部端口之间的连接，注意外部短裤无须声明，但是模块的内部端口却必须声明。外部端口在模块内不可见，但是却要在模块实例语句中使用，而内部端口因为在模块中可见，所以必须在模块中说明。在模块实例语句中，外部端口的使用如下所示：
+
+```verilog
+Scram_B S1(.Data(D1), .Control(C1), .Mem_Word(M1), .Addr(A1))
+```
+
+在模块定义的端口表中，这两种概念不能混淆，即在模块定义中所有端口必须指定显示的端口名称，或者没有一个端口带有显式的端口名称。
+
+如果模块端口通过位置连接，则模块实例中不能使用外部端口名称。
+
+内部端口名称可以是标识符，也可以是下述类型的表达式：
+
+- 位选择
+- 部分选择
+- 位选择、部分选择和标识符的合并
+
+```verilog
+module Scram_C(Arb[0:2], Ctrl, Mem_Blk[0], Mem_Blk[1], Byte[3]);
+    input [0:3] Arb;
+    input Ctrl;
+    input [8:0] Mem_Blk;
+    output [0:3] Byte;
+    ...
+endmodule
+```
+
+在 Scram_C 的模块定义中，端口通过位置关联像连接，因此 L1[4:6] 连接到 Arb[0:2]，CL 连接到 Ctrl，MMY[1] 连接岛 Mem_Blk[0]，MMY[0] 连接到 Mem_Blk[1]，BT 连接到 Byte[3]。
+
+若使用端口名称关联，必须对模块中的端口指定外部端口名。如下面的 Scram_D 模块
+
+```verilog
+module Scram_D(.Data(Arb[0:2]), .Control(Ctrl), .Mem_Word({Mem_Blk[0], Mem_Blk[1]}), .Addr(Byte[3]));
+    input [0:3] Arb;
+    input Ctrl;
+    input [8:0] Mem_Blk;
+    output [0:3] Byte;
+    ...
+endmodule
+```
+
+在 Scram_D 模块实例中，端口既能通过位置连接，也能够使用名称连接，但是不能混合使用。下面的实例通过名称连接：
+
+```verilog
+Scram_D SZ(.Data(L1[4:6]), .Control(CL), .Mem_Word(MMY[1:0]), .Addr(BT));
+```
+
+模块中可以只有外部端口而没有内部端口，即模块在引用中外部端口可以悬空，不与内部端口进行连接。
+
+```verilog
+module Scram_E(.Data(), .Control(Ctrl), .Mem_Word({Mem_Blk[0], Mem_Blk[1]}), .Addr());
+    input Ctrl;
+    input [8:0] Mem_Blk;
+    ...
+endmodule
+```
+
+模块 Scram_E 有两个外部端口 Data 和 Addr，这两个端口在使用时被悬空。
+
+一个内部端口是否能与多个外部端口相连？Verilog HDL 允许这样连接。
+
+```verilog
+module FanOut(.A(CtrlIn), .B(CondOut), .C(CondOut));
+    input CtrlIn;
+    output CondOut;
+    
+    assign CondOut = CtrlIn;
+endmodule
+```
+
+内部端口 CondOut 与两个外部端口 B 和 C 连接，所以 CondOut 的值在 B 和 C 上都出现。
+
+### 举例
+
+下例采用结构模型描述十进制计数器。
+
+```verilog
+module Decade_Ctr(Clock, Z);
+    input Clock;
+    output [0:3] Z;
+    wire S1, S2;
+    
+    and A1(S1, Z[2], Z[1]);
+    
+    JK_FF
+    JK1(.J(1'b1), .K(1'b1), .CK(CLock), .Q(Z[0]), .NQ()),
+    JK2(.J(S2), .K(1'b1), .CK(Z[0]), .Q(Z[1]), .NQ()),
+    JK3(.J(1'b1), .K(1'b1), .CK(Z[1]), .Q(Z[2]), .NQ()),
+    JK4(.J(S1), .K(1'b1), .CK(Z[0]), .Q(Z[3]), .NQ(S2));
+endmodule
+```
+
+注意常数作为输入端口信号的用法，以及悬空端口。
+
+![image-20260512203124281](https://img.nkns.cc/2026/05/b4f1c0599fdda369fb0c445969432259.png)
+
+下面是一个 3 位可逆计数器的例子：
+
+```verilog
+module Up_Down(Clk, Cnt_Up, Cnt_Down, Q);
+    input Clk, Cnt_Up, Cnt_Down;
+    output [0:2] Q;
+    
+    wire [1:8] S;
+    
+    JK_FF
+    JK1(1'b1, 1'b1, Clk, Q[0], S[1]),
+    JK2(1'b1, 1'b1, S[4], Q[1], S[5]),
+    JK3(1'b1, 1'b1, S[8], Q[2], );
+    
+    and
+    A1(S[2], Cnt_Up, Q[0]),
+    A2(S[3], S[1], Cnt_Down),
+    A3(S[7], Q[1], Cnt_Up),
+    A4(S[6], S[5], Cnt_Down);
+    
+    or
+    O1(S[4], S[2], S[3]),
+    O2(S[8], S[7], S[6]);
+endmodule
+```
+
+![image-20260512203628345](https://img.nkns.cc/2026/05/1d021f7a6e774929387fd982b1f8c932.png)
+
+> 从现代 FPGA/ASIC 工程开发的视角来看，这种“把逻辑信号当作时钟用”（Gated Clock / Ripple Clock）的设计会带来严重的毛刺和时序分析问题，实际工程中早已不再使用。现代 Verilog 都会采用行为级建模（`always @(posedge Clk)` 里面写 `if(Cnt_Up) Q <= Q + 1`），以保证纯粹的同步电路设计。
+
+## Chapter X 其他论题
+
+### 任务
+
+#### 任务定义
+
+任务定义的形式如下：
+
