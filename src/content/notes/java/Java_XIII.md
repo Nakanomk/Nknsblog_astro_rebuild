@@ -593,7 +593,7 @@ public class Rational extends Number implements Comparable<Rational> {
 
 一个类应该使用 private 修饰符隐藏它的数据。只有在应该的情况下，才能向外界开放访问权限。
 
-#### 清晰性
+#### xxxxxxxxxx import java.util.concurrent.*;​public class ParallelMax {    public static void main(String[] args) {        int[] list = new int[9000000];        // 填充 list...                RecursiveTask<Integer> task = new MaxTask(list, 0, list.length);        ForkJoinPool pool = new ForkJoinPool();        int max = pool.invoke(task); // 执行并获取结果    }        private static class MaxTask extends RecursiveTask<Integer> {        private final static int THRESHOLD = 1000;        private int[] list;        private int low;        private int high;                public MaxTask(int[] list, int low, int high) {            this.list = list; this.low = low; this.high = high;        }                @Override        protected Integer compute() {            if (high - low < THRESHOLD) {                // 规模较小，顺序查出最大值并返回                int max = list[low];                for (int i = low + 1; i < high; i++)                     if (list[i] > max) max = list[i];                return max;            } else {                // 分割子问题                int mid = (low + high) / 2;                RecursiveTask<Integer> left = new MaxTask(list, low, mid);                RecursiveTask<Integer> right = new MaxTask(list, mid, high);                                right.fork(); // 放入池中并发执行                left.fork();                                // 合并结果                return Math.max(left.join(), right.join());            }        }    }}java
 
 类应该允许用户按任何顺序和任何组合来设置值。应该在不混淆的情况下进行直观定义。不应该声明一个可以从其他数据域推导出来的数据域。
 

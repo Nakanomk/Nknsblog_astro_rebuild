@@ -542,7 +542,7 @@ public class TestMethodOverloading {
 
 ### 作用域
 
-x import java.util.concurrent.*;​public class ParallelMax {    public static void main(String[] args) {        int[] list = new int[9000000];        // 填充 list...                RecursiveTask<Integer> task = new MaxTask(list, 0, list.length);        ForkJoinPool pool = new ForkJoinPool();        int max = pool.invoke(task); // 执行并获取结果    }        private static class MaxTask extends RecursiveTask<Integer> {        private final static int THRESHOLD = 1000;        private int[] list;        private int low;        private int high;                public MaxTask(int[] list, int low, int high) {            this.list = list; this.low = low; this.high = high;        }                @Override        protected Integer compute() {            if (high - low < THRESHOLD) {                // 规模较小，顺序查出最大值并返回                int max = list[low];                for (int i = low + 1; i < high; i++)                     if (list[i] > max) max = list[i];                return max;            } else {                // 分割子问题                int mid = (low + high) / 2;                RecursiveTask<Integer> left = new MaxTask(list, low, mid);                RecursiveTask<Integer> right = new MaxTask(list, mid, high);                                right.fork(); // 放入池中并发执行                left.fork();                                // 合并结果                return Math.max(left.join(), right.join());            }        }    }}java
+同大多数语言。但是值得注意的是对象并不是离开了创建它的引用变量的作用域就消失了，只要还有一个引用变量在引用那个对象，它就不会消失。
 
 ### 示例：生成随机字符
 
