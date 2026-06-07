@@ -1,5 +1,5 @@
 ---
-title: 'Mathematical Logic'
+title: 'DM Mathematical Logic'
 description: 'Records About Mathematical Logic, Propositional Logic, Normal Forms'
 publishDate: 2025-10-02 14:23:53
 tags:
@@ -9,7 +9,6 @@ language: '中文'
 heroImage: { src: '../../../public/covers/Wanlingce.jpg', color: '#edb9a2' }
 order: 4
 ---
-
 # Part 4 数理逻辑
 
 ## 命题 (Propositions)
@@ -21,8 +20,8 @@ order: 4
 
 ### 命题的分类
 
-1.  **原子命题 (简单命题)**：不能再分解为更为简单命题的命题。
-2.  **复合命题**：可以分解为更为简单命题的命题。通过关联词（如“或者”、“并且”、“如果...则...”）复合而成。
+1. **原子命题 (简单命题)**：不能再分解为更为简单命题的命题。
+2. **复合命题**：可以分解为更为简单命题的命题。通过关联词（如“或者”、“并且”、“如果...则...”）复合而成。
 
 ### 例子
 
@@ -69,6 +68,7 @@ $$
 ### 4. 蕴涵 (Implication)
 
 设 $P, Q$ 是任两个命题，复合命题“如果 $P$，则 $Q$”称为 $P$ 与 $Q$ 的蕴涵式，记作 $P \rightarrow Q$。
+
 - $P$ 称为前件，$Q$ 称为后件。
 
 $$
@@ -77,6 +77,7 @@ $$
 
 **善意推定**：当前件 $P$ 为假时，不管 $Q$ 真假如何，则 $P \rightarrow Q$ 都为真。
 **自然语言对应**：
+
 - “只要 $P$ 就 $Q$” $\Rightarrow P \rightarrow Q$
 - “只有 $Q$ 才 $P$” $\Rightarrow P \rightarrow Q$
 - “$P$ 仅当 $Q$” $\Rightarrow P \rightarrow Q$
@@ -97,6 +98,7 @@ $$
 $$
 \neg \rightarrow \wedge \rightarrow \vee \rightarrow \rightarrow \rightarrow \leftrightarrow
 $$
+
 *(注：同级符号按从左到右顺序，括号优先级最高)*
 
 ## 命题公式 (Propositional Formula)
@@ -104,9 +106,10 @@ $$
 ### 定义
 
 命题公式是仅由有限步使用规则构成的符号串：
-1.  命题变元本身是一个公式。
-2.  如 $G$ 是公式，则 $(\neg G)$ 也是公式。
-3.  如 $G, H$ 是公式，则 $(G \wedge H), (G \vee H), (G \rightarrow H), (G \leftrightarrow H)$ 也是公式。
+
+1. 命题变元本身是一个公式。
+2. 如 $G$ 是公式，则 $(\neg G)$ 也是公式。
+3. 如 $G, H$ 是公式，则 $(G \wedge H), (G \vee H), (G \rightarrow H), (G \leftrightarrow H)$ 也是公式。
 
 ### 解释与真值表
 
@@ -120,8 +123,14 @@ $$
 - **可满足公式 (Satisfiable)**：至少存在一个解释使其为“真”（不是永假式）。
 
 **关系**：
-$$ \text{永真式的否定} \Leftrightarrow \text{矛盾式} $$
-$$ \text{矛盾式的否定} \Leftrightarrow \text{永真式} $$
+
+$$
+\text{永真式的否定} \Leftrightarrow \text{矛盾式}
+$$
+
+$$
+\text{矛盾式的否定} \Leftrightarrow \text{永真式}
+$$
 
 ## 逻辑等价与蕴涵
 
@@ -130,48 +139,114 @@ $$ \text{矛盾式的否定} \Leftrightarrow \text{永真式} $$
 如果公式 $G, H$ 在任意解释下真值相同，则称 $G, H$ 是等价的，记作 $G = H$ (或 $G \Leftrightarrow H$)。
 
 **定理**：
-$$ G = H \iff (G \leftrightarrow H) \text{ 是永真公式} $$
+
+$$
+G = H \iff (G \leftrightarrow H) \text{ 是永真公式}
+$$
 
 > **注意**：“$=$” 是一种关系，描述两个公式的关系；“$\leftrightarrow$” 是一种逻辑联结词，运算结果仍是公式。
 
 ### 基本等价公式 (24个)
 
-1.  **结合律**：
-    $$ G \vee (H \vee S) = (G \vee H) \vee S $$
-    $$ G \wedge (H \wedge S) = (G \wedge H) \wedge S $$
-2.  **交换律**：
-    $$ G \vee H = H \vee G $$
-    $$ G \wedge H = H \wedge G $$
-3.  **幂等律**：
-    $$ G \vee G = G $$
-    $$ G \wedge G = G $$
-4.  **吸收律**：
-    $$ G \vee (G \wedge H) = G $$
-    $$ G \wedge (G \vee H) = G $$
-5.  **分配律**：
-    $$ G \vee (H \wedge S) = (G \vee H) \wedge (G \vee S) $$
-    $$ G \wedge (H \vee S) = (G \wedge H) \vee (G \wedge S) $$
-6.  **同一律**：
-    $$ G \vee 0 = G, \quad G \wedge 1 = G $$
-7.  **零律**：
-    $$ G \vee 1 = 1, \quad G \wedge 0 = 0 $$
-8.  **排中律**：
-    $$ G \vee \neg G = 1 $$
-9.  **矛盾律**：
-    $$ G \wedge \neg G = 0 $$
+1. **结合律**：
+
+   $$
+   G \vee (H \vee S) = (G \vee H) \vee S
+   $$
+
+   $$
+   G \wedge (H \wedge S) = (G \wedge H) \wedge S
+   $$
+2. **交换律**：
+
+   $$
+   G \vee H = H \vee G
+   $$
+
+   $$
+   G \wedge H = H \wedge G
+   $$
+3. **幂等律**：
+
+   $$
+   G \vee G = G
+   $$
+
+   $$
+   G \wedge G = G
+   $$
+4. **吸收律**：
+
+   $$
+   G \vee (G \wedge H) = G
+   $$
+
+   $$
+   G \wedge (G \vee H) = G
+   $$
+5. **分配律**：
+
+   $$
+   G \vee (H \wedge S) = (G \vee H) \wedge (G \vee S)
+   $$
+
+   $$
+   G \wedge (H \vee S) = (G \wedge H) \vee (G \wedge S)
+   $$
+6. **同一律**：
+
+   $$
+   G \vee 0 = G, \quad G \wedge 1 = G
+   $$
+7. **零律**：
+
+   $$
+   G \vee 1 = 1, \quad G \wedge 0 = 0
+   $$
+8. **排中律**：
+
+   $$
+   G \vee \neg G = 1
+   $$
+9. **矛盾律**：
+
+   $$
+   G \wedge \neg G = 0
+   $$
 10. **双重否定律**：
-    $$ \neg(\neg G) = G $$
+
+    $$
+    \neg(\neg G) = G
+    $$
 11. **德·摩根定律 (De Morgan's Laws)**：
-    $$ \neg(G \vee H) = \neg G \wedge \neg H $$
-    $$ \neg(G \wedge H) = \neg G \vee \neg H $$
+
+    $$
+    \neg(G \vee H) = \neg G \wedge \neg H
+    $$
+
+    $$
+    \neg(G \wedge H) = \neg G \vee \neg H
+    $$
 12. **蕴涵式**：
-    $$ G \rightarrow H = \neg G \vee H $$
+
+    $$
+    G \rightarrow H = \neg G \vee H
+    $$
 13. **等价式**：
-    $$ G \leftrightarrow H = (G \rightarrow H) \wedge (H \rightarrow G) $$
+
+    $$
+    G \leftrightarrow H = (G \rightarrow H) \wedge (H \rightarrow G)
+    $$
 14. **假言易位**：
-    $$ G \rightarrow H = \neg H \rightarrow \neg G $$
+
+    $$
+    G \rightarrow H = \neg H \rightarrow \neg G
+    $$
 15. **归谬论**：
-    $$ (G \rightarrow H) \wedge (G \rightarrow \neg H) = \neg G $$
+
+    $$
+    (G \rightarrow H) \wedge (G \rightarrow \neg H) = \neg G
+    $$
 
 ### 代入定理与替换定理
 
@@ -185,6 +260,7 @@ $$ G = H \iff (G \leftrightarrow H) \text{ 是永真公式} $$
 **例**：化简电路 $( (P \wedge Q \wedge R) \vee (P \wedge Q \wedge S) ) \wedge ( (P \wedge R) \vee (P \wedge S) )$
 
 **解**：
+
 $$
 \begin{aligned}
 \text{原式} &= ( (P \wedge Q) \wedge (R \vee S) ) \wedge ( P \wedge (R \vee S) ) & (\text{提取公因式}) \\
@@ -198,11 +274,13 @@ $$
 
 **场景 1**：
 A 说：“我们两个都是无赖”。问 A, B 身份。
+
 - 若 A 是骑士 $\Rightarrow$ 话为真 $\Rightarrow$ A, B 都是无赖 $\Rightarrow$ 矛盾（A 既是骑士又是无赖）。
 - 若 A 是无赖 $\Rightarrow$ 话为假 $\Rightarrow$ “两人都是无赖”为假 $\Rightarrow$ 至少有一人是骑士。因 A 是无赖，故 **B 是骑士**。
 
 **场景 2**：
 A 说：“B 在撒谎”。C 说：“B 在撒谎”。
+
 - 结论：A 和 C 说的话相同，身份并未直接互斥，但 B 和 C 必然身份相反（一个说谎一个没说）。此题需更多信息，但可推断 **B 和 C 身份不同**。
 
 ### 3. 多数表决电路 (飞机复核系统)
@@ -214,10 +292,13 @@ A 说：“B 在撒谎”。C 说：“B 在撒谎”。
 即 $(1,1,0), (1,0,1), (0,1,1), (1,1,1)$ 四种情况。
 
 **公式**：
+
 $$
 S = (C_1 \wedge C_2 \wedge \neg C_3) \vee (C_1 \wedge \neg C_2 \wedge C_3) \vee (\neg C_1 \wedge C_2 \wedge C_3) \vee (C_1 \wedge C_2 \wedge C_3)
 $$
+
 **化简**：
+
 $$
 S = (C_1 \wedge C_2) \vee (C_1 \wedge C_3) \vee (C_2 \wedge C_3)
 $$
@@ -233,9 +314,13 @@ $$
 ### 2. 析取范式与合取范式
 
 - **析取范式 (DNF)**：有限个**短语**的析取。
-  $$ A_1 \vee A_2 \vee \dots \vee A_n \quad (\text{其中 } A_i \text{ 是合取式}) $$
+  $$
+  A_1 \vee A_2 \vee \dots \vee A_n \quad (\text{其中 } A_i \text{ 是合取式})
+  $$
 - **合取范式 (CNF)**：有限个**子句**的合取。
-  $$ B_1 \wedge B_2 \wedge \dots \wedge B_n \quad (\text{其中 } B_i \text{ 是析取式}) $$
+  $$
+  B_1 \wedge B_2 \wedge \dots \wedge B_n \quad (\text{其中 } B_i \text{ 是析取式})
+  $$
 
 **定理**：任何命题公式都存在与之等价的析取范式和合取范式。
 
@@ -244,27 +329,35 @@ $$
 对于 $n$ 个命题变元：
 
 - **极小项 (Minterm, $m_i$)**：包含全部 $n$ 个变元的**合取式**，每个变元以原形或否定形式出现一次。
+
   - **性质**：每个极小项只有一种赋值使其为真（对应真值表的一行）。
   - **编码**：变元为 1，否定为 0。例如 $P \wedge \neg Q \wedge R \Rightarrow 101 \Rightarrow m_5$。
-
 - **极大项 (Maxterm, $M_i$)**：包含全部 $n$ 个变元的**析取式**。
+
   - **性质**：每个极大项只有一种赋值使其为假。
   - **编码**：变元为 0，否定为 1。例如 $\neg P \vee Q \vee \neg R \Rightarrow 101 \Rightarrow M_5$。
 
 **关系**：
-$$ \neg m_i = M_i $$
+
+$$
+\neg m_i = M_i
+$$
 
 ### 4. 主范式 (Principal Normal Forms)
 
 为了解决范式不唯一的问题，引入主范式。
 
 #### 主析取范式 (PDNF)
+
 由**极小项**的析取构成。
+
 - **求法**：选出真值表中结果为 **T (1)** 的行，将对应的极小项析取。
 - **用途**：判断两公式是否等价（主析取范式唯一）；判断是否为永假式（主析取范式为空）。
 
 #### 主合取范式 (PCNF)
+
 由**极大项**的合取构成。
+
 - **求法**：选出真值表中结果为 **F (0)** 的行，将对应的极大项合取。
 - **用途**：判断是否为永真式（主合取范式为空）。
 
@@ -282,9 +375,8 @@ $$ \neg m_i = M_i $$
 ### 5. 范式的应用
 
 - **判断公式类型**：
+
   - **永真式** $\iff$ 主析取范式包含所有 $2^n$ 个极小项 $\iff$ 主合取范式为空。
   - **永假式** $\iff$ 主析取范式为空 $\iff$ 主合取范式包含所有 $2^n$ 个极大项。
   - **可满足式** $\iff$ 主析取范式不为空。
-
 - **判断等价**：两个公式等价当且仅当它们具有相同的主范式。
-

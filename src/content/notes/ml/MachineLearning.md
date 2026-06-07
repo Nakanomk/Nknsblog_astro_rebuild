@@ -1,5 +1,5 @@
 ---
-title: 'Lesson 1'
+title: 'ML Lesson 1'
 publishDate: 2025-09-18
 description: 'Notes about machine learning'
 tags:

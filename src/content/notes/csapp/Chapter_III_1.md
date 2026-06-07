@@ -1,10 +1,9 @@
 ---
-title: 'Chapter III-1'
+title: 'ICS Chapter III-1'
 description: 'CSAPP NOTE CHAP III-1'
 publishDate: 2025-10-02 16:59:19
 order: 4
 ---
-
 **Chapter III** 程序的转换及机器级表示
 
 ---
@@ -913,4 +912,3 @@ int main() {
 }
 
 ```
-

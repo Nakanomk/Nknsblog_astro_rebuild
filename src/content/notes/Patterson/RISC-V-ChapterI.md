@@ -1,5 +1,5 @@
 ---
-title: 'Lesson 1'
+title: 'RISCV Lesson 1'
 publishDate: 2026-03-16
 description: 'I want to build a kernel'
 tags:

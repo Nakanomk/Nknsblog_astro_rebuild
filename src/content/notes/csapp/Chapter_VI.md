@@ -1,10 +1,9 @@
 ---
-title: 'Chapter VI'
+title: 'ICS Chapter VI'
 description: 'CSAPP NOTE CHAP VI'
 publishDate: 2025-11-05 16:59:19
 order: 12
 ---
-
 # Chap 6 层次结构存储系统
 
 ## 存储器的层次结构
@@ -84,7 +83,7 @@ int sumarraycols(int a[M][N])
     for (j = 0; j < N; j++)
     {
         for (i = 0; i < M; i++)
-            sum += a[i][j];            
+            sum += a[i][j];          
     }
     return sum;
 }	// slow

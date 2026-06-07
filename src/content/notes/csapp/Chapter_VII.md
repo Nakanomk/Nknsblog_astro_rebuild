@@ -1,10 +1,9 @@
 ---
-title: 'Chapter VII'
+title: 'ICS Chapter VII'
 description: 'CSAPP NOTE CHAP VII'
 publishDate: 2025-11-06 16:59:19
 order: 13
 ---
-
 # Chap 7 输入输出
 
 ## 输入输出子系统

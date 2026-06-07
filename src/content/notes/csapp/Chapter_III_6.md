@@ -1,11 +1,10 @@
 ---
-title: 'Chapter III-6'
+title: 'ICS Chapter III-6'
 description: 'CSAPP NOTE CHAP III-6'
 publishDate: 2025-10-07 16:59:19
 
 order: 9
 ---
-
 # Chap 3.6 越界访问和缓冲区攻击
 
 ## 缓冲区溢出
@@ -19,7 +18,7 @@ order: 9
 3. char *p = s;
 4. *(p + 13) = 40; // 越界
 
-​	第 2 行、第 4 行的数组访问，都超出了数组的边界，产生了缓冲区溢出。
+    第 2 行、第 4 行的数组访问，都超出了数组的边界，产生了缓冲区溢出。
 
 ## 缓冲区溢出攻击
 

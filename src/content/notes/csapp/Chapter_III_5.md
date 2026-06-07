@@ -1,10 +1,9 @@
 ---
-title: 'Chapter III-5'
+title: 'ICS Chapter III-5'
 description: 'CSAPP NOTE CHAP III-5'
 publishDate: 2025-10-06 16:59:19
 order: 8
 ---
-
 # Chap 3.5 复杂数据类型的分配和访问
 
 ## 地址和指针
@@ -50,7 +49,7 @@ int main()
     for (int i = 0; i < 10; i++)
         a[i] = i * 3;
     for (int j = 0; j < 15; j++)
-        putchar(b[j]);    
+        putchar(b[j]);  
     return 0;
 }
 ```
@@ -213,7 +212,7 @@ int main()
     char *p10 = &(a[1][0]);
     char *p11 = &(a[1][1]);
     char *p20 = &(a[2][0]);
-    char *p24 = &(a[2][4]);    
+    char *p24 = &(a[2][4]);  
     return 0;
 }
 ```
@@ -260,6 +259,7 @@ int main()
 auto 型存储分配在堆栈段中，其他存储类型分配在静态数据区（数据段）中。
 
 结构体成员首址，采用 **变址寻址** 确定，即
+
 $$
 address_{member} = address_{struct} + value_{shift}
 $$
@@ -307,7 +307,7 @@ int main()
     11ba:	c7 45 08 65 00 00 00 	movl   $0x65,0x8(%ebp)	; 给栈内存里的临时变量赋值
     11c1:	90                   	nop
     11c2:	5d                   	pop    %ebp
-    11c3:	c3                   	ret    
+    11c3:	c3                   	ret  
 
 000011c4 <reg_stu_a>:
     11c4:	55                   	push   %ebp
@@ -318,7 +318,7 @@ int main()
     11d4:	c7 00 c9 00 00 00    	movl   $0xc9,(%eax)	; 给传入指针对应的实际变量
     11da:	90                   	nop
     11db:	5d                   	pop    %ebp
-    11dc:	c3                   	ret    
+    11dc:	c3                   	ret  
 main:
 	1205:	c7 45 e4 ff ff ff ff 	movl   $0xffffffff,-0x1c(%ebp)
     120c:	c7 45 e8 6a 61 63 6b 	movl   $0x6b63616a,-0x18(%ebp)
@@ -449,7 +449,7 @@ int main()
     11d8:	89 44 24 18          	mov    %eax,0x18(%esp)
 ```
 
-可见无论把 union 如何解读，取的地址都是 `0x8(%esp)` 
+可见无论把 union 如何解读，取的地址都是 `0x8(%esp)`
 
 联合体中的变量相互覆盖，起始地址相同。
 
@@ -457,4 +457,3 @@ int main()
 
 - 若 CPU 同时可以访问读写 64 位主存，则一次可以读写 8 个字节
 - 一条指令中操作数的地址按 8 对齐，访问该操作数就只需要一次主存访问，效率会更高。
-

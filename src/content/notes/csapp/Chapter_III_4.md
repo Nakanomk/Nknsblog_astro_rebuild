@@ -1,11 +1,10 @@
 ---
-title: 'Chapter III-4'
+title: 'ICS Chapter III-4'
 description: 'CSAPP NOTE CHAP III-4'
 publishDate: 2025-10-05 16:59:19
 
 order: 7
 ---
-
 # Chap 3.4 C语言的机器级表示
 
 ## 数值类型和运算的机器级表示
@@ -14,7 +13,6 @@ order: 7
 
 - 有符号数：`int` `short` `long`
 - 无符号数：`unsigned int` `unsigned short` `unsigned long`
-
 - C 语言标准规定了各类型最小取值范围，int 型至少为 16 位，取值范围为 -32768 - 32767，虽然现代编译器都是 2147483647 这个标准
 - 在一个数值的后面加一个 `u` 或者 `U` 来表示无符号数
 - 运算中同时有无符号和有符号整数，按无符号整数计算
@@ -28,14 +26,12 @@ order: 7
 1. 在有些32位系统上，C表达式-2147483648 < 2147483647的执行结果为false。Why？
 
    在 ISO C90 标准下 ，-2147483648 为 unsigned int 型，因此
-    “-2147483648 < 2147483647” 按无符号数比较，10……0B 比 01……1B 大，结果为 false。
+   “-2147483648 < 2147483647” 按无符号数比较，10……0B 比 01……1B 大，结果为 false。
 
    在 ISO C99 标准下，2147483648 为 long long 型，因此 “-2147483648 < 2147483647” 按带符号整数比较，10……0B 比 01……1B 小，结果为 true。
-
 2. 若定义变量 “int i=-2147483648;”，则 “i < 2147483647” 的执行结果为 true。Why？
 
    i < 2147483647 按 int 型数比较，结果为 true。
-
 3. 如果将表达式写成“-2147483647-1 < 2147483647”，则结果会怎样呢？Why？
 
    -2147483647-1 < 2147483647 按 int 型比较，结果为 true。
@@ -94,7 +90,7 @@ int main() {
 
 ### C 语言中的浮点数
 
-- 类型：`double` `float` 
+- 类型：`double` `float`
 - `long double` 随编译器和处理器不同而变化，IA-32 中是 80 位
 - `int` 的有效位数是 32 位，而 `float` 的有效位数是 23 位，转换的时候会有精度丢失，转换为 `double` 则不会丢失
 - 浮点数转化为整数的时候可能会溢出或舍入，小数部分会从 0 方向被截断。
@@ -133,7 +129,7 @@ int main() {
 
 顺序从大到小：
 
-`unsigned long long` <- `long long` <- `unsigned` <- `int` <- `(unsigned)char, short` 
+`unsigned long long` <- `long long` <- `unsigned` <- `int` <- `(unsigned)char, short`
 
 **例子**
 
@@ -161,7 +157,7 @@ int main()
 #### 按位逻辑运算和逻辑运算
 
 - 按位逻辑运算：`&` `|` `~` `^` 对位串实现 **掩码** 操作或其他处理
-- 逻辑运算：`&&` `||` `!` 
+- 逻辑运算：`&&` `||` `!`
 
 #### 移位运算
 
@@ -198,12 +194,11 @@ int j = si;				// j = 0xffff8000
 #### 整数算术运算
 
 1. C 语言整数实现与汇编语言的差异，此处略。
-
 2. 无符号数加法溢出判断
 
 ![image-20251017220754923](https://img.nkns.cc/PicGo/image-20251017220754923.png)
 
-​	发生溢出时，一定满足：**result < x && result < y**
+    发生溢出时，一定满足：**result < x && result < y**
 
 ```c
 int uadd_ok(unsigned x, unsigned y) {
@@ -288,7 +283,7 @@ int main()
 // Result: 整数除 0 发生异常！
 ```
 
-​	然而浮点数有表示无穷大的码点：
+    然而浮点数有表示无穷大的码点：
 
 ```c
 #include <stdio.h>
@@ -305,21 +300,21 @@ int main()
 
 2. 浮点数的比较运算
 
-​	以下列表判断是否**永真**
+    以下列表判断是否**永真**
 
-| 表达式                  | 结果 |
-| ----------------------- | ---- |
-| x == (int)(float) x     | 否   |
-| x == (int)(double) x    | 是   |
-| f == (float)(double) f  | 是   |
-| d == (float) d          | 否   |
-| f == -(-f);             | 是   |
-| 2/3 == 2/3.0            | 否   |
+| 表达式                   | 结果 |
+| ------------------------ | ---- |
+| x == (int)(float) x      | 否   |
+| x == (int)(double) x     | 是   |
+| f == (float)(double) f   | 是   |
+| d == (float) d           | 否   |
+| f == -(-f);              | 是   |
+| 2/3 == 2/3.0             | 否   |
 | d < 0.0 ⇒((d\2)  < 0.0) | 是   |
 | d > f ⇒-f  > -d         | 是   |
-| d \ d >= 0.0            | 是   |
-| x\x>=0                  | 否   |
-| (d+f)-d == f            | 否   |
+| d \ d >= 0.0             | 是   |
+| x\x>=0                   | 否   |
+| (d+f)-d == f             | 否   |
 
 ## 选择语句的机器级表示
 
@@ -391,7 +386,7 @@ int main()
         case '+':
             case 'a':
                 z = x + y;
-                break;	
+                break;
         case '-':
             case 's':
                 z = x - y;
@@ -438,7 +433,7 @@ int main()
 	movl	-8(%rbp), %eax	# y, tmp92
 	addl	%edx, %eax	# tmp91, tmp90
 	movl	%eax, -16(%rbp)	# tmp90, z
-# a.c:14:                 break;	
+# a.c:14:                 break;
 	jmp	.L5	#
 .L2:
 # a.c:17:                 z = x - y;
@@ -489,7 +484,7 @@ int main()
             result = b;
             break;
         default:
-            result = a;        
+            result = a;      
     }
     printf("%d\n", result);
 	return 0;
@@ -559,7 +554,7 @@ int main()
 # a.c:21:             break;
 	jmp	.L8	#
 .L2:
-# a.c:23:             result = a;        
+# a.c:23:             result = a;      
 	movl	-8(%rbp), %eax	# a, tmp106
 	movl	%eax, -16(%rbp)	# tmp106, result
 .L8:
@@ -788,7 +783,7 @@ int main()
 #include <stdio.h>
 int iter_sum(int n)
 {
-	int result;	
+	int result;
 	if  (n <= 0)  
 	    result = 0;   
 	else
@@ -1023,7 +1018,6 @@ $3 = 0xffffce14
 
 - 基本的形参和实参概念
 - 按值传递：传递变量值；按地址传递：传递变量地址（指针）。
-
 - **按地址传递的时候记得间接寻址，直接修改地址参数是啥用都没有的。**
 
 **例子 按值传递参数**
@@ -1034,7 +1028,7 @@ void swap(int x, int y)
 {
     int t = x;
     x = y;
-    y = t;    
+    y = t;  
 }
 int main()
 {
@@ -1066,12 +1060,10 @@ swap:
 # a.c:5:     x = y;
 	movl	-24(%rbp), %eax	# y, tmp83
 	movl	%eax, -20(%rbp)	# tmp83, x
-# a.c:6:     y = t;    
+# a.c:6:     y = t;  
 	movl	-4(%rbp), %eax	# t, tmp84
 	movl	%eax, -24(%rbp)	# tmp84, y
 ```
-
-
 
 **例子 按地址传递参数**
 
@@ -1081,7 +1073,7 @@ void swap(int* x, int* y)
 {
     int t = *x;
     *x = *y;
-    *y = t;    
+    *y = t;  
 }
 int main()
 {
@@ -1117,7 +1109,7 @@ swap:
 # a.c:5:     *x = *y;
 	movq	-24(%rbp), %rax	# x, tmp86
 	movl	%edx, (%rax)	# _1, *x_3(D)
-# a.c:6:     *y = t;    
+# a.c:6:     *y = t;  
 	movq	-32(%rbp), %rax	# y, tmp87
 	movl	-4(%rbp), %edx	# t, tmp88
 	movl	%edx, (%rax)	# tmp88, *y_5(D)
@@ -1134,7 +1126,7 @@ swap:
 int f(int x) 
 {
     if (x==1)  
-        return 1;     
+        return 1;   
     return  x*f(x-1); 
 }  
 int main() 
@@ -1152,7 +1144,7 @@ f:
 # a.c:4:     if (x==1)  
 	cmpl	$1, -4(%rbp)	#, x
 	jne	.L2	#,
-# a.c:5:         return 1;     
+# a.c:5:         return 1;   
 	movl	$1, %eax	#, _3
 	jmp	.L3	#
 .L2:
@@ -1165,9 +1157,9 @@ f:
 	imull	-4(%rbp), %eax	# x, _3
 .L3:
 # a.c:7: }  
-	leave	
+	leave
 	.cfi_def_cfa 7, 8
-	ret	
+	ret
 main:
 # a.c:10:     printf("%d\n",f(5));
 	movl	$5, %edi	#,

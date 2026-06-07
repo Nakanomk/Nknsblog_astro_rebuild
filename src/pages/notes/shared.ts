@@ -32,12 +32,22 @@ export function groupNotesByCategory(notesCollection: NotesEntry[]) {
 		return acc
 	}, {})
 
-	const categoryIds = [
-		...categoryOrder,
-		...Object.keys(grouped)
-			.filter((id) => !categoryOrder.includes(id))
-			.sort()
-	].filter((id) => grouped[id]?.length)
+	// Sort categories by number of documents (descending) so that
+	// categories with many chapters appear first, and those with
+	// only one or two chapters are pushed to the end.
+	const categoryIds = Object.keys(grouped)
+		.filter((id) => grouped[id]?.length)
+		.sort((a, b) => {
+			const lenDiff = grouped[b].length - grouped[a].length
+			if (lenDiff !== 0) return lenDiff
+			// Fall back to categoryOrder / alphabetical for ties
+			const aIdx = categoryOrder.indexOf(a)
+			const bIdx = categoryOrder.indexOf(b)
+			if (aIdx !== -1 && bIdx !== -1) return aIdx - bIdx
+			if (aIdx !== -1) return -1
+			if (bIdx !== -1) return 1
+			return a.localeCompare(b)
+		})
 
 	return categoryIds.map((id) => ({
 		id,

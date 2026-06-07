@@ -42,7 +42,7 @@ const editPath = `https://github.com/Nakanomk/Nknsblog_astro_rebuild/edit/main/$
     </div>
 
     <div id='notes-container' class='sidebar-view-hidden mt-3'>
-      <NotesContents class='notes-toc block' />
+      <NotesContents class='notes-toc block' currentNoteId={post.id} />
     </div>
 
     <script is:inline>
@@ -169,7 +169,7 @@ const editPath = `https://github.com/Nakanomk/Nknsblog_astro_rebuild/edit/main/$
     </Button>
     {/* Show notes contents */}
     <div class='rounded-xl border px-4 py-3 mt-3 sm:py-4 md:mt-6'>
-      <NotesContents />
+      <NotesContents currentNoteId={post.id} />
     </div>
   </div>
 </PageLayout>

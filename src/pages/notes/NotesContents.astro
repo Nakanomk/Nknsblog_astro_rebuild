@@ -13,29 +13,52 @@ const noteSections = groupNotesByCategory(notesCollection)
 type Props = {
   title?: boolean
   class?: string
+  /** The current note's id (e.g. "dm/set-theory") — when set, the entire category
+   *  section that contains this note is moved to the top of the list so readers
+   *  can immediately see which book/notes collection they are browsing. */
+  currentNoteId?: string
 }
 
-const { title = true, class: className, ...props } = Astro.props
+const { title = true, class: className, currentNoteId, ...props } = Astro.props
+
+// When we are on a note detail page, promote the category that contains the
+// current note to the very top so the reader can see their current location
+// in the sidebar / bottom list immediately.
+function promoteCurrentCategory<T extends { id: string }>(
+  sections: { id: string; title: string; docs: T[] }[],
+  currentId: string
+): { id: string; title: string; docs: T[] }[] {
+  const currentCategoryId = currentId.split('/')[0]
+  const idx = sections.findIndex((s) => s.id === currentCategoryId)
+  if (idx <= 0) return sections
+  const section = sections[idx]
+  return [section, ...sections.slice(0, idx), ...sections.slice(idx + 1)]
+}
+
+const orderedSections = currentNoteId
+  ? promoteCurrentCategory(noteSections, currentNoteId)
+  : noteSections
 ---
 
 <notes-toc class={cn('not-prose', className)} {...props}>
   {title && <h2 class='text-foreground font-semibold'>NOTES</h2>}
   <ul class='mt-4 flex flex-col gap-y-5'>
     {
-      noteSections.map(({ title, docs }) => (
-        <li>
-          <h3 class='text-muted-foreground text-xs tracking-widest uppercase'>{title}</h3>
-          <ul class='mt-2 flex flex-col'>
-            {docs.map((doc) => (
-              <li class='notes-item flex relative ms-2 px-3 py-1 text-foreground/75 transition-all rounded-2xl'>
-                <a class='flex-1 hover:text-foreground' href={`/notes/${doc.id}`}>
-                  {doc.data.title}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </li>
-      ))
+      orderedSections.map(({ title, docs }) => (
+          <li>
+            <h3 class='text-muted-foreground text-xs tracking-widest uppercase'>{title}</h3>
+            <ul class='mt-2 flex flex-col'>
+              {docs.map((doc) => (
+                <li class='notes-item flex relative ms-2 px-3 py-1 text-foreground/75 transition-all rounded-2xl'>
+                  <a class='flex-1 hover:text-foreground' href={`/notes/${doc.id}`}>
+                    {doc.data.title}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </li>
+        )
+      )
     }
   </ul>
 </notes-toc>

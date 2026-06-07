@@ -1,10 +1,9 @@
 ---
-title: 'Chapter VIII'
+title: 'ICS Chapter VIII'
 description: 'CSAPP NOTE CHAP VIII'
 publishDate: 2025-11-07 16:59:19
 order: 14
 ---
-
 # Chap 8 异常和中断
 
 ## 基本概念
@@ -47,8 +46,6 @@ order: 14
 - （例如：软中断 INT n、单步调试）
 
 #### 中止 (Aborts)
-
-
 
 - 严重的、不可恢复的错误。
 - 程序**无法继续执行**。
@@ -133,7 +130,7 @@ order: 14
 ; 设置中断向量
 START:		MOV AX, 0
 			MOV DS, AX      ; DS = 0, 指向 IVT
-			
+		
 			CLI             ; 关中断
 			MOV WORD PTR DS:[45H * 4], OFFSET INTR45    ; 设置 IP
 			MOV WORD PTR DS:[45H * 4 + 2], CS           ; 设置 CS
