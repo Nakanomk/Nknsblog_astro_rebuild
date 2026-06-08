@@ -11,6 +11,7 @@ type Props<Tag extends HTMLTag> = Polymorphic<{ as: Tag }> & {
   class?: string
   imgSrc?: string // Directory of the image
   imgAlt?: string // Description of the image
+  decorativeText?: string // Large character decoration (alternative to imgSrc)
 }
 
 const {
@@ -21,7 +22,8 @@ const {
   subheading,
   date,
   imgSrc,
-  imgAlt = ''
+  imgAlt = '',
+  decorativeText
 } = Astro.props
 ---
 
@@ -29,7 +31,7 @@ const {
   class={cn(
     'not-prose block relative rounded-2xl border bg-muted px-5 py-3',
     href && 'transition-all hover:border-foreground/25 hover:shadow-sm',
-    imgSrc && 'relative overflow-hidden',
+    (imgSrc || decorativeText) && 'relative overflow-hidden',
     className
   )}
   href={href}
@@ -50,6 +52,24 @@ const {
         alt={imgAlt}
         class='absolute end-0 top-0 z-0 h-full w-1/2 object-cover opacity-30'
       />
+    )
+  }
+  {/*--- Large decorative text (alternative to image) */}
+  {
+    decorativeText && !imgSrc && (
+      <>
+        <div class='absolute -bottom-8 -right-5 z-0 flex select-none'>
+          <span class='whitespace-nowrap text-[8rem] font-black leading-none text-muted-foreground/10'>
+            {decorativeText}
+          </span>
+        </div>
+        <div
+          class='absolute inset-0 z-[1]'
+          style={{
+            background: 'linear-gradient(to left, transparent 25%, hsl(var(--muted)) 65%)'
+          }}
+        />
+      </>
     )
   }
 </Tag>

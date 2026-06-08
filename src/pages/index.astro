@@ -1,5 +1,6 @@
 ---
 import { Image } from 'astro:assets'
+import { getCollection, type CollectionEntry } from 'astro:content'
 
 import { PostPreview } from 'astro-pure/components/pages'
 import { getBlogCollection, sortMDByDate } from 'astro-pure/server'
@@ -20,6 +21,45 @@ const backend = ['C', 'C++', 'ASM', 'Verilog', 'Java', 'Bash']
 const MAX_POSTS = 10
 const allPosts = await getBlogCollection()
 const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
+
+// Notes: group by category, show top 3 most recently updated
+const categoryMeta: Record<string, { label: string; subheading: string; name: string }> = {
+  csapp: { label: 'CSAPP Notes', subheading: '计算机系统基础', name: 'CSAPP' },
+  dm: { label: 'Discrete Math Notes', subheading: '离散数学', name: 'DM' },
+  ds: { label: 'Data Structure Notes', subheading: '数据结构', name: 'DS' },
+  java: { label: 'Java Notes', subheading: 'Java 程序设计', name: 'JAVA' },
+  ml: { label: 'Machine Learning Notes', subheading: '机器学习', name: 'ML' },
+  Verilog: { label: 'Verilog Notes', subheading: 'Verilog HDL', name: 'VERILOG' },
+  'l&c_design': { label: 'LCSD Notes', subheading: '逻辑与计算机设计', name: 'LCSD' },
+  Patterson: { label: 'RISC-V Notes', subheading: '计算机组成与设计', name: 'RISC-V' },
+  blog: { label: 'Blog Notes', subheading: '博客搭建记录', name: 'BLOG' }
+}
+
+const allNotes = (await getCollection('notes')).filter((n) => !n.data.draft)
+
+// Group by subdirectory (category)
+const notesByCategory = allNotes.reduce(
+  (acc, note) => {
+    const category = note.id.split('/')[0]
+    if (!acc[category]) acc[category] = []
+    acc[category].push(note)
+    return acc
+  },
+  {} as Record<string, CollectionEntry<'notes'>[]>
+)
+
+// Build top notes list: latest 3 categories by most recent publishDate
+const topNotes = Object.entries(notesByCategory)
+  .map(([category, notes]) => {
+    const dates = notes.map((n) => new Date(n.data.publishDate ?? 0).valueOf())
+    const latestDate = Math.max(...dates)
+    const earliestYear = new Date(Math.min(...dates)).getFullYear()
+    // First note by order
+    const firstNote = notes.sort((a, b) => (a.data.order ?? 999) - (b.data.order ?? 999))[0]
+    return { category, notes, latestDate, earliestYear, firstNote }
+  })
+  .sort((a, b) => b.latestDate - a.latestDate)
+  .slice(0, 3)
 ---
 
 <PageLayout meta={{ title: 'Home' }} highlightColor='#904A47'>
@@ -89,30 +129,25 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
       }
 
       <Section title='Notes'>
-        <Card
-          as='a'
-          heading='CSAPP Notes'
-          subheading='计算机系统基础'
-          date='2025'
-          href='https://nkns.cc/notes/csapp/chapter_i'
-          imgSrc='https://csapp.cs.cmu.edu/3e/images/csapp3e-cover.jpg'
-        />
-        <Card
-          as='a'
-          heading='Data Structure Notes'
-          subheading='数据结构'
-          date='2025'
-          href='https://nkns.cc/notes/ds/datastructurenotes'
-          imgSrc='https://www.runoob.com/wp-content/uploads/2020/09/data-structure.png'
-        />
-        <Card
-          as='a'
-          heading='Discrete Mathmatics Notes'
-          subheading='离散数学'
-          date='2025'
-          href='https://www.nkns.cc/notes/dm/discrete-mathmatics'
-          imgSrc='https://d3f1iyfxxz8i1e.cloudfront.net/courses/course_image_variant/64cf3128be78_w240.webp'
-        />
+        {
+          topNotes.map(({ category, earliestYear, firstNote }) => {
+            const meta = categoryMeta[category] ?? {
+              label: category.toUpperCase(),
+              subheading: '',
+              name: category.toUpperCase()
+            }
+            return (
+              <Card
+                as='a'
+                heading={meta.label}
+                subheading={meta.subheading || `${meta.name} Notes`}
+                date={String(earliestYear)}
+                href={`/notes/${firstNote.id}`}
+                decorativeText={meta.name}
+              />
+            )
+          })
+        }
         <Button title='More notes' class='w-fit self-end' href='/notes' variant='ahead' />
       </Section>
 
