@@ -5,7 +5,7 @@ description: 'Records About Divisibility, Modular Arithmetic, Primes, and RSA Al
 tags:
   - Code  - Learn
 language: '中文'
-heroImage: { src: '../../../public/covers/Wanlingce.jpg', color: '#edb9a2' }
+heroImage: { src: '../../../public/covers/Wanlingce.webp', color: '#edb9a2' }
 order: 1
 ---
 # Part 1 数论和密码学

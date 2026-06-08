@@ -7,7 +7,7 @@ tags:
   - Life
   - 闲谈
 language: 'MysterLang'
-heroImage: { src: '../../../public/covers/Sixianglu.jpg', color: '#c8a598' }
+heroImage: { src: '../../../public/covers/Sixianglu.webp', color: '#c8a598' }
 ---
 
 ## 入团考试

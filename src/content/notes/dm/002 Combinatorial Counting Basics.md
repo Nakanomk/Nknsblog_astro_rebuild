@@ -6,7 +6,7 @@ tags:
   - Code
   - Learn
 language: '中文'
-heroImage: { src: '../../../public/covers/Wanlingce.jpg', color: '#edb9a2' }
+heroImage: { src: '../../../public/covers/Wanlingce.webp', color: '#edb9a2' }
 order: 2
 ---
 # Part 2 组合计数基础

@@ -6,7 +6,7 @@ tags:
   - 闲谈
   - 南开
 language: '中文'
-heroImage: { src: '../../../public/covers/Sixianglu.jpg', color: '#c8a598' }
+heroImage: { src: '../../../public/covers/Sixianglu.webp', color: '#c8a598' }
 ---
 
 今天是天津市南开中学的 121 周年校庆日，希望南开中学越办越好。

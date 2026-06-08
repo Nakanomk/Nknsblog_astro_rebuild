@@ -5,7 +5,7 @@ description: 'To review the past month'
 tags:
   - 闲谈
 language: '中文'
-heroImage: { src: '../../../public/covers/Sixianglu.jpg', color: '#c8a598' }
+heroImage: { src: '../../../public/covers/Sixianglu.webp', color: '#c8a598' }
 ---
 
 以后每个月都要做一次总结，用以端正自己的生活。

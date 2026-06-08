@@ -5,7 +5,7 @@ description: 'Long time no see'
 tags:
   - 闲谈
 language: '中文'
-heroImage: { src: '../../../public/covers/Sixianglu.jpg', color: '#c8a598' }
+heroImage: { src: '../../../public/covers/Sixianglu.webp', color: '#c8a598' }
 ---
 
 ## 很久不见

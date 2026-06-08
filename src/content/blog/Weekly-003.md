@@ -7,7 +7,7 @@ tags:
   - Life
   - 闲谈
 language: '中文'
-heroImage: { src: '../../../public/covers/Sixianglu.jpg', color: '#c8a598' }
+heroImage: { src: '../../../public/covers/Sixianglu.webp', color: '#c8a598' }
 ---
 
 过去的几周里没有进行足够有价值的活动，因此也没想来更新博客。虽然是自己给自己找的借口，但是我认为假如逼着自己在博客和社媒这种平台保持更新反而会让自己活得越来越没价值。

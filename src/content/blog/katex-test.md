@@ -6,7 +6,7 @@ tags:
   - Math
   - Example
 language: '中文'
-heroImage: { src: '../../../public/covers/Ceshiji.jpg', color: '#cdd5e1' }
+heroImage: { src: '../../../public/covers/Ceshiji.webp', color: '#cdd5e1' }
 ---
 
 $$ \mathring{g} $$

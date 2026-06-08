@@ -6,7 +6,7 @@ tags:
   - OS
   - Learn
 language: '中文'
-heroImage: { src: '../../../public/covers/Wanlingce.jpg', color: '#edb9a2' }
+heroImage: { src: '../../../public/covers/Wanlingce.webp', color: '#edb9a2' }
 ---
 # 计算机概要与技术
 

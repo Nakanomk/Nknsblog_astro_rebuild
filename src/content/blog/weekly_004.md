@@ -7,7 +7,7 @@ tags:
   - Life
   - 闲谈
 language: '中文'
-heroImage: { src: '../../../public/covers/Sixianglu.jpg', color: '#c8a598' }
+heroImage: { src: '../../../public/covers/Sixianglu.webp', color: '#c8a598' }
 ---
 
 ## 固定的忏悔环节

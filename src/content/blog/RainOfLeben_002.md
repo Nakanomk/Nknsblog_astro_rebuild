@@ -6,7 +6,7 @@ description: 'You hear that? That is the rain of leben.'
 tags:
   - 闲谈
 language: 'English'
-heroImage: { src: '../../../public/covers/Sixianglu.jpg', color: '#c8a598' }
+heroImage: { src: '../../../public/covers/Sixianglu.webp', color: '#c8a598' }
 ---
 
 ## $$ \mathcal{Fragment\ 001} $$

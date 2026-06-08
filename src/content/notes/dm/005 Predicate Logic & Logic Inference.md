@@ -6,7 +6,7 @@ tags:
   - Code
   - Learn
 language: '中文'
-heroImage: { src: '../../../public/covers/Wanlingce.jpg', color: '#edb9a2' }
+heroImage: { src: '../../../public/covers/Wanlingce.webp', color: '#edb9a2' }
 order: 5
 ---
 # Part 5 谓词逻辑与推理理论
