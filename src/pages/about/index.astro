@@ -31,9 +31,7 @@ const headings = [
       src='https://shields.jannchie.com/endpoint?style=flat&color=222&url=https%3A%2F%2Fapi.codetime.dev%2Fv3%2Fusers%2Fshield%3Fuid%3D34704'
     />
   </a>
-    <p>
-      
-    </p>
+  <p></p>
   <Button title='Sponsor Me' class='w-fit' href='/projects#sponsorship' variant='ahead' />
 
   {/* general-talk */}
@@ -52,6 +50,12 @@ const headings = [
     class='mb-5'
     title='Design'
     tools={[
+      {
+        name: 'Figma',
+        description: 'UI/UX Design',
+        href: 'https://www.figma.com/',
+        icon: import('@/assets/tools/figma.svg?raw')
+      },
       {
         name: 'Photoshop',
         description: 'Picture Editing',
@@ -83,10 +87,22 @@ const headings = [
         icon: import('@/assets/tools/chrome.svg?raw')
       },
       {
+        name: 'Zen Browser',
+        description: 'A Beautiful Browser',
+        href: 'https://www.zenbrowser.com/',
+        icon: import('@/assets/tools/zen-browser.svg?raw')
+      },
+      {
         name: 'Typora',
         description: 'Markdown Editor',
         href: 'https://typora.io/',
         icon: import('@/assets/tools/typora.svg?raw')
+      },
+      {
+        name: 'WPS Office',
+        description: 'Office Suite',
+        href: 'https://www.wps.com/',
+        icon: import('@/assets/tools/wps-office.svg?raw')
       }
     ]}
   />
@@ -101,10 +117,22 @@ const headings = [
         icon: import('@/assets/tools/vscode.svg?raw')
       },
       {
+        name: 'Claude Code',
+        description: 'Vibe Coder',
+        href: 'https://claude.ai/',
+        icon: import('@/assets/tools/claudecode-color.svg?raw')
+      },
+      {
         name: 'Gemini CLI',
         description: 'Vibe Coder',
         href: 'https://gemini.google.com',
         icon: import('@/assets/tools/gemini.svg?raw')
+      },
+      {
+        name: 'NeoVim',
+        description: 'Text Editor',
+        href: 'https://neovim.io/',
+        icon: import('@/assets/tools/neovim.svg?raw')
       }
     ]}
   />
@@ -113,6 +141,18 @@ const headings = [
     title='Environment'
     tools={[
       {
+        name: 'Arch Linux',
+        description: 'Linux Distribution',
+        href: 'https://www.archlinux.org/',
+        icon: import('@/assets/tools/archlinux.svg?raw')
+      },
+      {
+        name: 'Gentoo Linux',
+        description: 'Linux Distribution',
+        href: 'https://www.gentoo.org/',
+        icon: import('@/assets/tools/gentoo.svg?raw')
+      },
+      {
         name: 'Ubuntu 24.04 LTS',
         description: 'Linux Distribution',
         href: 'https://ubuntu.com/',
@@ -120,7 +160,7 @@ const headings = [
       },
       {
         name: 'Windows 10',
-        description: 'Framework Laptop 16',
+        description: 'Dual-boot system',
         href: 'https://news.microsoft.com/windows11-general-availability/',
         icon: import('@/assets/tools/windows11.svg?raw')
       }
@@ -168,29 +208,88 @@ const headings = [
   <Timeline
     events={[
       {
-        date: '2025-09-30',
-        content:
-          '在笔记文章中添加了评论区。同时添加了 Gemini 作为我的 IDE。'
+        date: '2026-06-07',
+        content: '添加 Content CLI 工具，优化笔记排序逻辑，更新社交卡片。'
+      },
+      {
+        date: '2026-06-05',
+        content: '更新了 Java 学习笔记。'
+      },
+      {
+        date: '2026-05-12',
+        content: 'Verilog 笔记持续更新，累计撰写 15000+ 字。'
+      },
+      {
+        date: '2026-05-04',
+        content: '开坑 Verilog 笔记，更新了笔记页自动刷新逻辑。'
+      },
+      {
+        date: '2026-03-20',
+        content: '初始化机器学习笔记，开坑 Rust 学习博客，更新杂谈栏目。'
+      },
+      {
+        date: '2026-01-13',
+        content: '为笔记添加发布时间功能。'
+      },
+      {
+        date: '2025-12-25',
+        content: '集成 Umami 流量统计系统，新增圣诞节主题页面，调整博客内容。'
+      },
+      {
+        date: '2025-11-25',
+        content: '补全了离散数学笔记，实现笔记侧边栏 TOC/Notes 切换功能。'
+      },
+      {
+        date: '2025-11-16',
+        content: '补齐了 ICS（计算机系统基础）全部章节笔记，更新了首页文案。'
+      },
+      {
+        date: '2025-11-05',
+        content: '修复 Vercel 部署问题，更新依赖包版本；新增「吐槽大王部落格」友链。'
+      },
+      {
+        date: '2025-10-27',
+        content: '特别链接添加「开往」，角标修正萌国 ICP 备案，修正微信认证。'
+      },
+      {
+        date: '2025-10-26',
+        content: '添加了 Notes 栏目；更新友链，新增 Tsailboy 的小屋。'
+      },
+      {
+        date: '2025-10-22',
+        content: '持续更新 CSAPP 笔记（Chap 3.5-6、第二章），修正多处 typo。'
+      },
+      {
+        date: '2025-10-16',
+        content: '更新 CSAPP 笔记，为笔记重新命名，为博客连接了图床；更新笔记导航页样式。'
+      },
+      {
+        date: '2025-10-10',
+        content: '修复了 mdx 和 astro-auto-import 包导致的样式问题，恢复网站正常显示。'
+      },
+      {
+        date: '2025-10-03',
+        content: '补全了离散数学第一周的内容，更正了 post000 里面的小毛病。'
       },
       {
         date: '2025-09-30',
-        content:
-          '将文档重构为笔记。'
+        content: '在笔记文章中添加了评论区。同时添加了 Gemini 作为我的 IDE。'
+      },
+      {
+        date: '2025-09-30',
+        content: '将文档重构为笔记。'
       },
       {
         date: '2025-09-29',
-        content:
-          '修正了两处 Travelling 页面。'
+        content: '修正了两处 Travelling 页面。'
       },
       {
         date: '2025-09-29',
-        content:
-          '将 ds 笔记转换为 mdx 格式。'
+        content: '将 ds 笔记转换为 mdx 格式。'
       },
       {
         date: '2025-09-29',
-        content:
-          '修复了 notes 界面没有显示 katex 的问题。'
+        content: '修复了 notes 界面没有显示 katex 的问题。'
       },
       {
         date: '2025-09-29',
@@ -199,13 +298,11 @@ const headings = [
       },
       {
         date: '2025-09-29',
-        content:
-          '添加了 note 小组件，现在可以进行标注了。'
+        content: '添加了 note 小组件，现在可以进行标注了。'
       },
       {
         date: '2025-09-29',
-        content:
-          '增加了笔记分类，将过往一些文章（坑）移动了位置。'
+        content: '增加了笔记分类，将过往一些文章（坑）移动了位置。'
       },
       {
         date: '2025-09-28',

@@ -63,7 +63,7 @@ export const addTitle = (): ShikiTransformer => {
       const div = h(
         'div',
         {
-          class: 'title text-sm text-foreground px-3 py-1 bg-primary-foreground rounded-lg border'
+          class: 'title text-sm text-foreground px-3 py-1 bg-card rounded-lg border'
         },
         meta.title.toString()
       )
@@ -99,7 +99,7 @@ export const addCopyButton = (timeout?: number): ShikiTransformer => {
       const button = h(
         'button',
         {
-          class: 'copy text-muted-foreground p-1 box-content border rounded bg-primary-foreground',
+          class: 'copy text-muted-foreground p-1 box-content border rounded bg-card',
           'data-code': this.source,
           onclick: `
           navigator.clipboard.writeText(this.dataset.code);

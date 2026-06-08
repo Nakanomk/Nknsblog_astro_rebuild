@@ -10,19 +10,19 @@ import ProjectCard from '@/components/home/ProjectCard.astro'
 import Section from '@/components/home/Section.astro'
 import SkillLayout from '@/components/home/SkillLayout.astro'
 import Quote from '@/components/Quote.astro'
-import avatar from '@/assets/avatar.png'
+import avatar from '@/assets/tenshi_silly.png'
 import config from '@/site-config'
 
-const languages = ['JavaScript', 'Shell']
-const frontend = ['N/A']
-const backend = ['C', 'C++', 'ASM']
+const languages = ['中文', 'English', '日本語']
+const frontend = ['Javascript', 'html']
+const backend = ['C', 'C++', 'ASM', 'Verilog', 'Java', 'Bash']
 
 const MAX_POSTS = 10
 const allPosts = await getBlogCollection()
 const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
 ---
 
-<PageLayout meta={{ title: 'Home' }} highlightColor='#659EB9'>
+<PageLayout meta={{ title: 'Home' }} highlightColor='#904A47'>
   <main class='flex w-full flex-col items-center'>
     <section class='animate mb-10 flex flex-col items-center gap-y-7' id='content-header'>
       <Image
