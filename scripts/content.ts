@@ -5,12 +5,12 @@
  * Usage (via npm scripts):
  *   bun new  note  <notebook>        Create a new notebook
  *   bun new  post  <postname>        Create a new blog post
- *   bun add  <notebook> <chapter>    Add a chapter to a notebook
+ *   bun chapter  <notebook> <chapter>    Add a chapter to a notebook
  *
  * Direct invocation:
  *   bun scripts/content.ts new  note  <notebook>
  *   bun scripts/content.ts new  post  <postname>
- *   bun scripts/content.ts add  <notebook> <chapter>
+ *   bun scripts/content.ts chapter  <notebook> <chapter>
  */
 
 import { existsSync, mkdirSync, readdirSync, writeFileSync } from 'node:fs'
@@ -108,7 +108,7 @@ function cmdNewNote(notebook: string) {
 
 function cmdAddChapter(notebook: string, chapter: string) {
   if (!notebook || !chapter) {
-    console.error('Usage: bun add <notebook> <chapter-name>')
+    console.error('Usage: bun chapter <notebook> <chapter-name>')
     process.exit(1)
   }
 
@@ -179,12 +179,12 @@ function showHelp() {
   Usage:
     bun new  note  <notebook>        Create a new notebook
     bun new  post  <postname>        Create a new blog post
-    bun add  <notebook> <chapter>    Add a chapter to a notebook
+    bun chapter  <notebook> <chapter>    Add a chapter to a notebook
 
   Examples:
     bun new note dm
     bun new post my-awesome-post
-    bun add dm "Set Theory"
+    bun chapter dm "Set Theory"
   `)
 }
 
@@ -200,7 +200,7 @@ switch (cmd) {
     else showHelp()
     break
   }
-  case 'add': {
+  case 'chapter': {
     cmdAddChapter(sub, rest.join(' ')) // sub = notebook, rest joined = chapter name
     break
   }

@@ -12,7 +12,7 @@
     "astro": "astro",
     "pure": "astro-pure",
     "new": "bun scripts/content.ts new",
-    "add": "bun scripts/content.ts add",
+    "chapter": "bun scripts/content.ts chapter",
     "format": "prettier --write  '**/*.{js,jsx,ts,tsx,md,mdx,astro}'",
     "lint": "eslint --fix 'src/**/*.{js,ts,jsx,tsx,astro}'",
     "yijiansilian": "bun lint && bun sync && bun check && bun format",

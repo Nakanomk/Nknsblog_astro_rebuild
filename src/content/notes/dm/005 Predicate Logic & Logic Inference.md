@@ -13,7 +13,7 @@ order: 5
 
 ## 谓词逻辑基础
 
-### 基本概念
+### x sort [file] # to sort the lines in file in Lexicographical order​lscd# relative paths​bash
 
 - **个体词 (Individual)**：表示研究对象（主语、宾语）。
   - **常量**：$a, b, c$（如“苏格拉底”）。
