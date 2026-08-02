@@ -55,7 +55,12 @@ echo Jon\'s\ computer # prints "Jon's computer"
 ```bash
 grep -r [string] [directory]
 sed [many comlicated usage]
-find [path] -type [type_argument] -mtime +[days] -name [filename]
+find [path]
+  -maxdepth [num]
+  -type [type_argument]
+  -mtime +[days]
+  -size +[size]
+  -name [filename]
 ```
 
 ### Regular Expressions
@@ -78,4 +83,10 @@ colou?r # colour or color, u for 0 times or once
 \D # for not numbers
 \s # for blanks
 
+```
+
+### awk
+
+```bash
+awk '{print $2}' data
 ```
