@@ -11,8 +11,6 @@ tags:
 order: 5
 ---
 
-# Seekey Matugen 动态配色
-
 Seekey 的菜单配色和按键气泡配色是两条独立路径：
 
 - GUI 菜单读取 `~/.config/fuzzel/fuzzel.ini`，因此可直接继承写入 fuzzel 的配色。

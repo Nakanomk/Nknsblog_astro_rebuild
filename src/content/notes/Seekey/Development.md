@@ -11,8 +11,6 @@ tags:
 order: 7
 ---
 
-# Seekey 开发与测试
-
 Seekey 使用 C、GTK4、GLib、libevdev、json-glib 和 ncurses。layer-shell 在编译和
 运行时都按可选能力处理，使同一二进制能在 wlroots、GNOME 和 KDE 环境运行。
 

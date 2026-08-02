@@ -10,8 +10,6 @@ tags:
 order: 2
 ---
 
-# Seekey 安装与权限
-
 ## Arch Linux 与 AUR
 
 稳定版适合日常使用：

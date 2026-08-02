@@ -17,9 +17,9 @@ heroImage: { src: '../../../public/covers/Sixianglu.webp', color: '#c8a598' }
 
 我想要的工具很明确：它应当轻量、点击穿透、不会抢走焦点，能够把最近的操作稳定地留在屏幕边缘，同时兼顾 niri、Hyprland 这类合成器和 GNOME、KDE 这样的完整桌面环境。
 
-于是便有了 [Seekey](/notes/seekey/intro)。
+于是创建了我的第一个正式项目 [Seekey](/notes/seekey/intro)。
 
-![Seekey 在 Wayland 桌面上显示按键气泡](https://img.nkns.cc/2026/06/0de85ce2c0f23714d6743a3e4696fbca.png)
+![Seekey 在 Wayland 桌面上显示按键气泡](https://img.nkns.cc/2026/08/250de01ee68d57ac9957547f69971dd7.gif)
 
 这篇文章介绍它为什么存在；完整的安装、配置和排错内容已经整理到
 [Seekey 文档笔记](/notes/seekey/intro)。
@@ -42,9 +42,11 @@ Seekey 直接通过 `libevdev` 读取 `/dev/input/event*`，不依赖某个合�
 
 在 niri、Hyprland、Sway、river、Wayfire 和 labwc 上，Seekey 会优先使用 `gtk4-layer-shell`，把窗口锚定到屏幕边缘。它不属于普通工作区窗口，因此切换工作区后仍能留在屏幕上，还会记住上次使用的显示器。
 
-GNOME 与 KDE 默认不支持 `wlr-layer-shell`，Seekey 会自动降级为透明的普通窗口。按键读取和气泡渲染仍然可用，只是跨工作区置顶需要配合桌面自身的窗口规则。程序会明确报告当前使用的模式，而不是静默地表现异常。
+KDE 的 Kwin 事实上适配了 `wlr-layer-shell`，因此可以直接使用 layer-shell。
+而 GNOME 默认不支持 `wlr-layer-shell`，Seekey 会自动降级为透明的普通窗口。按键读取和气泡渲染仍然可用，只是跨工作区置顶需要配合桌面自身的窗口规则。程序会明确报告当前使用的模式，而不是静默地表现异常。
 
-普通渲染进程使用唯一的应用 ID，同一会话中重复启动不会产生多个输入读取器。配置菜单也能判断浮层是否正在运行：未运行时显示启动操作，运行后则可以直接从菜单关闭，不必再用 `killall` 收尾。
+普通渲染进程使用唯一的应用 ID，同一会话中重复启动不会产生多个输入读取器。
+配置菜单也能判断浮层是否正在运行：未运行时显示启动操作，运行后则可以直接从菜单关闭，不必再用 `killall` 收尾。
 
 ## 配置不应该靠猜
 
@@ -59,6 +61,8 @@ seekey --config-gui    # 图形配置菜单
 seekey --config-tui    # 终端配置界面
 seekey                 # 启动按键浮层
 ```
+
+![Seekey GUI 设置界面展示](https://img.nkns.cc/2026/08/2026-08-02-233342-REGION.gif)
 
 ### 让配色跟随 Matugen
 

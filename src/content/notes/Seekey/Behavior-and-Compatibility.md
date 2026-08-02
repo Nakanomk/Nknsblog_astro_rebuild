@@ -10,8 +10,6 @@ tags:
 order: 4
 ---
 
-# Seekey 显示逻辑与桌面兼容
-
 ## 按键如何成为气泡
 
 Seekey 的输入线程使用 `poll` 和 `libevdev` 读取可访问的键盘设备，再把结构化
@@ -56,6 +54,8 @@ Seekey 会记住上次使用的显示器连接器名。TUI 中可按 `W` 清除�
 GNOME 和 KDE 默认不提供 `wlr-layer-shell`。Seekey 会创建透明、无边框、
 点击穿透的普通窗口；输入读取和气泡样式不受影响，但“所有工作区可见”和
 固定层级需要 Mutter/KWin 窗口规则配合。
+
+> nakanosan 按：KDE 事实上适配了 wlr-layer-shell 的接口，因此可以直接使用 layer-shell。
 
 降级窗口使用固定 `window-width`、`window-height`，`margin` 和
 `margin-horizontal` 只对 layer-shell 有效。诊断时可运行：
