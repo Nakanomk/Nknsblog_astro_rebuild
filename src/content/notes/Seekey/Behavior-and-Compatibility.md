@@ -2,7 +2,7 @@
 title: 'Seekey 显示逻辑与桌面兼容'
 description: '说明按键合并、连续输入、长按处理、layer-shell、GNOME/KDE 降级和单实例机制。'
 publishDate: '2026-08-02 20:03:00'
-updatedDate: '2026-08-02 20:03:00'
+updatedDate: '2026-08-03 01:20:00'
 tags:
   - Linux
   - Wayland
@@ -19,6 +19,8 @@ Seekey 的输入线程使用 `poll` 和 `libevdev` 读取可访问的键盘设�
 
 - 普通字符会连续拼接为一个打字气泡。
 - 停顿超过 `typing-idle-ms` 后，下一字符创建新气泡。
+- `typing-display=masked` 把一段输入统一显示为固定的 `<若干字符>`，不显示
+  内容或长度；`off` 完全忽略普通字符。
 - 含 Ctrl、Alt、Super 等修饰键的操作显示为组合键。
 - 连续重复的非打字操作显示为 `Key xN`。
 - 内核长按重复事件不会不断创建新气泡，而是更新同一操作的计数和生命周期。

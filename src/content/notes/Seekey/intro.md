@@ -2,7 +2,7 @@
 title: 'Seekey 文档总览'
 description: 'Wayland 按键可视化工具 Seekey 的使用、配置、兼容性和开发文档入口。'
 publishDate: '2026-08-02 20:00:00'
-updatedDate: '2026-08-02 20:00:00'
+updatedDate: '2026-08-03 01:20:00'
 tags:
   - Linux
   - Wayland
@@ -50,7 +50,8 @@ seekey --xdg
 - niri、Hyprland、Sway、river、Wayfire、labwc 可通过 layer-shell 跨工作区常驻。
 - GNOME/KDE 会使用普通透明窗口，需要桌面窗口规则来实现跨工作区固定。
 - 普通浮层全局唯一，重复启动不会增加输入读取器。
-- GUI/TUI 使用独立预览子进程，不读取真实 evdev，也不会与主浮层重复显示按键。
+- GUI/TUI 在主浮层未运行时才使用独立预览子进程；主浮层存在时跳过样例，屏幕上
+  始终只有一个按键渲染面。
 - Seekey 只保留短时间内用于展示的按键，不提供历史记录或日志存储。
 
 源码位于 [GitHub](https://github.com/Nakanomk/Seekey)，采用 MIT 许可证。
