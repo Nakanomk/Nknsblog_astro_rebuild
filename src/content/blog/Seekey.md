@@ -1,8 +1,8 @@
 ---
 title: 'Seekey：为 Wayland 写一个真正能常驻的按键显示器'
 publishDate: 2026-08-02 18:09:49
-updatedDate: 2026-08-03 01:20:00
-description: '介绍我为 niri、Hyprland、GNOME 与 KDE 编写的轻量按键可视化工具 Seekey 0.2.1。'
+updatedDate: 2026-08-03 09:10:00
+description: '介绍我为 niri、Hyprland、GNOME 与 KDE 编写的轻量按键可视化工具 Seekey 0.2.2。'
 tags:
   - Linux
   - Wayland
@@ -114,7 +114,7 @@ cd Seekey
 
 ## 现在的 Seekey
 
-Seekey `0.2.1` 已经能够承担日常录屏和演示工作：输入读取、气泡合并、多显示器状态、实时配置预览、Matugen 配色、桌面入口和中英文界面都已经落地。项目主体使用 C 与 GTK4 编写，以 MIT 协议开源。
+Seekey `0.2.2` 已经能够承担日常录屏和演示工作：输入读取、气泡合并、多显示器状态、实时配置预览、Matugen 配色、桌面入口、中英文界面和输入设备热插拔都已经落地。0.2.2 还加固了 CLI 路径校验、fuzzel 主题 include 解析和预览子进程生命周期。项目主体使用 C 与 GTK4 编写，以 MIT 协议开源。
 
 它仍然是一个很年轻的项目。Wayland 桌面之间的差异不会凭空消失，GNOME/KDE 的窗口规则也还有继续改善的空间。但至少现在，我可以在自己的 niri 桌面上启动一个足够安静的工具，然后忘记它的存在——直到下一次按下快捷键。
 
